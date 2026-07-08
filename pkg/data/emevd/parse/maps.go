@@ -1,0 +1,35 @@
+package parse
+
+var (
+	ModifyStatMultiplicativelyTypes = map[string]int{
+		"ModifyStatMultiplicatively.PoisonBuildup":                 ModifyStatMultiplicativelyPoisonBuildup,
+		"ModifyStatMultiplicatively.BleedBuildup":                  ModifyStatMultiplicativelyBleedBuildup,
+		"ModifyStatMultiplicatively.CurseBuildup":                  ModifyStatMultiplicativelyCurseBuildup,
+		"ModifyStatMultiplicatively.IgniteBuildup":                 ModifyStatMultiplicativelyIgniteBuildup,
+		"ModifyStatMultiplicatively.ToxicityBuildup":               ModifyStatMultiplicativelyToxicityBuildup,
+		"ModifyStatMultiplicatively.PetrifyBuildup":                ModifyStatMultiplicativelyPetrifyBuildup,
+		"ModifyStatMultiplicatively.MaxHP":                         ModifyStatMultiplicativelyMaxHP,
+		"ModifyStatMultiplicatively.MaxStamina":                    ModifyStatMultiplicativelyMaxStamina,
+		"ModifyStatMultiplicatively.EquipLoad":                     ModifyStatMultiplicativelyEquipLoad,
+		"ModifyStatMultiplicatively.ThrustCounterattackDamageRate": ModifyStatMultiplicativelyThrustCounterattackDamageRate,
+		"ModifyStatMultiplicatively.WeaponDegradationRate":         ModifyStatMultiplicativelyWeaponDegradationRate,
+		"ModifyStatMultiplicatively.ArmorDegradationRate":          ModifyStatMultiplicativelyArmorDegradationRate,
+		"ModifyStatMultiplicatively.RingDegradationRate":           ModifyStatMultiplicativelyRingDegradationRate,
+		"ModifyStatMultiplicatively.OutgoingDamageRate":            ModifyStatMultiplicativelyOutgoingDamageRate,
+		"ModifyStatMultiplicatively.IncomingDamageRate":            ModifyStatMultiplicativelyIncomingDamageRate,
+		"ModifyStatMultiplicatively.OutgoingPhysicalDamageRate":    ModifyStatMultiplicativelyOutgoingPhysicalDamageRate,
+		"ModifyStatMultiplicatively.IncomingPhysicalDamageRate":    ModifyStatMultiplicativelyIncomingPhysicalDamageRate,
+		"ModifyStatMultiplicatively.SoulGainRate":                  ModifyStatMultiplicativelySoulGainRate,
+		"ModifyStatMultiplicatively.WeaponStability":               ModifyStatMultiplicativelyWeaponStability,
+		"ModifyStatMultiplicatively.MaxSpellUsages":                ModifyStatMultiplicativelyMaxSpellUsages,
+		"ModifyStatMultiplicatively.SpellCastTime":                 ModifyStatMultiplicativelySpellCastTime,
+		"ModifyStatMultiplicatively.SorceryPower":                  ModifyStatMultiplicativelySorceryPower,
+		"ModifyStatMultiplicatively.MiraclePower":                  ModifyStatMultiplicativelyMiraclePower,
+		"ModifyStatMultiplicatively.PyromancyPower":                ModifyStatMultiplicativelyPyromancyPower,
+		"ModifyStatMultiplicatively.HexPowerStaff":                 ModifyStatMultiplicativelyHexPowerStaff,
+		"ModifyStatMultiplicatively.HexPowerChime":                 ModifyStatMultiplicativelyHexPowerChime,
+		"ModifyStatMultiplicatively.ShieldStability":               ModifyStatMultiplicativelyShieldStability,
+		"ModifyStatMultiplicatively.PvEDamage":                     ModifyStatMultiplicativelyPvEDamage,
+		"ModifyStatMultiplicatively.PvEDamageReduction":            ModifyStatMultiplicativelyPvEDamageReduction,
+	}
+)
