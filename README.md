@@ -23,6 +23,12 @@ A Dark Souls II: SotFS build optimizer
 
 Idk what goes here yet, I haven't accessed EMEVD data before. But you'll need DarkScript3, and you'll need to do this to get SpEffect data.
 
+1. Install [WitchyBND](https://github.com/ividyon/WitchyBND)
+2. Using WitchyBND, unpack the `enc.regulation.bnd.dcx` file in your `Game` directory
+3. Install [DarkScript3](https://github.com/AinTunez/DarkScript3)
+4. Using DarkScript3, open the following files and convert them to JS:
+    - ...
+
 ## Usage
 
 1. Install [Go](https://go.dev/doc/install).
