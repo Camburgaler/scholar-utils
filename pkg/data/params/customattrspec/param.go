@@ -1,4 +1,4 @@
-package infusion
+package customattrspec
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
 

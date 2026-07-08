@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/armor"
+	"github.com/Camburgaler/scholar-utils/pkg/data/params/customattrspec"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/id"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/ring"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/weapon"
@@ -19,6 +20,7 @@ type (
 	DS2Params struct {
 		ArmorParam             []armor.Param
 		ArmorReinforceParam    []armor.ReinforceParam
+		CustomAttrSpecParam    []customattrspec.Param
 		RingParam              []ring.Param
 		WeaponParam            []weapon.Param
 		WeaponReinforceParam   []weapon.ReinforceParam
@@ -30,6 +32,7 @@ type (
 const (
 	ParamFileArmor             = "ArmorParam"
 	ParamFileArmorReinforce    = "ArmorReinforceParam"
+	ParamFileCustomAttrSpec    = "CustomAttrSpecParam"
 	ParamFileRing              = "RingParam"
 	ParamFileWeapon            = "WeaponParam"
 	ParamFileWeaponReinforce   = "WeaponReinforceParam"
@@ -41,6 +44,7 @@ var (
 	ParamFiles = []string{
 		ParamFileArmor,
 		ParamFileArmorReinforce,
+		ParamFileCustomAttrSpec,
 		ParamFileRing,
 		ParamFileWeapon,
 		ParamFileWeaponReinforce,
@@ -49,6 +53,7 @@ var (
 	validParamIDs = map[string][]id.Range{
 		ParamFileArmor:             armor.ValidParamIDs,
 		ParamFileArmorReinforce:    armor.ValidReinforceParamIDs,
+		ParamFileCustomAttrSpec:    customattrspec.ValidParamIDs,
 		ParamFileRing:              ring.ValidParamIDs,
 		ParamFileWeapon:            weapon.ValidParamIDs,
 		ParamFileWeaponReinforce:   weapon.ValidReinforceParamIDs,
@@ -145,6 +150,8 @@ func parseFile(csvReader *csv.Reader, file string, params DS2Params) (DS2Params,
 			params.ArmorParam = append(params.ArmorParam, parseRow[armor.Param](row))
 		case ParamFileArmorReinforce:
 			params.ArmorReinforceParam = append(params.ArmorReinforceParam, parseRow[armor.ReinforceParam](row))
+		case ParamFileCustomAttrSpec:
+			params.CustomAttrSpecParam = append(params.CustomAttrSpecParam, parseRow[customattrspec.Param](row))
 		case ParamFileRing:
 			params.RingParam = append(params.RingParam, parseRow[ring.Param](row))
 		case ParamFileWeapon:
