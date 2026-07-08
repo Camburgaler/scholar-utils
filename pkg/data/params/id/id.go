@@ -9,7 +9,10 @@ type (
 	//
 	// The range is inclusive
 	Range struct {
-		Min ID
-		Max ID
+		// Beginning of the range (inclusive)
+		Start ID
+
+		// End of the range (inclusive)
+		End ID
 	}
 )

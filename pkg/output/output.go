@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Camburgaler/scholar-utils/pkg/parse"
+	"github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
 )
 
 func Output(data parse.DS2Params) error {
