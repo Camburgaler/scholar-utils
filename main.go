@@ -4,19 +4,29 @@ import (
 	"fmt"
 	"os"
 
+	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
+	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
 	"github.com/Camburgaler/scholar-utils/pkg/output"
-	"github.com/Camburgaler/scholar-utils/pkg/parse"
+	"github.com/Camburgaler/scholar-utils/pkg/transform"
 )
 
 func run() error {
-	data, err := parse.Parse()
+	paramData, err := paramParser.Parse()
 	if err != nil {
 		return err
 	}
 
-	// result := transform(data)
+	emevdData, err := emevdParser.Parse()
+	if err != nil {
+		return err
+	}
 
-	return output.Output(data)
+	result, err := transform.Transform(paramData, emevdData)
+	if err != nil {
+		return err
+	}
+
+	return output.Output(result, paramData)
 }
 
 func main() {
