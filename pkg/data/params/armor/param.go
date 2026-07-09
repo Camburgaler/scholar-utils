@@ -185,6 +185,7 @@ type (
 var (
 	// ValidParamIDs is a list of valid ArmorParam IDs
 	ValidParamIDs = []id.Range{
+		{Start: 11001100, End: 11001103},
 		{Start: 11010100, End: 11040103},
 		{Start: 11050100, End: 11370103},
 		{Start: 11390100, End: 13060101},
