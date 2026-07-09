@@ -144,18 +144,18 @@ func (p *DS2Params) parseFile(file string) error {
 		}
 
 		// Check if the ID is valid
-		rowZero, err := strconv.ParseInt(row[0], 10, 64)
+		rowAtZeroI, err := strconv.ParseInt(row[0], 10, 64)
 		if err != nil {
 			return err
 		}
-		rowID := id.ID(rowZero)
+		rowID := id.ID(rowAtZeroI)
 
-		validID := true
-		for _, range_ := range validParamIDs[file] {
-			if range_.Start <= rowID && range_.End >= rowID {
+		validID := false
+		for _, r := range validParamIDs[file] {
+			if r.Contains(rowID) {
+				validID = true
 				break
 			}
-			validID = false
 		}
 
 		if !validID {
