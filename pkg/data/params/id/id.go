@@ -16,3 +16,7 @@ type (
 		End ID
 	}
 )
+
+func (r Range) Contains(id ID) bool {
+	return id >= r.Start && id <= r.End
+}
