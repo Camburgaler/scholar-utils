@@ -2,6 +2,7 @@ package parse
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"regexp"
 	"strconv"
@@ -12,21 +13,31 @@ import (
 
 // Event parsing regexps
 const (
-	eventLine1Regexp        = `Event\((\d+), (\w+), function\(\) {`
-	eventFunctionBodyRegexp = `\s{4}(\w+)\((\w+)\);`
-	eventLastLine           = `});`
+	eventLine1Regexp        = `Event\((\d+),\sDefault,\sfunction\s?\(\)\s{`
+	eventFunctionBodyRegexp = `\s{4}(\w+)\s*\(([^)]*)\);`
+	eventLastLine           = `}\);`
 )
+
+// File names
+const (
+	EMEVDFileArmor  = "SpEffectArmor"
+	EMEVDFileRing   = "SpEffectRing"
+	EMEVDFileWeapon = "SpEffectWeapon"
+)
+
+var EMEVDFiles = []string{
+	EMEVDFileArmor,
+	EMEVDFileRing,
+	EMEVDFileWeapon,
+}
 
 // parseEvent parses a single event from an EMEVD file
 //
 // @param ev: A slice of strings, where each string is a line from the EMEVD file
 //
 // @return: An event
-func parseEvent(ev []string) Event {
-	result := Event{
-		ID:         id.ID(0),
-		Statements: []Statement{},
-	}
+func parseEvent(ev []string) Events {
+	result := Events{}
 
 	// Validate event format
 	//
@@ -41,16 +52,21 @@ func parseEvent(ev []string) Event {
 	match := re.FindStringSubmatch(ev[0])
 
 	if match == nil {
-		panic("invalid event header format")
+		errMsgPrefix := "invalid event header format:"
+		spacePadding := strings.Repeat(" ", len(errMsgPrefix)-1)
+		caratUnderline := strings.Repeat("^", len(ev[0]))
+		panic(fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[0], spacePadding, caratUnderline))
 	}
 
 	// Extract ID
-	ID, err := strconv.Atoi(match[1])
+	matchZero, err := strconv.Atoi(match[1])
 	if err != nil {
 		panic(err)
 	}
 
-	result.ID = id.ID(ID)
+	ID := id.ID(matchZero)
+
+	result[ID] = []Statement{}
 
 	// Extract statements
 	re = regexp.MustCompile(eventFunctionBodyRegexp)
@@ -58,12 +74,15 @@ func parseEvent(ev []string) Event {
 		match = re.FindStringSubmatch(ev[i])
 
 		if match == nil {
-			panic("invalid event body format")
+			errMsgPrefix := "invalid event statement format:"
+			spacePadding := strings.Repeat(" ", len(errMsgPrefix)-1)
+			caratUnderline := strings.Repeat("^", len(ev[i]))
+			panic(fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[i], spacePadding, caratUnderline))
 		}
 
-		result.Statements = append(result.Statements, Statement{
-			Name: match[0],
-			Args: strings.Split(match[1], ", "),
+		result[ID] = append(result[ID], Statement{
+			Name: match[1],
+			Args: strings.Split(match[2], ", "),
 		})
 	}
 
@@ -76,8 +95,8 @@ func parseEvent(ev []string) Event {
 	return result
 }
 
-func parseFile(path string) []Event {
-	result := []Event{}
+func parseFile(path string) []Events {
+	result := []Events{}
 	lines := []string{}
 
 	// Open file
@@ -122,14 +141,19 @@ func parseFile(path string) []Event {
 		currentEv = append(currentEv, lines[i])
 	}
 
+	fmt.Println("Parsed", len(result), "events")
+
 	return result
 }
 
-func Parse() ([]Event, error) {
-	result := []Event{}
+func Parse() ([]Events, error) {
+	result := []Events{}
 
-	// for each EMEVD file
-	//   result = append(result, parseFile(<path to EMEVD file>))
+	for _, file := range EMEVDFiles {
+		fmt.Printf("\nParsing %s.emevd.js...\n", file)
+
+		result = append(result, parseFile(fmt.Sprintf("inputs/%s.emevd.js", file))...)
+	}
 
 	return result, nil
 }

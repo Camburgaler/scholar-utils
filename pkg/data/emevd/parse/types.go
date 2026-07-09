@@ -12,13 +12,11 @@ type (
 		Args []string
 	}
 
-	Event struct {
-		ID         id.ID
-		Statements []Statement
-	}
+	Events map[id.ID][]Statement
+
 	DS2EMEVD struct {
-		SpEffectArmor  []Event
-		SpEffectRing   []Event
-		SpEffectWeapon []Event
+		SpEffectArmor  Events
+		SpEffectRing   Events
+		SpEffectWeapon Events
 	}
 )
