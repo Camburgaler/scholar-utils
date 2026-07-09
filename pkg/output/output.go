@@ -7,7 +7,8 @@ import (
 	"os"
 	"reflect"
 
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
+	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
+	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
 )
 
 type (
@@ -249,22 +250,22 @@ func writeData(file string, data any) error {
 // @param ds2Params DS2Params - temporary, just for development
 //
 // @return error
-func Output(data ScholarData, ds2Params parse.DS2Params) error {
+func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) error {
 	os.Mkdir("outputs", 0755)
 
 	paramFileValueMap := map[string]any{
-		parse.ParamFileArmor:             ds2Params.ArmorParam,
-		parse.ParamFileArmorReinforce:    ds2Params.ArmorReinforceParam,
-		parse.ParamFileCustomAttrSpec:    ds2Params.CustomAttrSpecParam,
-		parse.ParamFileItem:              ds2Params.ItemParam,
-		parse.ParamFileRing:              ds2Params.RingParam,
-		parse.ParamFileWeapon:            ds2Params.WeaponParam,
-		parse.ParamFileWeaponReinforce:   ds2Params.WeaponReinforceParam,
-		parse.ParamFileWeaponStatsAffect: ds2Params.WeaponStatsAffectParam,
+		paramParser.ParamFileArmor:             paramData.ArmorParam,
+		paramParser.ParamFileArmorReinforce:    paramData.ArmorReinforceParam,
+		paramParser.ParamFileCustomAttrSpec:    paramData.CustomAttrSpecParam,
+		paramParser.ParamFileItem:              paramData.ItemParam,
+		paramParser.ParamFileRing:              paramData.RingParam,
+		paramParser.ParamFileWeapon:            paramData.WeaponParam,
+		paramParser.ParamFileWeaponReinforce:   paramData.WeaponReinforceParam,
+		paramParser.ParamFileWeaponStatsAffect: paramData.WeaponStatsAffectParam,
 	}
 
 	// Temporary, just for development
-	for _, paramFileName := range parse.ParamFiles {
+	for _, paramFileName := range paramParser.ParamFiles {
 		outputFileName := fmt.Sprintf("outputs/%s.json", paramFileName)
 		err := writeData(outputFileName, paramFileValueMap[paramFileName])
 		if err != nil {

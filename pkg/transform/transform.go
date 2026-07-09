@@ -68,7 +68,7 @@ const (
 	chime
 )
 
-func Transform(paramData paramParser.DS2Params, emevdData []emevdParser.Events) (output.ScholarData, error) {
+func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	helmets := map[string]output.Armor{
 		"no-helmet": {
 			Name: "No Helmet",

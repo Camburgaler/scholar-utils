@@ -26,7 +26,7 @@ func run() error {
 		return err
 	}
 
-	return output.Output(result, paramData)
+	return output.Output(result, paramData, emevdData)
 }
 
 func main() {

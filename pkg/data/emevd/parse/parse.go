@@ -36,8 +36,8 @@ var EMEVDFiles = []string{
 // @param ev: A slice of strings, where each string is a line from the EMEVD file
 //
 // @return: An event
-func parseEvent(ev []string) Events {
-	result := Events{}
+func parseEvent(ev []string) (id.ID, []Statement) {
+	statements := []Statement{}
 
 	// Validate event format
 	//
@@ -66,8 +66,6 @@ func parseEvent(ev []string) Events {
 
 	ID := id.ID(matchZero)
 
-	result[ID] = []Statement{}
-
 	// Extract statements
 	re = regexp.MustCompile(eventFunctionBodyRegexp)
 	for i := 1; i < len(ev)-1; i++ {
@@ -80,7 +78,7 @@ func parseEvent(ev []string) Events {
 			panic(fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[i], spacePadding, caratUnderline))
 		}
 
-		result[ID] = append(result[ID], Statement{
+		statements = append(statements, Statement{
 			Name: match[1],
 			Args: strings.Split(match[2], ", "),
 		})
@@ -92,17 +90,17 @@ func parseEvent(ev []string) Events {
 		panic(err)
 	}
 
-	return result
+	return ID, statements
 }
 
-func parseFile(path string) []Events {
-	result := []Events{}
+func (e *DS2EMEVD) parseFile(path string) error {
+	result := Events{}
 	lines := []string{}
 
 	// Open file
 	f, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// Read file line by line
@@ -113,7 +111,7 @@ func parseFile(path string) []Events {
 	f.Close()
 
 	if err := scanner.Err(); err != nil {
-		panic(err)
+		return err
 	}
 
 	currentEv := []string{}
@@ -128,7 +126,8 @@ func parseFile(path string) []Events {
 		if lines[i] == "" {
 			// Add previous event to result
 			if len(currentEv) > 0 {
-				result = append(result, parseEvent(currentEv))
+				ID, statements := parseEvent(currentEv)
+				result[ID] = statements
 			}
 
 			// End of previous event
@@ -143,16 +142,23 @@ func parseFile(path string) []Events {
 
 	fmt.Println("Parsed", len(result), "events")
 
-	return result
+	switch path {
+	case EMEVDFileArmor:
+		e.SpEffectArmor = result
+	}
+
+	return nil
 }
 
-func Parse() ([]Events, error) {
-	result := []Events{}
+func Parse() (DS2EMEVD, error) {
+	result := DS2EMEVD{}
 
+	// For each file, populate the struct
 	for _, file := range EMEVDFiles {
 		fmt.Printf("\nParsing %s.emevd.js...\n", file)
 
-		result = append(result, parseFile(fmt.Sprintf("inputs/%s.emevd.js", file))...)
+		// Parse
+		result.parseFile(fmt.Sprintf("inputs/%s.emevd.js", file))
 	}
 
 	return result, nil

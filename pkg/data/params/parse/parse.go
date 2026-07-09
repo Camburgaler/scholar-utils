@@ -102,7 +102,17 @@ func parseRow[T any](row []string) T {
 	return t
 }
 
-func parseFile(s *bufio.Scanner, file string, params DS2Params) (DS2Params, error) {
+func (p *DS2Params) parseFile(file string) error {
+	// Open the file
+	f, err := os.Open(fmt.Sprintf("inputs/%s.csv", file))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	// Create scanner
+	s := bufio.NewScanner(f)
+
 	fieldsPerRecord := 0
 
 	for s.Scan() {
@@ -136,7 +146,7 @@ func parseFile(s *bufio.Scanner, file string, params DS2Params) (DS2Params, erro
 		// Check if the ID is valid
 		rowZero, err := strconv.ParseInt(row[0], 10, 64)
 		if err != nil {
-			return DS2Params{}, err
+			return err
 		}
 		rowID := id.ID(rowZero)
 
@@ -155,25 +165,25 @@ func parseFile(s *bufio.Scanner, file string, params DS2Params) (DS2Params, erro
 		// Parse
 		switch file {
 		case ParamFileArmor:
-			params.ArmorParam = append(params.ArmorParam, parseRow[armor.Param](row))
+			p.ArmorParam = append(p.ArmorParam, parseRow[armor.Param](row))
 		case ParamFileArmorReinforce:
-			params.ArmorReinforceParam = append(params.ArmorReinforceParam, parseRow[armor.ReinforceParam](row))
+			p.ArmorReinforceParam = append(p.ArmorReinforceParam, parseRow[armor.ReinforceParam](row))
 		case ParamFileCustomAttrSpec:
-			params.CustomAttrSpecParam = append(params.CustomAttrSpecParam, parseRow[customattrspec.Param](row))
+			p.CustomAttrSpecParam = append(p.CustomAttrSpecParam, parseRow[customattrspec.Param](row))
 		case ParamFileItem:
-			params.ItemParam = append(params.ItemParam, parseRow[item.Param](row))
+			p.ItemParam = append(p.ItemParam, parseRow[item.Param](row))
 		case ParamFileRing:
-			params.RingParam = append(params.RingParam, parseRow[ring.Param](row))
+			p.RingParam = append(p.RingParam, parseRow[ring.Param](row))
 		case ParamFileWeapon:
-			params.WeaponParam = append(params.WeaponParam, parseRow[weapon.Param](row))
+			p.WeaponParam = append(p.WeaponParam, parseRow[weapon.Param](row))
 		case ParamFileWeaponReinforce:
-			params.WeaponReinforceParam = append(params.WeaponReinforceParam, parseRow[weapon.ReinforceParam](row))
+			p.WeaponReinforceParam = append(p.WeaponReinforceParam, parseRow[weapon.ReinforceParam](row))
 		case ParamFileWeaponStatsAffect:
-			params.WeaponStatsAffectParam = append(params.WeaponStatsAffectParam, parseRow[weapon.StatsAffectParam](row))
+			p.WeaponStatsAffectParam = append(p.WeaponStatsAffectParam, parseRow[weapon.StatsAffectParam](row))
 		}
 	}
 
-	return params, nil
+	return nil
 }
 
 // Parse parses the Param CSV files
@@ -186,23 +196,11 @@ func Parse() (DS2Params, error) {
 	for _, file := range ParamFiles {
 		fmt.Printf("\nParsing %s.csv...\n", file)
 
-		// Open the file
-		f, err := os.Open(fmt.Sprintf("inputs/%s.csv", file))
-		if err != nil {
-			return DS2Params{}, err
-		}
-
-		// Create scanner
-		s := bufio.NewScanner(f)
-
 		// Parse
-		result, err = parseFile(s, file, result)
+		err := result.parseFile(file)
 		if err != nil {
 			return DS2Params{}, err
 		}
-
-		// Close the file
-		f.Close()
 	}
 
 	return result, nil
