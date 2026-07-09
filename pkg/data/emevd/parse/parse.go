@@ -36,7 +36,7 @@ var EMEVDFiles = []string{
 // @param ev: A slice of strings, where each string is a line from the EMEVD file
 //
 // @return: An event
-func parseEvent(ev []string) (id.ID, []Statement) {
+func (e *Events) parseEvent(ev []string) error {
 	statements := []Statement{}
 
 	// Validate event format
@@ -61,7 +61,7 @@ func parseEvent(ev []string) (id.ID, []Statement) {
 	// Extract ID
 	matchZero, err := strconv.Atoi(match[1])
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	ID := id.ID(matchZero)
@@ -75,7 +75,7 @@ func parseEvent(ev []string) (id.ID, []Statement) {
 			errMsgPrefix := "invalid event statement format:"
 			spacePadding := strings.Repeat(" ", len(errMsgPrefix)-1)
 			caratUnderline := strings.Repeat("^", len(ev[i]))
-			panic(fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[i], spacePadding, caratUnderline))
+			return fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[i], spacePadding, caratUnderline)
 		}
 
 		statements = append(statements, Statement{
@@ -87,10 +87,11 @@ func parseEvent(ev []string) (id.ID, []Statement) {
 	// Validate last line
 	matched, err := regexp.MatchString(eventLastLine, ev[len(ev)-1])
 	if err != nil || !matched {
-		panic(err)
+		return err
 	}
 
-	return ID, statements
+	(*e)[ID] = statements
+	return nil
 }
 
 func (e *DS2EMEVD) parseFile(path string) error {
@@ -126,8 +127,10 @@ func (e *DS2EMEVD) parseFile(path string) error {
 		if lines[i] == "" {
 			// Add previous event to result
 			if len(currentEv) > 0 {
-				ID, statements := parseEvent(currentEv)
-				result[ID] = statements
+				err := result.parseEvent(currentEv)
+				if err != nil {
+					return err
+				}
 			}
 
 			// End of previous event
