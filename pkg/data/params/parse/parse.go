@@ -2,15 +2,17 @@
 package parse
 
 import (
-	"encoding/csv"
+	"bufio"
 	"fmt"
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/armor"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/customattrspec"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+	"github.com/Camburgaler/scholar-utils/pkg/data/params/item"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/ring"
 	"github.com/Camburgaler/scholar-utils/pkg/data/params/weapon"
 )
@@ -21,6 +23,7 @@ type (
 		ArmorParam             []armor.Param
 		ArmorReinforceParam    []armor.ReinforceParam
 		CustomAttrSpecParam    []customattrspec.Param
+		ItemParam              []item.Param
 		RingParam              []ring.Param
 		WeaponParam            []weapon.Param
 		WeaponReinforceParam   []weapon.ReinforceParam
@@ -33,6 +36,7 @@ const (
 	ParamFileArmor             = "ArmorParam"
 	ParamFileArmorReinforce    = "ArmorReinforceParam"
 	ParamFileCustomAttrSpec    = "CustomAttrSpecParam"
+	ParamFileItem              = "ItemParam"
 	ParamFileRing              = "RingParam"
 	ParamFileWeapon            = "WeaponParam"
 	ParamFileWeaponReinforce   = "WeaponReinforceParam"
@@ -45,6 +49,7 @@ var (
 		ParamFileArmor,
 		ParamFileArmorReinforce,
 		ParamFileCustomAttrSpec,
+		ParamFileItem,
 		ParamFileRing,
 		ParamFileWeapon,
 		ParamFileWeaponReinforce,
@@ -54,6 +59,7 @@ var (
 		ParamFileArmor:             armor.ValidParamIDs,
 		ParamFileArmorReinforce:    armor.ValidReinforceParamIDs,
 		ParamFileCustomAttrSpec:    customattrspec.ValidParamIDs,
+		ParamFileItem:              item.ValidParamIDs,
 		ParamFileRing:              ring.ValidParamIDs,
 		ParamFileWeapon:            weapon.ValidParamIDs,
 		ParamFileWeaponReinforce:   weapon.ValidReinforceParamIDs,
@@ -96,31 +102,33 @@ func parseRow[T any](row []string) T {
 	return t
 }
 
-func parseFile(csvReader *csv.Reader, file string, params DS2Params) (DS2Params, error) {
-	for {
-		row, err := csvReader.Read()
+func parseFile(s *bufio.Scanner, file string, params DS2Params) (DS2Params, error) {
+	fieldsPerRecord := 0
+
+	for s.Scan() {
+		line, err := s.Text(), s.Err()
 		if err != nil {
 			fmt.Println(err)
 			break
 		}
 
-		// End of file
-		if row == nil {
-			break
-		}
+		// Split line into fields
+		row := strings.Split(line, ",")
 
 		// Skip header
 		if row[0] == "ID" {
 			// Check if the last field is empty (indicates an unnecessary trailing comma)
 			if row[len(row)-1] == "" {
-				csvReader.FieldsPerRecord = len(row) - 1
+				fieldsPerRecord = len(row) - 1
+			} else {
+				fieldsPerRecord = len(row)
 			}
-			fmt.Printf("Header has %d fields\n", csvReader.FieldsPerRecord)
+			fmt.Printf("Header has %d fields\n", fieldsPerRecord)
 			continue
 		}
 
 		// Check if the row has the correct number of fields
-		if len(row) != csvReader.FieldsPerRecord {
+		if len(row) != fieldsPerRecord {
 			fmt.Printf("Encountered a row with %d fields:\n%s\n", len(row), row)
 			break
 		}
@@ -152,6 +160,8 @@ func parseFile(csvReader *csv.Reader, file string, params DS2Params) (DS2Params,
 			params.ArmorReinforceParam = append(params.ArmorReinforceParam, parseRow[armor.ReinforceParam](row))
 		case ParamFileCustomAttrSpec:
 			params.CustomAttrSpecParam = append(params.CustomAttrSpecParam, parseRow[customattrspec.Param](row))
+		case ParamFileItem:
+			params.ItemParam = append(params.ItemParam, parseRow[item.Param](row))
 		case ParamFileRing:
 			params.RingParam = append(params.RingParam, parseRow[ring.Param](row))
 		case ParamFileWeapon:
@@ -181,16 +191,18 @@ func Parse() (DS2Params, error) {
 		if err != nil {
 			return DS2Params{}, err
 		}
-		defer f.Close()
 
-		csvReader := csv.NewReader(f)
+		// Create scanner
+		s := bufio.NewScanner(f)
 
-		result, err = parseFile(csvReader, file, result)
+		// Parse
+		result, err = parseFile(s, file, result)
 		if err != nil {
 			return DS2Params{}, err
 		}
 
-		fmt.Println("Parsed!")
+		// Close the file
+		f.Close()
 	}
 
 	return result, nil

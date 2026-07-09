@@ -256,6 +256,7 @@ func Output(data ScholarData, ds2Params parse.DS2Params) error {
 		parse.ParamFileArmor:             ds2Params.ArmorParam,
 		parse.ParamFileArmorReinforce:    ds2Params.ArmorReinforceParam,
 		parse.ParamFileCustomAttrSpec:    ds2Params.CustomAttrSpecParam,
+		parse.ParamFileItem:              ds2Params.ItemParam,
 		parse.ParamFileRing:              ds2Params.RingParam,
 		parse.ParamFileWeapon:            ds2Params.WeaponParam,
 		parse.ParamFileWeaponReinforce:   ds2Params.WeaponReinforceParam,
