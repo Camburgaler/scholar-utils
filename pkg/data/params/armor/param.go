@@ -196,6 +196,7 @@ var (
 
 	// ValidReinforceParamIDs is a list of valid ArmorReinforceParam IDs
 	ValidReinforceParamIDs = []id.Range{
+		{Start: 11001100, End: 11001103},
 		{Start: 11010100, End: 12230103},
 		{Start: 12240100, End: 13060101},
 		{Start: 13061100, End: 13081101},
