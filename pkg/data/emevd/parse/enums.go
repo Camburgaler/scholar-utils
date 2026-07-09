@@ -1,5 +1,6 @@
 package parse
 
+// ModifyStatMultiplicatively
 const (
 	ModifyStatMultiplicativelyPoisonBuildup int = iota
 	ModifyStatMultiplicativelyBleedBuildup
@@ -64,4 +65,72 @@ const (
 	ModifyStatMultiplicativelyUnknown60
 	ModifyStatMultiplicativelyUnknown61
 	ModifyStatMultiplicativelyUnknown62
+)
+
+// ModifyStatAdditively
+const (
+	ModifyStatAdditivelyPoise int = iota
+	ModifyStatAdditivelyWeight
+	ModifyStatAdditivelyAttackPoiseDamage
+	ModifyStatAdditivelyFallDamageProtectionModifier
+	ModifyStatAdditivelyCurrentHPRatio
+	ModifyStatAdditivelyCurrentHPRatio2
+	ModifyStatAdditivelyVigor
+	ModifyStatAdditivelyEndurance
+	ModifyStatAdditivelyVitality
+	ModifyStatAdditivelyUnknown9
+	ModifyStatAdditivelyStrength
+	ModifyStatAdditivelyDexterity
+	ModifyStatAdditivelyIntelligence
+	ModifyStatAdditivelyFaith
+	ModifyStatAdditivelyAdaptability
+	ModifyStatAdditivelyUnknown15
+	ModifyStatAdditivelyUnknown16
+	ModifyStatAdditivelyUnknown17
+	ModifyStatAdditivelyHPOnKill
+	ModifyStatAdditivelyUnknown19
+	ModifyStatAdditivelyAttunementSlots
+	ModifyStatAdditivelyAntiStabilityModifier
+	ModifyStatAdditivelyUnknown22
+)
+
+// BowType
+const (
+	BowTypeRegularBows int = iota
+	BowTypeGreatbows
+	BowTypeCrossbows
+)
+
+// BuffType
+const (
+	BuffTypeAllPhysical int = iota
+	BuffTypeMagic
+	BuffTypeLightning
+	BuffTypeFire
+	BuffTypeDark
+	BuffTypePoison
+	BuffTypeBleed
+	BuffTypeUnknown7
+	BuffTypeCurse
+	BuffTypePetrify
+)
+
+// AttributeType
+const (
+	AttributeTypeVigor int = iota + 1
+	AttributeTypeEndurance
+	AttributeTypeVitality
+	AttributeTypeAttunement
+	AttributeTypeStrength
+	AttributeTypeDexterity
+	AttributeTypeIntelligence
+	AttributeTypeFaith
+	AttributeTypeAdaptability
+)
+
+// SpecialScalingType
+const (
+	SpecialScalingTypeNone int = iota
+	SpecialScalingTypeHollowing
+	SpecialScalingTypeSin
 )
