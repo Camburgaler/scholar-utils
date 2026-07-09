@@ -247,12 +247,15 @@ func writeData(file string, data any) error {
 //
 // @param data ScholarData - the parsed, transformed data to output
 //
-// @param ds2Params DS2Params - temporary, just for development
+// @param paramData DS2Params - temporary, just for development
+//
+// @param emevdData DS2EMEVD - temporary, just for development
 //
 // @return error
 func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) error {
 	os.Mkdir("outputs", 0755)
 
+	// TODO: Remove before release
 	paramFileValueMap := map[string]any{
 		paramParser.ParamFileArmor:             paramData.ArmorParam,
 		paramParser.ParamFileArmorReinforce:    paramData.ArmorReinforceParam,
@@ -264,10 +267,26 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 		paramParser.ParamFileWeaponStatsAffect: paramData.WeaponStatsAffectParam,
 	}
 
-	// Temporary, just for development
+	// TODO: Remove before release
+	emevdFileMap := map[string]emevdParser.Events{
+		emevdParser.EMEVDFileArmor:  emevdData.SpEffectArmor,
+		emevdParser.EMEVDFileRing:   emevdData.SpEffectRing,
+		emevdParser.EMEVDFileWeapon: emevdData.SpEffectWeapon,
+	}
+
+	// TODO: Remove before release
 	for _, paramFileName := range paramParser.ParamFiles {
 		outputFileName := fmt.Sprintf("outputs/%s.json", paramFileName)
 		err := writeData(outputFileName, paramFileValueMap[paramFileName])
+		if err != nil {
+			return err
+		}
+	}
+
+	// TODO: Remove before release
+	for _, emevdFileName := range emevdParser.EMEVDFiles {
+		outputFileName := fmt.Sprintf("outputs/%s.json", emevdFileName)
+		err := writeData(outputFileName, emevdFileMap[emevdFileName])
 		if err != nil {
 			return err
 		}
