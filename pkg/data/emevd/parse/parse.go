@@ -94,12 +94,12 @@ func (e *Events) parseEvent(ev []string) error {
 	return nil
 }
 
-func (e *DS2EMEVD) parseFile(path string) error {
+func (e *DS2EMEVD) parseFile(file string) error {
 	result := Events{}
 	lines := []string{}
 
 	// Open file
-	f, err := os.Open(path)
+	f, err := os.Open(fmt.Sprintf("inputs/%s.emevd.js", file))
 	if err != nil {
 		return err
 	}
@@ -145,9 +145,15 @@ func (e *DS2EMEVD) parseFile(path string) error {
 
 	fmt.Println("Parsed", len(result), "events")
 
-	switch path {
+	switch file {
 	case EMEVDFileArmor:
 		e.SpEffectArmor = result
+	case EMEVDFileRing:
+		e.SpEffectRing = result
+	case EMEVDFileWeapon:
+		e.SpEffectWeapon = result
+	default:
+		return fmt.Errorf("unknown EMEVD file: %s", file)
 	}
 
 	return nil
@@ -161,7 +167,7 @@ func Parse() (DS2EMEVD, error) {
 		fmt.Printf("\nParsing %s.emevd.js...\n", file)
 
 		// Parse
-		result.parseFile(fmt.Sprintf("inputs/%s.emevd.js", file))
+		result.parseFile(file)
 	}
 
 	return result, nil
