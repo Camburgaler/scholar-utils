@@ -78,10 +78,12 @@ func (e *Events) parseEvent(ev []string) error {
 			return fmt.Errorf("%s%s\n%s%s", errMsgPrefix, ev[i], spacePadding, caratUnderline)
 		}
 
-		statements = append(statements, Statement{
-			Name: match[1],
-			Args: strings.Split(match[2], ", "),
-		})
+		if effectiveStatements[match[1]] {
+			statements = append(statements, Statement{
+				Name: match[1],
+				Args: strings.Split(match[2], ", "),
+			})
+		}
 	}
 
 	// Validate last line
@@ -90,7 +92,9 @@ func (e *Events) parseEvent(ev []string) error {
 		return err
 	}
 
-	(*e)[ID] = statements
+	if len(statements) > 0 {
+		(*e)[ID] = statements
+	}
 	return nil
 }
 
