@@ -4,9 +4,200 @@ package weapon
 import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
 
 var (
-	WeaponTypes = map[id.ID]string{
-		141: "Straight Sword",
+	WeaponTypes = map[string][]id.ID{
+		"Dagger": {
+			40,
+			41,
+			42,
+			43,
+			44,
+			45,
+			740,
+			741,
+			742,
+			745,
+		},
+		"Straight Sword": {
+			140,
+			141,
+			142,
+			145,
+			510,
+		},
+		"Thrusting Sword": {
+			60,
+			61,
+			62,
+			63,
+			630,
+		},
+		"Curved Sword": {
+			120,
+			121,
+			122,
+		},
+		"Katana": {
+			130,
+			132,
+			133,
+			590,
+		},
+		"Greatsword": {
+			160,
+			161,
+			162,
+			163,
+			164,
+			520,
+			710,
+		},
+		"Axe": {
+			270,
+			271,
+			272,
+			275,
+			277,
+		},
+		"Scythe": {
+			150,
+			151,
+		},
+		"Greataxe": {
+			281,
+			285,
+			286,
+			287,
+		},
+		"Hammer": {
+			200,
+			201,
+			202,
+			203,
+			204,
+			205,
+			610,
+		},
+		"Great Hammer": {
+			240,
+			241,
+			246,
+			690,
+		},
+		"Spear": {
+			100,
+			101,
+			620,
+			641,
+			700,
+		},
+		"Lance": {
+			110,
+		},
+		"Halberd": {
+			290,
+			680,
+		},
+		"Fists": {
+			10,
+			30,
+			600,
+		},
+		"Claw": {
+			20,
+			21,
+			22,
+		},
+		"Whip": {
+			70,
+		},
+		"Staff": {
+			330,
+			331,
+			334,
+			335,
+			336,
+			337,
+			338,
+			339,
+			340,
+			341,
+			342,
+			343,
+			730,
+		},
+		"Chime": {
+			350,
+			351,
+			352,
+			353,
+			354,
+			355,
+			356,
+			357,
+			358,
+			650,
+		},
+		"Bow": {
+			360,
+			361,
+			362,
+			363,
+			364,
+			365,
+		},
+		"Greatbow": {
+			370,
+			540,
+			550,
+		},
+		"Crossbow": {
+			380,
+			381,
+			385,
+			386,
+			560,
+			570,
+			580,
+		},
+		"Curved Greatsword": {
+			180,
+		},
+		"Ultra Greatsword": {
+			170,
+			171,
+			172,
+			530,
+			670,
+		},
+		"Twinblade": {
+			90,
+			91,
+			92,
+			500,
+		},
+		"Hands": {
+			11,
+		},
+		"Torch": {
+			470,
+		},
+		"Small Shield": {
+			410,
+			420,
+		},
+		"Medium Shield": {
+			430,
+			431,
+			440,
+		},
+		"Greatshield": {
+			460,
+			465,
+			466,
+			461,
+		},
 	}
+
 	WeaponCategories = map[id.ID]string{
 		0: "Weapon",
 	}
