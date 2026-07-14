@@ -3,6 +3,9 @@ package param
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 type (
+	// LevelUpStatusCalcParam is a struct for storing data from LevelUpStatusCalcParam.csv
+	//
+	// LevelUpStatusCalcParam.csv contains information about what stats are affected by what attributes when leveling up
 	LevelUpStatusCalcParam struct {
 		ID                             id.ID
 		Name                           string
@@ -20,14 +23,14 @@ type (
 		AttackPowerPoison              bool
 		AttackPowerBleed               bool
 		Defence                        bool
-		ResistanceMagic                bool
-		ResistanceFire                 bool
-		ResistanceLightning            bool
-		ResistanceDark                 bool
-		ResistancePoison               bool
-		ResistanceBleed                bool
-		ResistancePetrify              bool
-		ResistanceCurse                bool
+		AbsorptionMagic                bool
+		AbsorptionFire                 bool
+		AbsorptionLightning            bool
+		AbsorptionDark                 bool
+		AbsorptionPoison               bool
+		AbsorptionBleed                bool
+		AbsorptionPetrify              bool
+		AbsorptionCurse                bool
 		Agility                        bool
 		Poise                          bool
 		LeftHandWeaponPrimary          bool
