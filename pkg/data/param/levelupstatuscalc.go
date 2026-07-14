@@ -2,11 +2,15 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
+var ValidLevelUpStatusCalcIDs = []id.Range{
+	{Start: 0, End: 8},
+}
+
 type (
 	// LevelUpStatusCalcParam is a struct for storing data from LevelUpStatusCalcParam.csv
 	//
 	// LevelUpStatusCalcParam.csv contains information about what stats are affected by what attributes when leveling up
-	LevelUpStatusCalcParam struct {
+	LevelUpStatusCalc struct {
 		ID                             id.ID
 		Name                           string
 		MaximumHP                      bool

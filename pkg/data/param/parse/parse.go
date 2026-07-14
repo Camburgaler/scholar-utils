@@ -19,6 +19,7 @@ type (
 		ArmorParam             []param.Armor
 		ArmorReinforceParam    []param.ArmorReinforce
 		CustomAttrSpecParam    []param.CustomAttrSpec
+		LevelUpStatusCalcParam []param.LevelUpStatusCalc
 		ItemParam              []param.Item
 		RingParam              []param.Ring
 		WeaponParam            []param.Weapon
@@ -33,6 +34,7 @@ const (
 	ParamFileArmorReinforce    = "ArmorReinforceParam"
 	ParamFileCustomAttrSpec    = "CustomAttrSpecParam"
 	ParamFileItem              = "ItemParam"
+	ParamFileLevelUpStatusCalc = "LevelUpStatusCalcParam"
 	ParamFileRing              = "RingParam"
 	ParamFileWeapon            = "WeaponParam"
 	ParamFileWeaponReinforce   = "WeaponReinforceParam"
@@ -46,6 +48,7 @@ var (
 		ParamFileArmorReinforce,
 		ParamFileCustomAttrSpec,
 		ParamFileItem,
+		ParamFileLevelUpStatusCalc,
 		ParamFileRing,
 		ParamFileWeapon,
 		ParamFileWeaponReinforce,
@@ -56,6 +59,7 @@ var (
 		ParamFileArmorReinforce:    param.ValidArmorReinforceIDs,
 		ParamFileCustomAttrSpec:    param.ValidCustomAttrSpecIDs,
 		ParamFileItem:              param.ValidItemIDs,
+		ParamFileLevelUpStatusCalc: param.ValidLevelUpStatusCalcIDs,
 		ParamFileRing:              param.ValidRingIDs,
 		ParamFileWeapon:            param.ValidWeaponIDs,
 		ParamFileWeaponReinforce:   param.ValidWeaponReinforceIDs,
@@ -168,6 +172,8 @@ func (p *DS2Params) parseFile(file string) error {
 			p.CustomAttrSpecParam = append(p.CustomAttrSpecParam, parseRow[param.CustomAttrSpec](row))
 		case ParamFileItem:
 			p.ItemParam = append(p.ItemParam, parseRow[param.Item](row))
+		case ParamFileLevelUpStatusCalc:
+			p.LevelUpStatusCalcParam = append(p.LevelUpStatusCalcParam, parseRow[param.LevelUpStatusCalc](row))
 		case ParamFileRing:
 			p.RingParam = append(p.RingParam, parseRow[param.Ring](row))
 		case ParamFileWeapon:
