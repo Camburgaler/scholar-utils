@@ -200,6 +200,9 @@ var (
 
 	WeaponCategories = map[id.ID]string{
 		0: "Weapon",
+		1: "Bow",
+		2: "Crossbow",
+		3: "Shield",
 	}
 )
 
