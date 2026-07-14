@@ -1,6 +1,6 @@
-package item
+package param
 
-import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 // Item types
 //
@@ -14,10 +14,10 @@ var ItemTypes = map[int64]string{
 }
 
 type (
-	// Param is a struct for storing data from ItemParam.csv
+	// Item is a struct for storing data from ItemParam.csv
 	//
 	// ItemParam.csv contains information about all items, equippable and otherwise
-	Param struct {
+	Item struct {
 		// The unique ID for this item
 		ID id.ID
 
@@ -70,8 +70,8 @@ type (
 	}
 )
 
-// ValidParamIDs is a list of valid ItemParam IDs
-var ValidParamIDs = []id.Range{
+// ValidItemIDs is a list of valid ItemParam IDs
+var ValidItemIDs = []id.Range{
 	{Start: 1000000, End: 3370000},
 	{Start: 3410000, End: 11840000},
 	{Start: 21010100, End: 21502100},

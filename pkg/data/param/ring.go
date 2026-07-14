@@ -1,13 +1,12 @@
-// Package ring contains structs for storing ring data
-package ring
+package param
 
-import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 type (
-	// Param is a struct for storing data from RingParam.csv
+	// Ring is a struct for storing data from RingParam.csv
 	//
 	// RingParam.csv contains information about equippable rings
-	Param struct {
+	Ring struct {
 		// The unique ID for this ring
 		ID id.ID
 
@@ -29,7 +28,7 @@ type (
 	}
 )
 
-// ValidParamIDs is a list of valid RingParam IDs
-var ValidParamIDs = []id.Range{
+// ValidRingIDs is a list of valid RingParam IDs
+var ValidRingIDs = []id.Range{
 	{Start: 40010000, End: 42000000},
 }

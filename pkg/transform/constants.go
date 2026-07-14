@@ -4,7 +4,11 @@ import "github.com/Camburgaler/scholar-utils/pkg/output"
 
 var (
 	noHelmet = output.Armor{
-		Name: "No Helmet",
+		Equippable: output.Equippable{
+			Name:                    "No Helmet",
+			AdditiveModifiers:       map[string]float64{},
+			MultiplicativeModifiers: map[string]float64{},
+		},
 		Defenses: output.Defenses{
 			Slash:    0,
 			Thrust:   0,
@@ -25,7 +29,11 @@ var (
 		Weight: 0,
 	}
 	noChestpiece = output.Armor{
-		Name: "No Chestpiece",
+		Equippable: output.Equippable{
+			Name:                    "No Chestpiece",
+			AdditiveModifiers:       map[string]float64{},
+			MultiplicativeModifiers: map[string]float64{},
+		},
 		Defenses: output.Defenses{
 			Slash:    0,
 			Thrust:   0,
@@ -46,7 +54,11 @@ var (
 		Weight: 0,
 	}
 	noGauntlets = output.Armor{
-		Name: "No Gauntlets",
+		Equippable: output.Equippable{
+			Name:                    "No Gauntlets",
+			AdditiveModifiers:       map[string]float64{},
+			MultiplicativeModifiers: map[string]float64{},
+		},
 		Defenses: output.Defenses{
 			Slash:    0,
 			Thrust:   0,
@@ -67,7 +79,11 @@ var (
 		Weight: 0,
 	}
 	noLeggings = output.Armor{
-		Name: "No Leggings",
+		Equippable: output.Equippable{
+			Name:                    "No Leggings",
+			AdditiveModifiers:       map[string]float64{},
+			MultiplicativeModifiers: map[string]float64{},
+		},
 		Defenses: output.Defenses{
 			Slash:    0,
 			Thrust:   0,
@@ -88,7 +104,11 @@ var (
 		Weight: 0,
 	}
 	noRing = output.Ring{
-		Name: "No Ring",
+		Equippable: output.Equippable{
+			Name:                    "No Ring",
+			AdditiveModifiers:       map[string]float64{},
+			MultiplicativeModifiers: map[string]float64{},
+		},
 	}
 	// fists = output.Weapon{
 	// 	Name: "Fists",

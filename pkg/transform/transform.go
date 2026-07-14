@@ -3,7 +3,7 @@ package transform
 
 import (
 	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
-	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
+	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/param/parse"
 	"github.com/Camburgaler/scholar-utils/pkg/output"
 )
 
@@ -23,22 +23,22 @@ var Infusions = []string{
 }
 
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	helmets := map[string]output.Armor{
-		"no-helmet": noHelmet,
+	helmets := []output.Armor{
+		noHelmet,
 	}
-	chestpieces := map[string]output.Armor{
-		"no-chestpiece": noChestpiece,
+	chestpieces := []output.Armor{
+		noChestpiece,
 	}
-	gauntlets := map[string]output.Armor{
-		"no-gauntlets": noGauntlets,
+	gauntlets := []output.Armor{
+		noGauntlets,
 	}
-	leggings := map[string]output.Armor{
-		"no-leggings": noLeggings,
+	leggings := []output.Armor{
+		noLeggings,
 	}
-	rings := map[string]output.Ring{
-		"no-ring": noRing,
+	rings := []output.Ring{
+		noRing,
 	}
-	weapons := map[string]output.Weapon{}
+	weapons := []output.Weapon{}
 
 	return output.ScholarData{
 		Helmets:     helmets,

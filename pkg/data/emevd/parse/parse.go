@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+	"github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 )
 
 // Event parsing regexps

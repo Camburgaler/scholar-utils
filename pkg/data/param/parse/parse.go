@@ -9,25 +9,21 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/armor"
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/customattrspec"
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/id"
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/item"
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/ring"
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/weapon"
+	"github.com/Camburgaler/scholar-utils/pkg/data/param"
+	"github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 )
 
 type (
 	// DS2Params is a struct for storing data from the param CSV files
 	DS2Params struct {
-		ArmorParam             []armor.Param
-		ArmorReinforceParam    []armor.ReinforceParam
-		CustomAttrSpecParam    []customattrspec.Param
-		ItemParam              []item.Param
-		RingParam              []ring.Param
-		WeaponParam            []weapon.Param
-		WeaponReinforceParam   []weapon.ReinforceParam
-		WeaponStatsAffectParam []weapon.StatsAffectParam
+		ArmorParam             []param.Armor
+		ArmorReinforceParam    []param.ArmorReinforce
+		CustomAttrSpecParam    []param.CustomAttrSpec
+		ItemParam              []param.Item
+		RingParam              []param.Ring
+		WeaponParam            []param.Weapon
+		WeaponReinforceParam   []param.WeaponReinforce
+		WeaponStatsAffectParam []param.WeaponStatsAffect
 	}
 )
 
@@ -56,14 +52,14 @@ var (
 		ParamFileWeaponStatsAffect,
 	}
 	validParamIDs = map[string][]id.Range{
-		ParamFileArmor:             armor.ValidParamIDs,
-		ParamFileArmorReinforce:    armor.ValidReinforceParamIDs,
-		ParamFileCustomAttrSpec:    customattrspec.ValidParamIDs,
-		ParamFileItem:              item.ValidParamIDs,
-		ParamFileRing:              ring.ValidParamIDs,
-		ParamFileWeapon:            weapon.ValidParamIDs,
-		ParamFileWeaponReinforce:   weapon.ValidReinforceParamIDs,
-		ParamFileWeaponStatsAffect: weapon.ValidStatsAffectParamIDs,
+		ParamFileArmor:             param.ValidArmorIDs,
+		ParamFileArmorReinforce:    param.ValidArmorReinforceIDs,
+		ParamFileCustomAttrSpec:    param.ValidCustomAttrSpecIDs,
+		ParamFileItem:              param.ValidItemIDs,
+		ParamFileRing:              param.ValidRingIDs,
+		ParamFileWeapon:            param.ValidWeaponIDs,
+		ParamFileWeaponReinforce:   param.ValidWeaponReinforceIDs,
+		ParamFileWeaponStatsAffect: param.ValidWeaponStatsAffectIDs,
 	}
 )
 
@@ -165,21 +161,21 @@ func (p *DS2Params) parseFile(file string) error {
 		// Parse
 		switch file {
 		case ParamFileArmor:
-			p.ArmorParam = append(p.ArmorParam, parseRow[armor.Param](row))
+			p.ArmorParam = append(p.ArmorParam, parseRow[param.Armor](row))
 		case ParamFileArmorReinforce:
-			p.ArmorReinforceParam = append(p.ArmorReinforceParam, parseRow[armor.ReinforceParam](row))
+			p.ArmorReinforceParam = append(p.ArmorReinforceParam, parseRow[param.ArmorReinforce](row))
 		case ParamFileCustomAttrSpec:
-			p.CustomAttrSpecParam = append(p.CustomAttrSpecParam, parseRow[customattrspec.Param](row))
+			p.CustomAttrSpecParam = append(p.CustomAttrSpecParam, parseRow[param.CustomAttrSpec](row))
 		case ParamFileItem:
-			p.ItemParam = append(p.ItemParam, parseRow[item.Param](row))
+			p.ItemParam = append(p.ItemParam, parseRow[param.Item](row))
 		case ParamFileRing:
-			p.RingParam = append(p.RingParam, parseRow[ring.Param](row))
+			p.RingParam = append(p.RingParam, parseRow[param.Ring](row))
 		case ParamFileWeapon:
-			p.WeaponParam = append(p.WeaponParam, parseRow[weapon.Param](row))
+			p.WeaponParam = append(p.WeaponParam, parseRow[param.Weapon](row))
 		case ParamFileWeaponReinforce:
-			p.WeaponReinforceParam = append(p.WeaponReinforceParam, parseRow[weapon.ReinforceParam](row))
+			p.WeaponReinforceParam = append(p.WeaponReinforceParam, parseRow[param.WeaponReinforce](row))
 		case ParamFileWeaponStatsAffect:
-			p.WeaponStatsAffectParam = append(p.WeaponStatsAffectParam, parseRow[weapon.StatsAffectParam](row))
+			p.WeaponStatsAffectParam = append(p.WeaponStatsAffectParam, parseRow[param.WeaponStatsAffect](row))
 		}
 	}
 

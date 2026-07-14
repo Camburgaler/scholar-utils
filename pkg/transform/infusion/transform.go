@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Camburgaler/scholar-utils/pkg/data/params/weapon"
+	"github.com/Camburgaler/scholar-utils/pkg/data/param"
 	"github.com/Camburgaler/scholar-utils/pkg/output"
 )
 
@@ -52,7 +52,7 @@ func leastSquares(x, y []float64) (float64, float64) {
 }
 
 // Special scales stop scaling after level 5, so to check if it's special, compare levels 5 and 6
-func isSpecial(row weapon.StatsAffectParam) bool {
+func isSpecial(row param.WeaponStatsAffect) bool {
 	special := true
 	rowV := reflect.ValueOf(&row).Elem()
 
@@ -67,7 +67,7 @@ func isSpecial(row weapon.StatsAffectParam) bool {
 	return special
 }
 
-func ExtractInfusions(rows []weapon.StatsAffectParam) []output.Infusion {
+func ExtractInfusions(rows []param.WeaponStatsAffect) []output.Infusion {
 	infusions := []output.Infusion{}
 
 	for _, row := range rows {

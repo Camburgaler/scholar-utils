@@ -1,6 +1,6 @@
 package parse
 
-import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 type (
 	Identifier struct {

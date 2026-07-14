@@ -1,12 +1,12 @@
-package customattrspec
+package param
 
-import "github.com/Camburgaler/scholar-utils/pkg/data/params/id"
+import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 type (
 	// CustomAttrSpec is a struct for storing data from CustomAttributeSpecParam.csv
 	//
 	// CustomAttributeSpecParam.csv contains information about what types of weapons are compatible with each infusion
-	Param struct {
+	CustomAttrSpec struct {
 		// The unique ID for this infusion
 		ID id.ID
 
@@ -47,6 +47,6 @@ type (
 )
 
 // ValidParamIDs is a list of valid CustomAttrSpecParam IDs
-var ValidParamIDs = []id.Range{
+var ValidCustomAttrSpecIDs = []id.Range{
 	{Start: 0, End: 200100},
 }

@@ -5,7 +5,7 @@ import (
 	"os"
 
 	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
-	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/params/parse"
+	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/param/parse"
 	"github.com/Camburgaler/scholar-utils/pkg/output"
 	"github.com/Camburgaler/scholar-utils/pkg/transform"
 )
