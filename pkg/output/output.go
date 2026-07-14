@@ -88,7 +88,7 @@ type (
 		Stats stats
 	}
 	ScholarData struct {
-		Classes     map[string]class
+		Classes     []class
 		Helmets     map[string]Armor
 		Chestpieces map[string]Armor
 		Gauntlets   map[string]Armor
@@ -99,8 +99,8 @@ type (
 )
 
 var (
-	classes = map[string]class{
-		"warrior": {
+	classes = []class{
+		{
 			Name:  "Warrior",
 			Level: 12,
 			Stats: stats{
@@ -115,7 +115,7 @@ var (
 				Faith:        5,
 			},
 		},
-		"knight": {
+		{
 			Name:  "Knight",
 			Level: 13,
 			Stats: stats{
@@ -130,7 +130,7 @@ var (
 				Faith:        6,
 			},
 		},
-		"swordsman": {
+		{
 			Name:  "Swordsman",
 			Level: 12,
 			Stats: stats{
@@ -145,7 +145,7 @@ var (
 				Faith:        5,
 			},
 		},
-		"bandit": {
+		{
 			Name:  "Bandit",
 			Level: 11,
 			Stats: stats{
@@ -160,7 +160,7 @@ var (
 				Faith:        8,
 			},
 		},
-		"cleric": {
+		{
 			Name:  "Cleric",
 			Level: 14,
 			Stats: stats{
@@ -175,7 +175,7 @@ var (
 				Faith:        12,
 			},
 		},
-		"sorcerer": {
+		{
 			Name:  "Sorcerer",
 			Level: 11,
 			Stats: stats{
@@ -190,8 +190,7 @@ var (
 				Faith:        4,
 			},
 		},
-		"explorer": {
-			Name:  "Explorer",
+		{Name: "Explorer",
 			Level: 10,
 			Stats: stats{
 				Vigor:        7,
@@ -205,7 +204,7 @@ var (
 				Faith:        5,
 			},
 		},
-		"deprived": {
+		{
 			Name:  "Deprived",
 			Level: 1,
 			Stats: stats{
