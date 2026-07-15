@@ -45,15 +45,16 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 
 	// TODO: Remove before release
 	paramFileValueMap := map[string]any{
-		paramParser.ParamFileArmor:             paramData.ArmorParam,
-		paramParser.ParamFileArmorReinforce:    paramData.ArmorReinforceParam,
-		paramParser.ParamFileCustomAttrSpec:    paramData.CustomAttrSpecParam,
-		paramParser.ParamFileItem:              paramData.ItemParam,
-		paramParser.ParamFileLevelUpStatusCalc: paramData.LevelUpStatusCalcParam,
-		paramParser.ParamFileRing:              paramData.RingParam,
-		paramParser.ParamFileWeapon:            paramData.WeaponParam,
-		paramParser.ParamFileWeaponReinforce:   paramData.WeaponReinforceParam,
-		paramParser.ParamFileWeaponStatsAffect: paramData.WeaponStatsAffectParam,
+		paramParser.ParamFileArmor:              paramData.ArmorParam,
+		paramParser.ParamFileArmorReinforce:     paramData.ArmorReinforceParam,
+		paramParser.ParamFileCustomAttrSpec:     paramData.CustomAttrSpecParam,
+		paramParser.ParamFileItem:               paramData.ItemParam,
+		paramParser.ParamFileLevelUpStatusCalc:  paramData.LevelUpStatusCalcParam,
+		paramParser.ParamFilePlayerLevelUpSouls: paramData.PlayerLevelUpSoulsParam,
+		paramParser.ParamFileRing:               paramData.RingParam,
+		paramParser.ParamFileWeapon:             paramData.WeaponParam,
+		paramParser.ParamFileWeaponReinforce:    paramData.WeaponReinforceParam,
+		paramParser.ParamFileWeaponStatsAffect:  paramData.WeaponStatsAffectParam,
 	}
 
 	// TODO: Remove before release

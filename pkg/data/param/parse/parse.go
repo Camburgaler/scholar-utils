@@ -16,29 +16,31 @@ import (
 type (
 	// DS2Params is a struct for storing data from the param CSV files
 	DS2Params struct {
-		ArmorParam             []param.Armor
-		ArmorReinforceParam    []param.ArmorReinforce
-		CustomAttrSpecParam    []param.CustomAttrSpec
-		LevelUpStatusCalcParam []param.LevelUpStatusCalc
-		ItemParam              []param.Item
-		RingParam              []param.Ring
-		WeaponParam            []param.Weapon
-		WeaponReinforceParam   []param.WeaponReinforce
-		WeaponStatsAffectParam []param.WeaponStatsAffect
+		ArmorParam              []param.Armor
+		ArmorReinforceParam     []param.ArmorReinforce
+		CustomAttrSpecParam     []param.CustomAttrSpec
+		LevelUpStatusCalcParam  []param.LevelUpStatusCalc
+		PlayerLevelUpSoulsParam []param.PlayerLevelUpSoul
+		ItemParam               []param.Item
+		RingParam               []param.Ring
+		WeaponParam             []param.Weapon
+		WeaponReinforceParam    []param.WeaponReinforce
+		WeaponStatsAffectParam  []param.WeaponStatsAffect
 	}
 )
 
 // File names
 const (
-	ParamFileArmor             = "ArmorParam"
-	ParamFileArmorReinforce    = "ArmorReinforceParam"
-	ParamFileCustomAttrSpec    = "CustomAttrSpecParam"
-	ParamFileItem              = "ItemParam"
-	ParamFileLevelUpStatusCalc = "LevelUpStatusCalcParam"
-	ParamFileRing              = "RingParam"
-	ParamFileWeapon            = "WeaponParam"
-	ParamFileWeaponReinforce   = "WeaponReinforceParam"
-	ParamFileWeaponStatsAffect = "WeaponStatsAffectParam"
+	ParamFileArmor              = "ArmorParam"
+	ParamFileArmorReinforce     = "ArmorReinforceParam"
+	ParamFileCustomAttrSpec     = "CustomAttrSpecParam"
+	ParamFileItem               = "ItemParam"
+	ParamFileLevelUpStatusCalc  = "LevelUpStatusCalcParam"
+	ParamFilePlayerLevelUpSouls = "PlayerLevelUpSoulsParam"
+	ParamFileRing               = "RingParam"
+	ParamFileWeapon             = "WeaponParam"
+	ParamFileWeaponReinforce    = "WeaponReinforceParam"
+	ParamFileWeaponStatsAffect  = "WeaponStatsAffectParam"
 )
 
 var (
@@ -49,21 +51,23 @@ var (
 		ParamFileCustomAttrSpec,
 		ParamFileItem,
 		ParamFileLevelUpStatusCalc,
+		ParamFilePlayerLevelUpSouls,
 		ParamFileRing,
 		ParamFileWeapon,
 		ParamFileWeaponReinforce,
 		ParamFileWeaponStatsAffect,
 	}
 	validParamIDs = map[string][]id.Range{
-		ParamFileArmor:             param.ValidArmorIDs,
-		ParamFileArmorReinforce:    param.ValidArmorReinforceIDs,
-		ParamFileCustomAttrSpec:    param.ValidCustomAttrSpecIDs,
-		ParamFileItem:              param.ValidItemIDs,
-		ParamFileLevelUpStatusCalc: param.ValidLevelUpStatusCalcIDs,
-		ParamFileRing:              param.ValidRingIDs,
-		ParamFileWeapon:            param.ValidWeaponIDs,
-		ParamFileWeaponReinforce:   param.ValidWeaponReinforceIDs,
-		ParamFileWeaponStatsAffect: param.ValidWeaponStatsAffectIDs,
+		ParamFileArmor:              param.ValidArmorIDs,
+		ParamFileArmorReinforce:     param.ValidArmorReinforceIDs,
+		ParamFileCustomAttrSpec:     param.ValidCustomAttrSpecIDs,
+		ParamFileItem:               param.ValidItemIDs,
+		ParamFileLevelUpStatusCalc:  param.ValidLevelUpStatusCalcIDs,
+		ParamFilePlayerLevelUpSouls: param.ValidPlayerLevelUpSoulsIDs,
+		ParamFileRing:               param.ValidRingIDs,
+		ParamFileWeapon:             param.ValidWeaponIDs,
+		ParamFileWeaponReinforce:    param.ValidWeaponReinforceIDs,
+		ParamFileWeaponStatsAffect:  param.ValidWeaponStatsAffectIDs,
 	}
 )
 
@@ -174,6 +178,8 @@ func (p *DS2Params) parseFile(file string) error {
 			p.ItemParam = append(p.ItemParam, parseRow[param.Item](row))
 		case ParamFileLevelUpStatusCalc:
 			p.LevelUpStatusCalcParam = append(p.LevelUpStatusCalcParam, parseRow[param.LevelUpStatusCalc](row))
+		case ParamFilePlayerLevelUpSouls:
+			p.PlayerLevelUpSoulsParam = append(p.PlayerLevelUpSoulsParam, parseRow[param.PlayerLevelUpSoul](row))
 		case ParamFileRing:
 			p.RingParam = append(p.RingParam, parseRow[param.Ring](row))
 		case ParamFileWeapon:

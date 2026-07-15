@@ -15,6 +15,7 @@ A Dark Souls II: SotFS build optimizer
     - CustomAttrSpecParam
     - ItemParam
     - LevelUpStatusCalcParam
+    - PlayerLevelUpSoulsParam
     - RingParam
     - WeaponParam
     - WeaponReinforceParam
