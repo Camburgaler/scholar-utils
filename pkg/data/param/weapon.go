@@ -284,7 +284,7 @@ type (
 		// Multiplier applied to the weapon's ability to ignore poise
 		IgnorePoiseRateScale float64
 
-		// Multiplier applied to the weapon's shield/defence bypass
+		// Multiplier applied to the weapon's shield/defense bypass
 		IgnoreDamageCutRateScale float64
 
 		// Multiplier applied to the weapon's ability to apply stun buildup

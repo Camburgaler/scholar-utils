@@ -26,7 +26,7 @@ type (
 		AttackPowerDark                bool
 		AttackPowerPoison              bool
 		AttackPowerBleed               bool
-		Defence                        bool
+		Defense                        bool
 		AbsorptionMagic                bool
 		AbsorptionFire                 bool
 		AbsorptionLightning            bool
@@ -43,10 +43,10 @@ type (
 		RightHandWeaponPrimary         bool
 		RightHandWeaponSecondary       bool
 		RightHandWeaponTertiary        bool
-		DefenceStrike                  bool
-		DefenceSlash                   bool
-		DefenceThrust                  bool
-		DefencePoise                   bool
+		DefenseStrike                  bool
+		DefenseSlash                   bool
+		DefenseThrust                  bool
+		DefensePoise                   bool
 		dummy00                        []byte
 		dummy01                        []byte
 	}

@@ -15,17 +15,17 @@ type (
 		// The name of this reinforcement data
 		Name string
 
-		// The minimum (non-reinforced) slash defence provided by the armor using this data
-		MinDefenceSlash int64
+		// The minimum (non-reinforced) slash defense provided by the armor using this data
+		MinDefenseSlash int64
 
-		// The minimum (non-reinforced) thrust defence provided by the armor using this data
-		MinDefenceThrust int64
+		// The minimum (non-reinforced) thrust defense provided by the armor using this data
+		MinDefenseThrust int64
 
-		// The minimum (non-reinforced) strike defence provided by the armor using this data
-		MinDefenceStrike int64
+		// The minimum (non-reinforced) strike defense provided by the armor using this data
+		MinDefenseStrike int64
 
-		// The minimum (non-reinforced) standard defence provided by the armor using this data
-		MinDefenceStandard int64
+		// The minimum (non-reinforced) standard defense provided by the armor using this data
+		MinDefenseStandard int64
 
 		// The minimum (non-reinforced) magic absorption provided by the armor using this data
 		MinAbsorptionMagic float64
@@ -51,17 +51,17 @@ type (
 		// The minimum (non-reinforced) curse absorption provided by the armor using this data
 		MinAbsorptionCurse float64
 
-		// The maximum (fully reinforced) slash defence provided by the armor using this data
-		MaxDefenceSlash int64
+		// The maximum (fully reinforced) slash defense provided by the armor using this data
+		MaxDefenseSlash int64
 
-		// The maximum (fully reinforced) thrust defence provided by the armor using this data
-		MaxDefenceThrust int64
+		// The maximum (fully reinforced) thrust defense provided by the armor using this data
+		MaxDefenseThrust int64
 
-		// The maximum (fully reinforced) strike defence provided by the armor using this data
-		MaxDefenceStrike int64
+		// The maximum (fully reinforced) strike defense provided by the armor using this data
+		MaxDefenseStrike int64
 
-		// The maximum (fully reinforced) standard defence provided by the armor using this data
-		MaxDefenceStandard int64
+		// The maximum (fully reinforced) standard defense provided by the armor using this data
+		MaxDefenseStandard int64
 
 		// The maximum (fully reinforced) magic absorption provided by the armor using this data
 		MaxAbsorptionMagic float64
@@ -91,7 +91,7 @@ type (
 		MaxReinforcementLevel int64
 		dummy                 []byte
 
-		// The defence power correction scale to use within the menu. Display only.
+		// The defense power correction scale to use within the menu. Display only.
 		MenuResistanceScale float64
 
 		// ID for the CustomAttrSpecParam that defines how this armor can be infused

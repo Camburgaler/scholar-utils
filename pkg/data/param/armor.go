@@ -51,16 +51,16 @@ type (
 		// Reference to reinforcement data in ArmorReinforceParam
 		ArmorReinforceID id.ID
 
-		// Coefficient for defence scaling
-		DefenceScalingStatusEffect float64
+		// Coefficient for defense scaling
+		DefenseScalingStatusEffect float64
 
-		// Coefficient for slash defence scaling
-		DefenceScalingSlash float64
+		// Coefficient for slash defense scaling
+		DefenseScalingSlash float64
 
-		// Coefficient for thrust defence scaling
+		// Coefficient for thrust defense scaling
 		DefenseScalingThrust float64
 
-		// Coefficient for strike defence scaling
+		// Coefficient for strike defense scaling
 		DefenseScalingStrike float64
 
 		// Minimum strength stat required to equip this armor
