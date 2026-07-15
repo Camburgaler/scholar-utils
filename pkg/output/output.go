@@ -52,6 +52,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 		paramParser.ParamFileLevelUpStatusCalc:  paramData.LevelUpStatusCalcParam,
 		paramParser.ParamFilePlayerLevelUpSouls: paramData.PlayerLevelUpSoulsParam,
 		paramParser.ParamFileRing:               paramData.RingParam,
+		paramParser.ParamFileVow:                paramData.VowParam,
 		paramParser.ParamFileWeapon:             paramData.WeaponParam,
 		paramParser.ParamFileWeaponReinforce:    paramData.WeaponReinforceParam,
 		paramParser.ParamFileWeaponStatsAffect:  paramData.WeaponStatsAffectParam,

@@ -23,6 +23,7 @@ type (
 		PlayerLevelUpSoulsParam []param.PlayerLevelUpSoul
 		ItemParam               []param.Item
 		RingParam               []param.Ring
+		VowParam                []param.Vow
 		WeaponParam             []param.Weapon
 		WeaponReinforceParam    []param.WeaponReinforce
 		WeaponStatsAffectParam  []param.WeaponStatsAffect
@@ -38,6 +39,7 @@ const (
 	ParamFileLevelUpStatusCalc  = "LevelUpStatusCalcParam"
 	ParamFilePlayerLevelUpSouls = "PlayerLevelUpSoulsParam"
 	ParamFileRing               = "RingParam"
+	ParamFileVow                = "VowParam"
 	ParamFileWeapon             = "WeaponParam"
 	ParamFileWeaponReinforce    = "WeaponReinforceParam"
 	ParamFileWeaponStatsAffect  = "WeaponStatsAffectParam"
@@ -53,6 +55,7 @@ var (
 		ParamFileLevelUpStatusCalc,
 		ParamFilePlayerLevelUpSouls,
 		ParamFileRing,
+		ParamFileVow,
 		ParamFileWeapon,
 		ParamFileWeaponReinforce,
 		ParamFileWeaponStatsAffect,
@@ -65,6 +68,7 @@ var (
 		ParamFileLevelUpStatusCalc:  param.ValidLevelUpStatusCalcIDs,
 		ParamFilePlayerLevelUpSouls: param.ValidPlayerLevelUpSoulsIDs,
 		ParamFileRing:               param.ValidRingIDs,
+		ParamFileVow:                param.ValidVowIDs,
 		ParamFileWeapon:             param.ValidWeaponIDs,
 		ParamFileWeaponReinforce:    param.ValidWeaponReinforceIDs,
 		ParamFileWeaponStatsAffect:  param.ValidWeaponStatsAffectIDs,
@@ -182,6 +186,8 @@ func (p *DS2Params) parseFile(file string) error {
 			p.PlayerLevelUpSoulsParam = append(p.PlayerLevelUpSoulsParam, parseRow[param.PlayerLevelUpSoul](row))
 		case ParamFileRing:
 			p.RingParam = append(p.RingParam, parseRow[param.Ring](row))
+		case ParamFileVow:
+			p.VowParam = append(p.VowParam, parseRow[param.Vow](row))
 		case ParamFileWeapon:
 			p.WeaponParam = append(p.WeaponParam, parseRow[param.Weapon](row))
 		case ParamFileWeaponReinforce:

@@ -14,11 +14,11 @@ type (
 	//
 	// PlayerLevelUpSoulsParam.csv contains information about the souls required to level up
 	PlayerLevelUpSoul struct {
-		// The unique ID for this PlayerLevelUpSouls
-		ID id.ID
+		// The unique ID for this PlayerLevelUpSouls (same as the level)
+		Level id.ID
 
-		// The name of this PlayerLevelUpSouls
-		Name string
+		// The name of this PlayerLevelUpSouls ("Level 1", "Level 2", etc.)
+		name string
 
 		// The level to which this record corresponds
 		//
