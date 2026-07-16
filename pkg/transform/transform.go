@@ -2,7 +2,10 @@
 package transform
 
 import (
+	"strings"
+
 	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
+	"github.com/Camburgaler/scholar-utils/pkg/data/param"
 	paramParser "github.com/Camburgaler/scholar-utils/pkg/data/param/parse"
 	"github.com/Camburgaler/scholar-utils/pkg/output"
 )
@@ -22,30 +25,39 @@ var Infusions = []string{
 	"Special",
 }
 
+func transformClasses(playerStatusParams []param.PlayerStatus) []output.Class {
+	classes := []output.Class{}
+
+	for _, playerStatusParam := range playerStatusParams {
+		if playerStatusParam.IsClass() {
+			classes = append(classes, output.Class{
+				Name:  strings.TrimPrefix(playerStatusParam.Name, "[Class] "),
+				Level: playerStatusParam.Level,
+				Stats: output.Attributes[int64]{
+					Vigor:        playerStatusParam.Vigor,
+					Endurance:    playerStatusParam.Endurance,
+					Vitality:     playerStatusParam.Vitality,
+					Attunement:   playerStatusParam.Attunement,
+					Adaptability: playerStatusParam.Adaptability,
+					ScalingAttributes: output.ScalingAttributes[int64]{
+						Strength:     playerStatusParam.Strength,
+						Dexterity:    playerStatusParam.Dexterity,
+						Intelligence: playerStatusParam.Intelligence,
+						Faith:        playerStatusParam.Faith,
+					},
+				},
+			})
+		}
+	}
+
+	return classes
+}
+
+// Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	helmets := []output.Armor{
-		noHelmet,
-	}
-	chestpieces := []output.Armor{
-		noChestpiece,
-	}
-	gauntlets := []output.Armor{
-		noGauntlets,
-	}
-	leggings := []output.Armor{
-		noLeggings,
-	}
-	rings := []output.Ring{
-		noRing,
-	}
-	weapons := []output.Weapon{}
+	classes := transformClasses(paramData.PlayerStatusParam)
 
 	return output.ScholarData{
-		Helmets:     helmets,
-		Chestpieces: chestpieces,
-		Gauntlets:   gauntlets,
-		Leggings:    leggings,
-		Rings:       rings,
-		Weapons:     weapons,
+		Classes: classes,
 	}, nil
 }

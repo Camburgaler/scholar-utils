@@ -75,7 +75,7 @@ func ExtractInfusions(rows []param.WeaponStatsAffect) []output.Infusion {
 		scale := output.Infusion{
 			Name:              row.Name,
 			DamageUpgradeRate: map[string]output.SlopeIntercept{},
-			StatScalingRate:   output.ScalingStats{},
+			StatScalingRate:   output.ScalingAttributes[float64]{},
 		}
 
 		// Determine upgrade range

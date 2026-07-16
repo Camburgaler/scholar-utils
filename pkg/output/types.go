@@ -1,12 +1,47 @@
 package output
 
 type (
-	Defenses struct {
-		Slash    int
-		Thrust   int
-		Strike   int
-		Standard int
+	// ScalingAttributes is a struct for the attributes that affect the damage of a weapon
+	ScalingAttributes[T any] struct {
+		Strength     T
+		Dexterity    T
+		Intelligence T
+		Faith        T
 	}
+
+	// Attributes is a struct for character Attributes
+	Attributes[T any] struct {
+		ScalingAttributes[T]
+		Vigor        T
+		Endurance    T
+		Vitality     T
+		Adaptability T
+		Attunement   T
+	}
+
+	// Class is a struct for a starting class
+	Class struct {
+		Name  string
+		Level int64
+		Stats Attributes[int64]
+	}
+
+	// Equippable is a struct for the common fields of equippable items
+	Equippable struct {
+		Name                    string //pk
+		AdditiveModifiers       map[string]float64
+		MultiplicativeModifiers map[string]float64
+	}
+
+	// Defenses is a struct for the defenses of an armor
+	Defenses struct {
+		Slash    int64
+		Thrust   int64
+		Strike   int64
+		Standard int64
+	}
+
+	// Absorptions is a struct for the absorptions of an armor
 	Absorptions struct {
 		Magic     float64
 		Lightning float64
@@ -17,11 +52,8 @@ type (
 		Petrify   float64
 		Curse     float64
 	}
-	Equippable struct {
-		Name                    string //pk
-		AdditiveModifiers       map[string]float64
-		MultiplicativeModifiers map[string]float64
-	}
+
+	// Armor is a struct for equippable armor
 	Armor struct {
 		Equippable
 		Defenses    Defenses
@@ -29,65 +61,106 @@ type (
 		Poise       float64
 		Weight      float64
 	}
-	Ring struct {
-		Equippable
-	}
-	stats struct {
-		Vigor        int
-		Endurance    int
-		Vitality     int
-		Adaptability int
-		Strength     int
-		Dexterity    int
-		Intelligence int
-		Faith        int
-		Attunement   int
-	}
-	Damage struct {
-		Physical  int64
-		Magic     int64
-		Lightning int64
-		Fire      int64
-		Dark      int64
-		Poison    int64
-		Bleed     int64
-		Petrify   int64
-		Curse     int64
-	}
-	ScalingStats struct {
-		Strength     float64
-		Dexterity    float64
-		Intelligence float64
-		Faith        float64
-	}
+
+	// SlopeIntercept is a struct for the slope and intercept of a line
 	SlopeIntercept struct {
 		Slope     float64
 		Intercept float64
 	}
+
+	// Infusion is a struct for a weapon infusion
 	Infusion struct {
 		Name              string
 		DamageUpgradeRate map[string]SlopeIntercept
-		StatScalingRate   ScalingStats
+		StatScalingRate   ScalingAttributes[float64]
 	}
+
+	// Weapon is a struct for a weapon
 	Weapon struct {
 		Name         string
-		Requirements ScalingStats
+		Requirements ScalingAttributes[int64]
 		Category     string
 		Paired       bool
 		Infusions    map[string]Infusion
 	}
-	class struct {
-		Name  string
-		Level int
-		Stats stats
+
+	// Ring is a struct for equippable rings
+	Ring struct {
+		Equippable
 	}
+
+	Stats struct {
+		MaximumHP                      bool
+		MaximumStamina                 bool
+		MaximumEquipLoad               bool
+		SpellSlotCount                 bool
+		SpellCastingSpeed              bool
+		PhysicalAttackPowerByStrength  bool
+		PhysicalAttackPowerByDexterity bool
+		AttackPowerMagic               bool
+		AttackPowerFire                bool
+		AttackPowerLightning           bool
+		AttackPowerDark                bool
+		AttackPowerPoison              bool
+		AttackPowerBleed               bool
+		Defense                        bool
+		AbsorptionMagic                bool
+		AbsorptionFire                 bool
+		AbsorptionLightning            bool
+		AbsorptionDark                 bool
+		AbsorptionPoison               bool
+		AbsorptionBleed                bool
+		AbsorptionPetrify              bool
+		AbsorptionCurse                bool
+		Agility                        bool
+		Poise                          bool
+		LeftHandWeaponPrimary          bool
+		LeftHandWeaponSecondary        bool
+		LeftHandWeaponTertiary         bool
+		RightHandWeaponPrimary         bool
+		RightHandWeaponSecondary       bool
+		RightHandWeaponTertiary        bool
+		DefenseStrike                  bool
+		DefenseSlash                   bool
+		DefenseThrust                  bool
+		DefensePoise                   bool
+	}
+
+	// Level is a struct for a level
+	Level struct {
+		Level                  int64
+		SoulsRequiredToLevelUp int64
+	}
+
+	// Covenant is a struct for a covenant
+	Covenant struct {
+		Name string
+	}
+
+	// // damage is a struct for the damage of a weapon
+	// damage struct {
+	// 	Physical  int64
+	// 	Magic     int64
+	// 	Lightning int64
+	// 	Fire      int64
+	// 	Dark      int64
+	// 	Poison    int64
+	// 	Bleed     int64
+	// 	Petrify   int64
+	// 	Curse     int64
+	// }
+
+	// ScholarData is a struct for Scholar-friendly data
 	ScholarData struct {
-		Classes     []class
-		Helmets     []Armor
-		Chestpieces []Armor
-		Gauntlets   []Armor
-		Leggings    []Armor
-		Rings       []Ring
-		Weapons     []Weapon
+		Classes            []Class
+		Chestpieces        []Armor
+		Gauntlets          []Armor
+		Helmets            []Armor
+		Leggings           []Armor
+		Weapons            []Weapon
+		Rings              []Ring
+		AttributeToStatMap []Attributes[Stats]
+		Levels             []Level
+		Covenants          []Covenant
 	}
 )

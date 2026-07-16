@@ -83,8 +83,6 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 		}
 	}
 
-	data.Classes = classes
-
 	// Output the data using reflection
 	v := reflect.ValueOf(&data).Elem()
 	for i := 0; i < v.NumField(); i++ {
