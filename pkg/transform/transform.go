@@ -2,7 +2,6 @@
 package transform
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -67,8 +66,6 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 			if field.Anonymous {
 				continue
 			}
-
-			fmt.Println(field.Name)
 
 			if levelUpStatusCalcParam.Name == field.Name {
 				stats := output.Stats{}
