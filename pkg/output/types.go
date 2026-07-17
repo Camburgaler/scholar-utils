@@ -159,7 +159,7 @@ type (
 		Leggings           []Armor
 		Weapons            []Weapon
 		Rings              []Ring
-		AttributeToStatMap []Attributes[Stats]
+		AttributeToStatMap Attributes[Stats]
 		Levels             []Level
 		Covenants          []Covenant
 	}

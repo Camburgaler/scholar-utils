@@ -2,6 +2,8 @@
 package transform
 
 import (
+	"fmt"
+	"reflect"
 	"strings"
 
 	emevdParser "github.com/Camburgaler/scholar-utils/pkg/data/emevd/parse"
@@ -25,7 +27,7 @@ var Infusions = []string{
 	"Special",
 }
 
-func transformClasses(playerStatusParams []param.PlayerStatus) []output.Class {
+func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 	classes := []output.Class{}
 
 	for _, playerStatusParam := range playerStatusParams {
@@ -53,11 +55,44 @@ func transformClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 	return classes
 }
 
+func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc) output.Attributes[output.Stats] {
+	attributesToStatMap := output.Attributes[output.Stats]{}
+	vAttributesToStatMap := reflect.ValueOf(&attributesToStatMap).Elem()
+	fields := reflect.VisibleFields(vAttributesToStatMap.Type())
+
+	for _, levelUpStatusCalcParam := range levelUpStatusCalcParams {
+		vLevelUpStatusCalcParam := reflect.ValueOf(&levelUpStatusCalcParam).Elem()
+
+		for _, field := range fields {
+			if field.Anonymous {
+				continue
+			}
+
+			fmt.Println(field.Name)
+
+			if levelUpStatusCalcParam.Name == field.Name {
+				stats := output.Stats{}
+				vStats := reflect.ValueOf(&stats).Elem()
+
+				for field := range vStats.Fields() {
+					vStats.FieldByName(field.Name).SetBool(vLevelUpStatusCalcParam.FieldByName(field.Name).Bool())
+				}
+
+				vAttributesToStatMap.FieldByName(field.Name).Set(reflect.ValueOf(stats))
+			}
+		}
+	}
+
+	return attributesToStatMap
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	classes := transformClasses(paramData.PlayerStatusParam)
+	classes := createClasses(paramData.PlayerStatusParam)
+	attributesToStatMap := createAttributeToStatMap(paramData.LevelUpStatusCalcParam)
 
 	return output.ScholarData{
-		Classes: classes,
+		Classes:            classes,
+		AttributeToStatMap: attributesToStatMap,
 	}, nil
 }
