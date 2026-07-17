@@ -2,6 +2,7 @@
 package transform
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -11,23 +12,39 @@ import (
 	"github.com/Camburgaler/scholar-utils/pkg/output"
 )
 
-var Infusions = []string{
-	"Standard",
-	"Lightning",
-	"Magic",
-	"Fire",
-	"Dark",
-	"Poison",
-	"Bleed",
-	"Raw",
-	"Enchanted",
-	"Mundane",
-	"Boss",
-	"Special",
-}
+var (
+	Infusions = []string{
+		"Standard",
+		"Lightning",
+		"Magic",
+		"Fire",
+		"Dark",
+		"Poison",
+		"Bleed",
+		"Raw",
+		"Enchanted",
+		"Mundane",
+		"Boss",
+		"Special",
+	}
+
+	levelUpStatusCalcParamIndexToAttribute = map[int]string{
+		0: "Vigor",
+		1: "Endurance",
+		2: "Vitality",
+		3: "Attunement",
+		4: "Strength",
+		5: "Dexterity",
+		6: "Adaptability",
+		7: "Intelligence",
+		8: "Faith",
+	}
+)
 
 func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 	classes := []output.Class{}
+
+	fmt.Println("\nCreating classes...")
 
 	for _, playerStatusParam := range playerStatusParams {
 		if playerStatusParam.IsClass() {
@@ -51,6 +68,8 @@ func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 		}
 	}
 
+	fmt.Printf("Created %d classes\n", len(classes))
+
 	return classes
 }
 
@@ -59,7 +78,9 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 	vAttributesToStatMap := reflect.ValueOf(&attributesToStatMap).Elem()
 	fields := reflect.VisibleFields(vAttributesToStatMap.Type())
 
-	for _, levelUpStatusCalcParam := range levelUpStatusCalcParams {
+	fmt.Println("\nCreating attribute to stat map...")
+
+	for i, levelUpStatusCalcParam := range levelUpStatusCalcParams {
 		vLevelUpStatusCalcParam := reflect.ValueOf(&levelUpStatusCalcParam).Elem()
 
 		for _, field := range fields {
@@ -67,7 +88,7 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 				continue
 			}
 
-			if levelUpStatusCalcParam.Name == field.Name {
+			if levelUpStatusCalcParamIndexToAttribute[i] == field.Name {
 				stats := output.Stats{}
 				vStats := reflect.ValueOf(&stats).Elem()
 
@@ -79,6 +100,8 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 			}
 		}
 	}
+
+	fmt.Println("Created attribute to stat map")
 
 	return attributesToStatMap
 }

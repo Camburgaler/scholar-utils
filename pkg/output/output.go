@@ -12,6 +12,8 @@ import (
 )
 
 func writeData(file string, data any) error {
+	fmt.Printf("\nWriting %s...\n", file)
+
 	f, err := os.Create(file)
 	if err != nil {
 		return err
@@ -44,7 +46,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 	os.Mkdir("outputs", 0755)
 
 	// TODO: Remove before release
-	paramFileValueMap := map[string]any{
+	paramFileValueMap := map[paramParser.ParamFile]any{
 		paramParser.ParamFileArmor:              paramData.ArmorParam,
 		paramParser.ParamFileArmorReinforce:     paramData.ArmorReinforceParam,
 		paramParser.ParamFileCustomAttrSpec:     paramData.CustomAttrSpecParam,
@@ -65,9 +67,11 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 	}
 
 	// TODO: Remove before release
-	for _, paramFileName := range paramParser.ParamFiles {
-		outputFileName := fmt.Sprintf("outputs/%s.json", paramFileName)
-		err := writeData(outputFileName, paramFileValueMap[paramFileName])
+	for i := range paramParser.ParamFileCount {
+		metadata := paramParser.ParamFiles[i]
+
+		outputFileName := fmt.Sprintf("outputs/%s.json", metadata.Name)
+		err := writeData(outputFileName, paramFileValueMap[i])
 		if err != nil {
 			return err
 		}

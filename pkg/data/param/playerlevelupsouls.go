@@ -13,7 +13,7 @@ type (
 	// PlayerLevelUpSouls is a struct for storing data from PlayerLevelUpSoulsParam.csv
 	//
 	// PlayerLevelUpSoulsParam.csv contains information about the souls required to level up
-	PlayerLevelUpSoul struct {
+	PlayerLevelUpSouls struct {
 		// The unique ID for this PlayerLevelUpSouls (same as the level)
 		Level id.ID
 

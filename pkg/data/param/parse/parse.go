@@ -20,7 +20,7 @@ type (
 		ArmorReinforceParam     []param.ArmorReinforce
 		CustomAttrSpecParam     []param.CustomAttrSpec
 		LevelUpStatusCalcParam  []param.LevelUpStatusCalc
-		PlayerLevelUpSoulsParam []param.PlayerLevelUpSoul
+		PlayerLevelUpSoulsParam []param.PlayerLevelUpSouls
 		PlayerStatusParam       []param.PlayerStatus
 		ItemParam               []param.Item
 		RingParam               []param.Ring
@@ -29,59 +29,106 @@ type (
 		WeaponReinforceParam    []param.WeaponReinforce
 		WeaponStatsAffectParam  []param.WeaponStatsAffect
 	}
+
+	ParamFile int
+
+	// ParamFileMetadata is a struct for storing metadata about a param CSV file
+	ParamFileMetadata struct {
+		Name     string
+		DataType reflect.Type
+		ValidIDs []id.Range
+	}
 )
 
-// File names
+// Param file enum
 const (
-	ParamFileArmor              = "ArmorParam"
-	ParamFileArmorReinforce     = "ArmorReinforceParam"
-	ParamFileCustomAttrSpec     = "CustomAttrSpecParam"
-	ParamFileItem               = "ItemParam"
-	ParamFileLevelUpStatusCalc  = "LevelUpStatusCalcParam"
-	ParamFilePlayerLevelUpSouls = "PlayerLevelUpSoulsParam"
-	ParamFilePlayerStatus       = "PlayerStatusParam"
-	ParamFileRing               = "RingParam"
-	ParamFileVow                = "VowParam"
-	ParamFileWeapon             = "WeaponParam"
-	ParamFileWeaponReinforce    = "WeaponReinforceParam"
-	ParamFileWeaponStatsAffect  = "WeaponStatsAffectParam"
+	ParamFileArmor ParamFile = iota
+	ParamFileArmorReinforce
+	ParamFileCustomAttrSpec
+	ParamFileItem
+	ParamFileLevelUpStatusCalc
+	ParamFilePlayerLevelUpSouls
+	ParamFilePlayerStatus
+	ParamFileRing
+	ParamFileVow
+	ParamFileWeapon
+	ParamFileWeaponReinforce
+	ParamFileWeaponStatsAffect
+	ParamFileCount // Must always be last
 )
 
 var (
-	// File names in a slice
-	ParamFiles = []string{
-		ParamFileArmor,
-		ParamFileArmorReinforce,
-		ParamFileCustomAttrSpec,
-		ParamFileItem,
-		ParamFileLevelUpStatusCalc,
-		ParamFilePlayerLevelUpSouls,
-		ParamFilePlayerStatus,
-		ParamFileRing,
-		ParamFileVow,
-		ParamFileWeapon,
-		ParamFileWeaponReinforce,
-		ParamFileWeaponStatsAffect,
-	}
-	validParamIDs = map[string][]id.Range{
-		ParamFileArmor:              param.ValidArmorIDs,
-		ParamFileArmorReinforce:     param.ValidArmorReinforceIDs,
-		ParamFileCustomAttrSpec:     param.ValidCustomAttrSpecIDs,
-		ParamFileItem:               param.ValidItemIDs,
-		ParamFileLevelUpStatusCalc:  param.ValidLevelUpStatusCalcIDs,
-		ParamFilePlayerLevelUpSouls: param.ValidPlayerLevelUpSoulsIDs,
-		ParamFilePlayerStatus:       param.ValidPlayerStatusIDs,
-		ParamFileRing:               param.ValidRingIDs,
-		ParamFileVow:                param.ValidVowIDs,
-		ParamFileWeapon:             param.ValidWeaponIDs,
-		ParamFileWeaponReinforce:    param.ValidWeaponReinforceIDs,
-		ParamFileWeaponStatsAffect:  param.ValidWeaponStatsAffectIDs,
+	ParamFiles = map[ParamFile]ParamFileMetadata{
+		ParamFileArmor: {
+			Name:     "ArmorParam",
+			DataType: reflect.TypeFor[param.Armor](),
+			ValidIDs: param.ValidArmorIDs,
+		},
+		ParamFileArmorReinforce: {
+			Name:     "ArmorReinforceParam",
+			DataType: reflect.TypeFor[param.ArmorReinforce](),
+			ValidIDs: param.ValidArmorReinforceIDs,
+		},
+		ParamFileCustomAttrSpec: {
+			Name:     "CustomAttrSpecParam",
+			DataType: reflect.TypeFor[param.CustomAttrSpec](),
+			ValidIDs: param.ValidCustomAttrSpecIDs,
+		},
+		ParamFileItem: {
+			Name:     "ItemParam",
+			DataType: reflect.TypeFor[param.Item](),
+			ValidIDs: param.ValidItemIDs,
+		},
+		ParamFileLevelUpStatusCalc: {
+			Name:     "LevelUpStatusCalcParam",
+			DataType: reflect.TypeFor[param.LevelUpStatusCalc](),
+			ValidIDs: param.ValidLevelUpStatusCalcIDs,
+		},
+		ParamFilePlayerLevelUpSouls: {
+			Name:     "PlayerLevelUpSoulsParam",
+			DataType: reflect.TypeFor[param.PlayerLevelUpSouls](),
+			ValidIDs: param.ValidPlayerLevelUpSoulsIDs,
+		},
+		ParamFilePlayerStatus: {
+			Name:     "PlayerStatusParam",
+			DataType: reflect.TypeFor[param.PlayerStatus](),
+			ValidIDs: param.ValidPlayerStatusIDs,
+		},
+		ParamFileRing: {
+			Name:     "RingParam",
+			DataType: reflect.TypeFor[param.Ring](),
+			ValidIDs: param.ValidRingIDs,
+		},
+		ParamFileVow: {
+			Name:     "VowParam",
+			DataType: reflect.TypeFor[param.Vow](),
+			ValidIDs: param.ValidVowIDs,
+		},
+		ParamFileWeapon: {
+			Name:     "WeaponParam",
+			DataType: reflect.TypeFor[param.Weapon](),
+			ValidIDs: param.ValidWeaponIDs,
+		},
+		ParamFileWeaponReinforce: {
+			Name:     "WeaponReinforceParam",
+			DataType: reflect.TypeFor[param.WeaponReinforce](),
+			ValidIDs: param.ValidWeaponReinforceIDs,
+		},
+		ParamFileWeaponStatsAffect: {
+			Name:     "WeaponStatsAffectParam",
+			DataType: reflect.TypeFor[param.WeaponStatsAffect](),
+			ValidIDs: param.ValidWeaponStatsAffectIDs,
+		},
 	}
 )
 
-func parseRow[T any](row []string) T {
-	var t T
-	v := reflect.ValueOf(&t).Elem()
+// parseRow parses a single row from a CSV file
+//
+// @param row - The row to parse
+//
+// @param dataType - The reflect.Type of the struct field
+func parseRow(row []string, dataType reflect.Type) any {
+	v := reflect.New(dataType).Elem()
 
 	// For each field on the struct, set the value from the row
 	for i := 0; i < v.NumField(); i++ {
@@ -111,12 +158,29 @@ func parseRow[T any](row []string) T {
 		}
 	}
 
-	return t
+	return v.Interface()
 }
 
-func (p *DS2Params) parseFile(file string) error {
+// parseFile parses a single Param CSV file
+//
+// @param v - The reflect.Value of the struct field to populate
+//
+// @param file - The name of the file to parse
+//
+// @param dataType - The reflect.Type of the struct field
+//
+// @returns an error
+func (p *DS2Params) parseFile(paramFile ParamFile) error {
+	// Get metadata
+	metadata, ok := ParamFiles[paramFile]
+	if !ok {
+		return fmt.Errorf("unknown param file: %d", paramFile)
+	}
+
+	v := reflect.ValueOf(p).Elem().FieldByName(metadata.Name)
+
 	// Open the file
-	f, err := os.Open(fmt.Sprintf("inputs/%s.csv", file))
+	f, err := os.Open(fmt.Sprintf("inputs/%s.csv", metadata.Name))
 	if err != nil {
 		return err
 	}
@@ -163,7 +227,7 @@ func (p *DS2Params) parseFile(file string) error {
 		rowID := id.ID(rowAtZeroI)
 
 		validID := false
-		for _, r := range validParamIDs[file] {
+		for _, r := range metadata.ValidIDs {
 			if r.Contains(rowID) {
 				validID = true
 				break
@@ -175,52 +239,40 @@ func (p *DS2Params) parseFile(file string) error {
 		}
 
 		// Parse
-		switch file {
-		case ParamFileArmor:
-			p.ArmorParam = append(p.ArmorParam, parseRow[param.Armor](row))
-		case ParamFileArmorReinforce:
-			p.ArmorReinforceParam = append(p.ArmorReinforceParam, parseRow[param.ArmorReinforce](row))
-		case ParamFileCustomAttrSpec:
-			p.CustomAttrSpecParam = append(p.CustomAttrSpecParam, parseRow[param.CustomAttrSpec](row))
-		case ParamFileItem:
-			p.ItemParam = append(p.ItemParam, parseRow[param.Item](row))
-		case ParamFileLevelUpStatusCalc:
-			p.LevelUpStatusCalcParam = append(p.LevelUpStatusCalcParam, parseRow[param.LevelUpStatusCalc](row))
-		case ParamFilePlayerLevelUpSouls:
-			p.PlayerLevelUpSoulsParam = append(p.PlayerLevelUpSoulsParam, parseRow[param.PlayerLevelUpSoul](row))
-		case ParamFilePlayerStatus:
-			p.PlayerStatusParam = append(p.PlayerStatusParam, parseRow[param.PlayerStatus](row))
-		case ParamFileRing:
-			p.RingParam = append(p.RingParam, parseRow[param.Ring](row))
-		case ParamFileVow:
-			p.VowParam = append(p.VowParam, parseRow[param.Vow](row))
-		case ParamFileWeapon:
-			p.WeaponParam = append(p.WeaponParam, parseRow[param.Weapon](row))
-		case ParamFileWeaponReinforce:
-			p.WeaponReinforceParam = append(p.WeaponReinforceParam, parseRow[param.WeaponReinforce](row))
-		case ParamFileWeaponStatsAffect:
-			p.WeaponStatsAffectParam = append(p.WeaponStatsAffectParam, parseRow[param.WeaponStatsAffect](row))
-		}
+		record := reflect.ValueOf(parseRow(row, metadata.DataType))
+		v.Set(reflect.Append(v, record))
 	}
+
+	fmt.Printf("Parsed %d rows\n", v.Len())
 
 	return nil
 }
 
 // Parse parses the Param CSV files
 //
-// Returns a DS2Params struct
+// @param name - The name of the struct field to populate
+//
+// @param dataType - The reflect.Type of the struct field
+//
+// @returns an error
 func Parse() (DS2Params, error) {
 	result := DS2Params{}
 
-	// For each file, populate the struct
-	for _, file := range ParamFiles {
-		fmt.Printf("\nParsing %s.csv...\n", file)
+	for i := range ParamFileCount {
+		metadata, ok := ParamFiles[i]
+		if !ok {
+			return DS2Params{}, fmt.Errorf("unknown param file: %d", i)
+		}
+
+		fmt.Printf("\nParsing inputs/%s.csv...\n", metadata.Name)
+		fmt.Println("Data Type:", metadata.DataType.String())
 
 		// Parse
-		err := result.parseFile(file)
+		err := result.parseFile(i)
 		if err != nil {
 			return DS2Params{}, err
 		}
+
 	}
 
 	return result, nil

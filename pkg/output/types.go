@@ -152,15 +152,19 @@ type (
 
 	// ScholarData is a struct for Scholar-friendly data
 	ScholarData struct {
-		Classes            []Class
-		Chestpieces        []Armor
-		Gauntlets          []Armor
-		Helmets            []Armor
-		Leggings           []Armor
-		Weapons            []Weapon
-		Rings              []Ring
+		Classes     []Class
+		Chestpieces []Armor
+		Gauntlets   []Armor
+		Helmets     []Armor
+		Leggings    []Armor
+		Weapons     []Weapon
+		Rings       []Ring
+		Levels      []Level
+		Covenants   []Covenant
+
+		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D array)
+		//
+		// Chose a map for this field because it will be accessed by the Scholar UI in terms of the keys, and not necessarily iterated over.
 		AttributeToStatMap Attributes[Stats]
-		Levels             []Level
-		Covenants          []Covenant
 	}
 )
