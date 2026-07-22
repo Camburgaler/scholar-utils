@@ -8,6 +8,7 @@ var (
 			Name:                    "No Helmet",
 			AdditiveModifiers:       map[string]float64{},
 			MultiplicativeModifiers: map[string]float64{},
+			Weight:                  0,
 		},
 		Defenses: output.Defenses{
 			Slash:    0,
@@ -25,14 +26,14 @@ var (
 			Petrify:   0,
 			Curse:     0,
 		},
-		Poise:  0,
-		Weight: 0,
+		Poise: 0,
 	}
 	noChestpiece = output.Armor{
 		Equippable: output.Equippable{
 			Name:                    "No Chestpiece",
 			AdditiveModifiers:       map[string]float64{},
 			MultiplicativeModifiers: map[string]float64{},
+			Weight:                  0,
 		},
 		Defenses: output.Defenses{
 			Slash:    0,
@@ -50,14 +51,14 @@ var (
 			Petrify:   0,
 			Curse:     0,
 		},
-		Poise:  0,
-		Weight: 0,
+		Poise: 0,
 	}
 	noGauntlets = output.Armor{
 		Equippable: output.Equippable{
 			Name:                    "No Gauntlets",
 			AdditiveModifiers:       map[string]float64{},
 			MultiplicativeModifiers: map[string]float64{},
+			Weight:                  0,
 		},
 		Defenses: output.Defenses{
 			Slash:    0,
@@ -75,14 +76,14 @@ var (
 			Petrify:   0,
 			Curse:     0,
 		},
-		Poise:  0,
-		Weight: 0,
+		Poise: 0,
 	}
 	noLeggings = output.Armor{
 		Equippable: output.Equippable{
 			Name:                    "No Leggings",
 			AdditiveModifiers:       map[string]float64{},
 			MultiplicativeModifiers: map[string]float64{},
+			Weight:                  0,
 		},
 		Defenses: output.Defenses{
 			Slash:    0,
@@ -100,14 +101,14 @@ var (
 			Petrify:   0,
 			Curse:     0,
 		},
-		Poise:  0,
-		Weight: 0,
+		Poise: 0,
 	}
 	noRing = output.Ring{
 		Equippable: output.Equippable{
 			Name:                    "No Ring",
 			AdditiveModifiers:       map[string]float64{},
 			MultiplicativeModifiers: map[string]float64{},
+			Weight:                  0,
 		},
 	}
 	// fists = output.Weapon{

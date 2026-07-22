@@ -20,6 +20,7 @@ type (
 		ArmorReinforceParam     []param.ArmorReinforce
 		CustomAttrSpecParam     []param.CustomAttrSpec
 		LevelUpStatusCalcParam  []param.LevelUpStatusCalc
+		MenuStatsParam          []param.MenuStats
 		PlayerLevelUpSoulsParam []param.PlayerLevelUpSouls
 		PlayerStatusParam       []param.PlayerStatus
 		ItemParam               []param.Item
@@ -30,6 +31,7 @@ type (
 		WeaponStatsAffectParam  []param.WeaponStatsAffect
 	}
 
+	// ParamFile is an enum for the param CSV files
 	ParamFile int
 
 	// ParamFileMetadata is a struct for storing metadata about a param CSV file
@@ -47,6 +49,7 @@ const (
 	ParamFileCustomAttrSpec
 	ParamFileItem
 	ParamFileLevelUpStatusCalc
+	ParamFileMenuStats
 	ParamFilePlayerLevelUpSouls
 	ParamFilePlayerStatus
 	ParamFileRing
@@ -83,6 +86,11 @@ var (
 			Name:     "LevelUpStatusCalcParam",
 			DataType: reflect.TypeFor[param.LevelUpStatusCalc](),
 			ValidIDs: param.ValidLevelUpStatusCalcIDs,
+		},
+		ParamFileMenuStats: {
+			Name:     "MenuStatsParam",
+			DataType: reflect.TypeFor[param.MenuStats](),
+			ValidIDs: param.ValidMenuStatsIDs,
 		},
 		ParamFilePlayerLevelUpSouls: {
 			Name:     "PlayerLevelUpSoulsParam",

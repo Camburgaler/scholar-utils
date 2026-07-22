@@ -51,7 +51,7 @@ func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 			classes = append(classes, output.Class{
 				Name:  strings.TrimPrefix(playerStatusParam.Name, "[Class] "),
 				Level: playerStatusParam.Level,
-				Stats: output.Attributes[int64]{
+				Attributes: output.Attributes[int64]{
 					Vigor:        playerStatusParam.Vigor,
 					Endurance:    playerStatusParam.Endurance,
 					Vitality:     playerStatusParam.Vitality,
@@ -110,9 +110,29 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	classes := createClasses(paramData.PlayerStatusParam)
 	attributesToStatMap := createAttributeToStatMap(paramData.LevelUpStatusCalcParam)
+	rings := []output.Ring{
+		noRing,
+	}
+	helmets := []output.Armor{
+		noHelmet,
+	}
+	chestpieces := []output.Armor{
+		noChestpiece,
+	}
+	gauntlets := []output.Armor{
+		noGauntlets,
+	}
+	leggings := []output.Armor{
+		noLeggings,
+	}
 
 	return output.ScholarData{
 		Classes:            classes,
 		AttributeToStatMap: attributesToStatMap,
+		Rings:              rings,
+		Helmets:            helmets,
+		Chestpieces:        chestpieces,
+		Gauntlets:          gauntlets,
+		Leggings:           leggings,
 	}, nil
 }

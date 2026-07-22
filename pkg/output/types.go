@@ -21,9 +21,9 @@ type (
 
 	// Class is a struct for a starting class
 	Class struct {
-		Name  string
-		Level int64
-		Stats Attributes[int64]
+		Name       string
+		Level      int64
+		Attributes Attributes[int64]
 	}
 
 	// Equippable is a struct for the common fields of equippable items
@@ -31,6 +31,7 @@ type (
 		Name                    string //pk
 		AdditiveModifiers       map[string]float64
 		MultiplicativeModifiers map[string]float64
+		Weight                  float64
 	}
 
 	// Defenses is a struct for the defenses of an armor
@@ -59,7 +60,6 @@ type (
 		Defenses    Defenses
 		Absorptions Absorptions
 		Poise       float64
-		Weight      float64
 	}
 
 	// SlopeIntercept is a struct for the slope and intercept of a line
