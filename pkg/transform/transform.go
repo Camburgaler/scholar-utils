@@ -57,12 +57,10 @@ func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 					Vitality:     playerStatusParam.Vitality,
 					Attunement:   playerStatusParam.Attunement,
 					Adaptability: playerStatusParam.Adaptability,
-					ScalingAttributes: output.ScalingAttributes[int64]{
-						Strength:     playerStatusParam.Strength,
-						Dexterity:    playerStatusParam.Dexterity,
-						Intelligence: playerStatusParam.Intelligence,
-						Faith:        playerStatusParam.Faith,
-					},
+					Strength:     playerStatusParam.Strength,
+					Dexterity:    playerStatusParam.Dexterity,
+					Intelligence: playerStatusParam.Intelligence,
+					Faith:        playerStatusParam.Faith,
 				},
 			})
 		}

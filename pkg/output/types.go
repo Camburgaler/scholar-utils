@@ -11,7 +11,10 @@ type (
 
 	// Attributes is a struct for character Attributes
 	Attributes[T any] struct {
-		ScalingAttributes[T]
+		Strength     T
+		Dexterity    T
+		Intelligence T
+		Faith        T
 		Vigor        T
 		Endurance    T
 		Vitality     T
