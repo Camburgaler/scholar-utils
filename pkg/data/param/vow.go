@@ -4,7 +4,7 @@ import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 // ValidVowIDs is a list of valid VowParam IDs
 var ValidVowIDs = []id.Range{
-	{Start: 1, End: 9},
+	{Start: 0, End: 9},
 }
 
 type (
