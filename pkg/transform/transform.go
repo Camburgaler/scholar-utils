@@ -71,8 +71,8 @@ func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 	return classes
 }
 
-func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc) output.Attributes[output.Stats] {
-	attributesToStatMap := output.Attributes[output.Stats]{}
+func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc) output.Attributes[output.Stats[bool]] {
+	attributesToStatMap := output.Attributes[output.Stats[bool]]{}
 	vAttributesToStatMap := reflect.ValueOf(&attributesToStatMap).Elem()
 	fields := reflect.VisibleFields(vAttributesToStatMap.Type())
 
@@ -87,7 +87,7 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 			}
 
 			if levelUpStatusCalcParamIndexToAttribute[i] == field.Name {
-				stats := output.Stats{}
+				stats := output.Stats[bool]{}
 				vStats := reflect.ValueOf(&stats).Elem()
 
 				for field := range vStats.Fields() {
@@ -126,11 +126,16 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 
 	return output.ScholarData{
 		Classes:            classes,
-		AttributeToStatMap: attributesToStatMap,
-		Rings:              rings,
-		Helmets:            helmets,
 		Chestpieces:        chestpieces,
 		Gauntlets:          gauntlets,
+		Helmets:            helmets,
 		Leggings:           leggings,
+		Weapons:            []output.Weapon{},
+		Rings:              rings,
+		Levels:             []output.Level{},
+		Covenants:          []output.Covenant{},
+		AttributeToStatMap: attributesToStatMap,
+		BaseStats:          output.Stats[float64]{},
+		StatCalculation:    output.StatCalculationDetails{},
 	}, nil
 }
