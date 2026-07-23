@@ -45,6 +45,9 @@ func writeData(file string, data any) error {
 func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) error {
 	os.Mkdir("outputs", 0755)
 
+	data.BaseStats = BaseStats
+	data.StatCalculation = DS2StatCalculationDetails
+
 	// TODO: Remove before release
 	paramFileValueMap := map[paramParser.ParamFile]any{
 		paramParser.ParamFileArmor:              paramData.ArmorParam,
@@ -71,7 +74,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 	for i := range paramParser.ParamFileCount {
 		metadata := paramParser.ParamFiles[i]
 
-		outputFileName := fmt.Sprintf("outputs/%s.json", metadata.Name)
+		outputFileName := fmt.Sprintf("outputs/_%s.json", metadata.Name)
 		err := writeData(outputFileName, paramFileValueMap[i])
 		if err != nil {
 			return err
@@ -80,7 +83,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 
 	// TODO: Remove before release
 	for _, emevdFileName := range emevdParser.EMEVDFiles {
-		outputFileName := fmt.Sprintf("outputs/%s.json", emevdFileName)
+		outputFileName := fmt.Sprintf("outputs/_%s.json", emevdFileName)
 		err := writeData(outputFileName, emevdFileMap[emevdFileName])
 		if err != nil {
 			return err
