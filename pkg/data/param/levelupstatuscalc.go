@@ -37,12 +37,12 @@ type (
 		AbsorptionCurse                bool
 		Agility                        bool
 		Poise                          bool
-		LeftHandWeaponPrimary          bool
-		LeftHandWeaponSecondary        bool
-		LeftHandWeaponTertiary         bool
-		RightHandWeaponPrimary         bool
-		RightHandWeaponSecondary       bool
-		RightHandWeaponTertiary        bool
+		leftHandWeaponPrimary          bool
+		leftHandWeaponSecondary        bool
+		leftHandWeaponTertiary         bool
+		rightHandWeaponPrimary         bool
+		rightHandWeaponSecondary       bool
+		rightHandWeaponTertiary        bool
 		DefenseStrike                  bool
 		DefenseSlash                   bool
 		DefenseThrust                  bool
