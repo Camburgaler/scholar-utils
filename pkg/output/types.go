@@ -92,41 +92,35 @@ type (
 		Equippable
 	}
 
-	Stats struct {
-		MaximumHP                      bool
-		MaximumStamina                 bool
-		MaximumEquipLoad               bool
-		SpellSlotCount                 bool
-		SpellCastingSpeed              bool
-		PhysicalAttackPowerByStrength  bool
-		PhysicalAttackPowerByDexterity bool
-		AttackPowerMagic               bool
-		AttackPowerFire                bool
-		AttackPowerLightning           bool
-		AttackPowerDark                bool
-		AttackPowerPoison              bool
-		AttackPowerBleed               bool
-		Defense                        bool
-		AbsorptionMagic                bool
-		AbsorptionFire                 bool
-		AbsorptionLightning            bool
-		AbsorptionDark                 bool
-		AbsorptionPoison               bool
-		AbsorptionBleed                bool
-		AbsorptionPetrify              bool
-		AbsorptionCurse                bool
-		Agility                        bool
-		Poise                          bool
-		LeftHandWeaponPrimary          bool
-		LeftHandWeaponSecondary        bool
-		LeftHandWeaponTertiary         bool
-		RightHandWeaponPrimary         bool
-		RightHandWeaponSecondary       bool
-		RightHandWeaponTertiary        bool
-		DefenseStrike                  bool
-		DefenseSlash                   bool
-		DefenseThrust                  bool
-		DefensePoise                   bool
+	Stats[T any] struct {
+		MaximumHP                      T
+		MaximumStamina                 T
+		MaximumEquipLoad               T
+		SpellSlotCount                 T
+		SpellCastingSpeed              T
+		PhysicalAttackPowerByStrength  T
+		PhysicalAttackPowerByDexterity T
+		AttackPowerMagic               T
+		AttackPowerFire                T
+		AttackPowerLightning           T
+		AttackPowerDark                T
+		AttackPowerPoison              T
+		AttackPowerBleed               T
+		Defense                        T
+		AbsorptionMagic                T
+		AbsorptionFire                 T
+		AbsorptionLightning            T
+		AbsorptionDark                 T
+		AbsorptionPoison               T
+		AbsorptionBleed                T
+		AbsorptionPetrify              T
+		AbsorptionCurse                T
+		Agility                        T
+		Poise                          T
+		DefenseStrike                  T
+		DefenseSlash                   T
+		DefenseThrust                  T
+		DefensePoise                   T
 	}
 
 	// Level is a struct for a level
@@ -165,9 +159,19 @@ type (
 		Levels      []Level
 		Covenants   []Covenant
 
-		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D array)
+		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D object)
 		//
 		// Chose a map for this field because it will be accessed by the Scholar UI in terms of the keys, and not necessarily iterated over.
-		AttributeToStatMap Attributes[Stats]
+		AttributeToStatMap Attributes[Stats[bool]]
+
+		// BaseStats is a map of Stats to floats
+		//
+		// Chose a map for this field because it will be accessed by the Scholar UI in terms of the keys, and not necessarily iterated over.
+		BaseStats Stats[float64]
+
+		// StatCalculation is a map of Attributes to Stats to StatCurves (i.e. a 3D object)
+		//
+		// Chose a map for this field because it will be accessed by the Scholar UI in terms of the keys, and not necessarily iterated over.
+		StatCalculation Attributes[Stats[StatCurve]]
 	}
 )
