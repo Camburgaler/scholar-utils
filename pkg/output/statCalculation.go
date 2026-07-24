@@ -27,7 +27,7 @@ var BaseStats = Stats[float64]{
 	AttackPowerLightning:           49,
 	AttackPowerDark:                46,
 	AttackPowerPoison:              50,
-	AttackPowerBleed:               49,
+	AttackPowerBleed:               50,
 	Defense:                        50,
 	AbsorptionMagic:                0,
 	AbsorptionFire:                 0,
