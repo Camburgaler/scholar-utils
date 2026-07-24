@@ -104,10 +104,22 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 	return attributesToStatMap
 }
 
+func createCovenants(vowParams []param.Vow) []string {
+	fmt.Println("\nCreating covenants...")
+
+	covenants := []string{}
+
+	for _, vowParam := range vowParams {
+		covenants = append(covenants, vowParam.Name)
+	}
+
+	fmt.Printf("Created %d covenants\n", len(covenants))
+
+	return covenants
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	classes := createClasses(paramData.PlayerStatusParam)
-	attributesToStatMap := createAttributeToStatMap(paramData.LevelUpStatusCalcParam)
 	rings := []output.Ring{
 		noRing,
 	}
@@ -125,7 +137,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	}
 
 	return output.ScholarData{
-		Classes:            classes,
+		Classes:            createClasses(paramData.PlayerStatusParam),
 		Chestpieces:        chestpieces,
 		Gauntlets:          gauntlets,
 		Helmets:            helmets,
@@ -133,8 +145,8 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 		Weapons:            []output.Weapon{},
 		Rings:              rings,
 		Levels:             []output.Level{},
-		Covenants:          []output.Covenant{},
-		AttributeToStatMap: attributesToStatMap,
+		Covenants:          createCovenants(paramData.VowParam),
+		AttributeToStatMap: createAttributeToStatMap(paramData.LevelUpStatusCalcParam),
 		BaseStats:          output.Stats[float64]{},
 		StatCalculation:    output.StatCalculationDetails{},
 	}, nil

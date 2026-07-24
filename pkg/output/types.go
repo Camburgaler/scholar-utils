@@ -153,7 +153,7 @@ type (
 		Weapons     []Weapon
 		Rings       []Ring
 		Levels      []Level
-		Covenants   []Covenant
+		Covenants   []string
 
 		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D object)
 		//
