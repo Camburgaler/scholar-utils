@@ -31,10 +31,10 @@ type (
 		AbsorptionFire                 bool
 		AbsorptionLightning            bool
 		AbsorptionDark                 bool
-		AbsorptionPoison               bool
-		AbsorptionBleed                bool
-		AbsorptionPetrify              bool
-		AbsorptionCurse                bool
+		ResistancePoison               bool
+		ResistanceBleed                bool
+		ResistancePetrify              bool
+		ResistanceCurse                bool
 		Agility                        bool
 		Poise                          bool
 		leftHandWeaponPrimary          bool
@@ -43,10 +43,10 @@ type (
 		rightHandWeaponPrimary         bool
 		rightHandWeaponSecondary       bool
 		rightHandWeaponTertiary        bool
-		DefenseStrike                  bool
-		DefenseSlash                   bool
-		DefenseThrust                  bool
-		DefensePoise                   bool
+		defenseStrike                  bool
+		defenseSlash                   bool
+		defenseThrust                  bool
+		defensePoise                   bool
 		dummy00                        []byte
 		dummy01                        []byte
 	}

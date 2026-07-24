@@ -33,16 +33,12 @@ var BaseStats = Stats[float64]{
 	AbsorptionFire:                 0,
 	AbsorptionLightning:            0,
 	AbsorptionDark:                 0,
-	AbsorptionPoison:               0,
-	AbsorptionBleed:                0,
-	AbsorptionPetrify:              0,
-	AbsorptionCurse:                0,
+	ResistancePoison:               0,
+	ResistanceBleed:                0,
+	ResistancePetrify:              0,
+	ResistanceCurse:                0,
 	Agility:                        85,
 	Poise:                          0,
-	DefenseStrike:                  -1, // TODO
-	DefenseSlash:                   -1, // TODO
-	DefenseThrust:                  -1, // TODO
-	DefensePoise:                   -1, // TODO
 }
 
 // StatCurve presets
@@ -289,28 +285,25 @@ var (
 var DS2StatCalculationDetails = StatCalculationDetails{
 	Vigor: Stats[StatCurve]{
 		MaximumHP:         vigorMaximumHPStatCurve,
-		AbsorptionPetrify: specialStatCurve,
+		ResistancePetrify: specialStatCurve,
 	},
 	Endurance: Stats[StatCurve]{
 		MaximumHP:      commonMaximumHPStatCurve,
 		MaximumStamina: enduranceMaximumStaminaStatCurve,
 		Poise:          specialStatCurve,
 		Defense:        specialStatCurve,
-		DefenseStrike:  specialStatCurve,
-		DefenseSlash:   specialStatCurve,
-		DefenseThrust:  specialStatCurve,
 	},
 	Vitality: Stats[StatCurve]{
 		MaximumHP:        commonMaximumHPStatCurve,
 		MaximumEquipLoad: vitalityMaximumEquipLoadStatCurve,
 		Defense:          specialStatCurve,
-		AbsorptionPoison: specialStatCurve,
+		ResistancePoison: specialStatCurve,
 	},
 	Attunement: Stats[StatCurve]{
 		MaximumHP:         commonMaximumHPStatCurve,
 		SpellSlotCount:    attunementSpellSlotCountStatCurve,
 		SpellCastingSpeed: specialStatCurve,
-		AbsorptionCurse:   specialStatCurve,
+		ResistanceCurse:   specialStatCurve,
 		Agility:           specialStatCurve,
 	},
 	Strength: Stats[StatCurve]{
@@ -330,10 +323,10 @@ var DS2StatCalculationDetails = StatCalculationDetails{
 		Agility:           specialStatCurve,
 		Poise:             specialStatCurve,
 		AttackPowerPoison: specialStatCurve,
-		AbsorptionPetrify: specialStatCurve,
-		AbsorptionCurse:   specialStatCurve,
-		AbsorptionPoison:  specialStatCurve,
-		AbsorptionBleed:   specialStatCurve,
+		ResistancePetrify: specialStatCurve,
+		ResistanceCurse:   specialStatCurve,
+		ResistancePoison:  specialStatCurve,
+		ResistanceBleed:   specialStatCurve,
 	},
 	Intelligence: Stats[StatCurve]{
 		MaximumHP:         commonMaximumHPStatCurve,
@@ -356,6 +349,6 @@ var DS2StatCalculationDetails = StatCalculationDetails{
 		AbsorptionFire:       specialStatCurve,
 		AbsorptionLightning:  commonAbsorptionStatCurve,
 		AbsorptionDark:       specialStatCurve,
-		AbsorptionBleed:      specialStatCurve,
+		ResistanceBleed:      specialStatCurve,
 	},
 }

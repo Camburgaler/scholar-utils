@@ -111,16 +111,12 @@ type (
 		AbsorptionFire                 T
 		AbsorptionLightning            T
 		AbsorptionDark                 T
-		AbsorptionPoison               T
-		AbsorptionBleed                T
-		AbsorptionPetrify              T
-		AbsorptionCurse                T
+		ResistancePoison               T
+		ResistanceBleed                T
+		ResistancePetrify              T
+		ResistanceCurse                T
 		Agility                        T
 		Poise                          T
-		DefenseStrike                  T
-		DefenseSlash                   T
-		DefenseThrust                  T
-		DefensePoise                   T
 	}
 
 	// Level is a struct for a level
