@@ -5,7 +5,7 @@ import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 // Item types
 //
 // Comes from ItemTypeParam
-var ItemTypes = map[int64]string{
+var ItemTypes = map[int]string{
 	0:  "None",
 	10: "Weapon",
 	20: "Shield",
@@ -42,22 +42,22 @@ type (
 		spellParamID    id.ID
 		gestureID       id.ID
 		sortID          id.ID
-		price           int64
-		salePrice       int64
+		price           int
+		salePrice       int
 		motionSpeedRate float64
 
 		// The weight of this item
 		Weight float64
 
 		// The ID of the item type (see ItemTypes)
-		ItemTypeParamID      int64
-		itemUsageParamID     int64
+		ItemTypeParamID      int
+		itemUsageParamID     int
 		getFrag              bool
-		maxNum               int64
-		spEffectTargetRegion int64
-		spEffectDuplication  int64
-		spEffectSFXPriority  int64
-		menuItemCategory     int64
+		maxNum               int
+		spEffectTargetRegion int
+		spEffectDuplication  int
+		spEffectSFXPriority  int
+		menuItemCategory     int
 
 		// Determines if this item can be enchanted
 		EnchantType            bool

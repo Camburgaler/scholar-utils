@@ -15,7 +15,7 @@ var (
 	}
 
 	// Categories of armor
-	ArmorCategories = map[int64]string{
+	ArmorCategories = map[int]string{
 		1: "Head",
 		2: "Chest",
 		3: "Arms",
@@ -36,10 +36,10 @@ type (
 
 		// The common ID for this armor set
 		ArmorSetID id.ID
-		armorType  int64
+		armorType  int
 
 		// The category of this armor (see ArmorCategories)
-		ArmorCategory     int64
+		ArmorCategory     int
 		dummy0            []byte
 		modelID           id.ID
 		hasGenderedArmor  bool
@@ -64,35 +64,35 @@ type (
 		DefenseScalingStrike float64
 
 		// Minimum strength stat required to equip this armor
-		PrerequisiteStrength int64
+		PrerequisiteStrength int
 
 		// Minimum dexterity stat required to equip this armor
-		PrerequisiteDexterity int64
+		PrerequisiteDexterity int
 
 		// Minimum intelligence stat required to equip this armor
-		PrerequisiteIntelligence int64
+		PrerequisiteIntelligence int
 
 		// Minimum faith stat required to equip this armor
-		PrerequisiteFaith int64
+		PrerequisiteFaith int
 
 		// Weight of this armor
 		Weight float64
 
 		// Durability of this armor
-		Durability int64
+		Durability int
 
 		// Cost to repair this armor
-		RepairCost int64
+		RepairCost int
 
 		// Poise of this armor
 		Poise         float64
-		handsUpWeight int64
-		handsUpFLevel int64
+		handsUpWeight int
+		handsUpFLevel int
 
 		// Modifier to item discovery provided by this armor
-		ItemDiscovery   int64
-		material        int64
+		ItemDiscovery   int
+		material        int
 		brokenSFXID     id.ID
-		brokenSoundType int64
+		brokenSoundType int
 	}
 )

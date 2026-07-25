@@ -17,9 +17,9 @@ type (
 
 		// The name of this vow
 		Name                    string
-		requiredContributionLv1 int64
-		requiredContributionLv2 int64
-		requiredContributionLv3 int64
+		requiredContributionLv1 int
+		requiredContributionLv2 int
+		requiredContributionLv3 int
 		padding0                []byte
 	}
 )

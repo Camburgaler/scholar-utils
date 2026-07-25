@@ -22,13 +22,13 @@ type (
 		Weight float64
 
 		// The durability of this ring
-		Durability int64
+		Durability int
 
 		// The cost to repair this ring
-		RepairCost int64
+		RepairCost int
 
 		// The modifier to item discovery provided by this ring
-		ItemDiscovery int64
+		ItemDiscovery int
 		dummy0        []byte
 	}
 )

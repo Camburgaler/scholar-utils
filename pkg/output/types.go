@@ -25,8 +25,8 @@ type (
 	// Class is a struct for a starting class
 	Class struct {
 		Name       string
-		Level      int64
-		Attributes Attributes[int64]
+		Level      int
+		Attributes Attributes[int]
 	}
 
 	// Equippable is a struct for the common fields of equippable items
@@ -39,10 +39,10 @@ type (
 
 	// Defenses is a struct for the defenses of an armor
 	Defenses struct {
-		Slash    int64
-		Thrust   int64
-		Strike   int64
-		Standard int64
+		Slash    int
+		Thrust   int
+		Strike   int
+		Standard int
 	}
 
 	// Absorptions is a struct for the absorptions of an armor
@@ -81,7 +81,7 @@ type (
 	// Weapon is a struct for a weapon
 	Weapon struct {
 		Name         string
-		Requirements ScalingAttributes[int64]
+		Requirements ScalingAttributes[int]
 		Category     string
 		Paired       bool
 		Infusions    map[string]Infusion
@@ -121,8 +121,8 @@ type (
 
 	// Level is a struct for a level
 	Level struct {
-		Level                  int64
-		SoulsRequiredToLevelUp int64
+		Level                  int
+		SoulsRequiredToLevelUp int
 	}
 
 	// Covenant is a struct for a covenant
@@ -132,15 +132,15 @@ type (
 
 	// // damage is a struct for the damage of a weapon
 	// damage struct {
-	// 	Physical  int64
-	// 	Magic     int64
-	// 	Lightning int64
-	// 	Fire      int64
-	// 	Dark      int64
-	// 	Poison    int64
-	// 	Bleed     int64
-	// 	Petrify   int64
-	// 	Curse     int64
+	// 	Physical  int
+	// 	Magic     int
+	// 	Lightning int
+	// 	Fire      int
+	// 	Dark      int
+	// 	Poison    int
+	// 	Bleed     int
+	// 	Petrify   int
+	// 	Curse     int
 	// }
 
 	// ScholarData is a struct for Scholar-friendly data
@@ -152,7 +152,7 @@ type (
 		Leggings    []Armor
 		Weapons     []Weapon
 		Rings       []Ring
-		Levels      []Level
+		Levels      []int
 		Covenants   []string
 
 		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D object)

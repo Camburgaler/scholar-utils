@@ -23,15 +23,15 @@ type (
 		// The level to which this record corresponds
 		//
 		// Not necessary since it's always the same as the ID
-		soulLevelThreshold int64
+		soulLevelThreshold int
 		dummy              []byte
 
 		// The increase in souls from the threshold
 		//
 		// Not necessary since it's always 0
-		increasedSoulsFromThreshold int64
+		increasedSoulsFromThreshold int
 
 		// The number of souls required to level up
-		NecessarySouls int64
+		NecessarySouls int
 	}
 )

@@ -51,7 +51,7 @@ func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
 			classes = append(classes, output.Class{
 				Name:  strings.TrimPrefix(playerStatusParam.Name, "[Class] "),
 				Level: playerStatusParam.Level,
-				Attributes: output.Attributes[int64]{
+				Attributes: output.Attributes[int]{
 					Vigor:        playerStatusParam.Vigor,
 					Endurance:    playerStatusParam.Endurance,
 					Vitality:     playerStatusParam.Vitality,
@@ -118,6 +118,20 @@ func createCovenants(vowParams []param.Vow) []string {
 	return covenants
 }
 
+func createLevels(playerLevelUpSoulsParams []param.PlayerLevelUpSouls) []int {
+	fmt.Println("\nCreating levels...")
+
+	levels := []int{}
+
+	for _, playerLevelUpSoulsParam := range playerLevelUpSoulsParams {
+		levels = append(levels, playerLevelUpSoulsParam.NecessarySouls)
+	}
+
+	fmt.Printf("Created %d levels\n", len(levels))
+
+	return levels
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	rings := []output.Ring{
@@ -144,7 +158,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 		Leggings:           leggings,
 		Weapons:            []output.Weapon{},
 		Rings:              rings,
-		Levels:             []output.Level{},
+		Levels:             createLevels(paramData.PlayerLevelUpSoulsParam),
 		Covenants:          createCovenants(paramData.VowParam),
 		AttributeToStatMap: createAttributeToStatMap(paramData.LevelUpStatusCalcParam),
 		BaseStats:          output.Stats[float64]{},

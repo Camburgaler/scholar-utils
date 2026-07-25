@@ -17,61 +17,61 @@ type (
 		// The name of this menu stat (Level 1, Level 2, etc.)
 		Name string
 
-		MaxHP int64
+		MaxHP int
 
-		MaxStamina int64
+		MaxStamina int
 
-		Poise int64
+		Poise int
 
-		SpellUsesLevel int64
+		SpellUsesLevel int
 
-		SpellSlots int64
+		SpellSlots int
 
-		CastingTime int64
+		CastingTime int
 
-		AttackPhysicalStrength int64
+		AttackPhysicalStrength int
 
-		AttackPhysicalDexterity int64
+		AttackPhysicalDexterity int
 
-		AttackMagic int64
+		AttackMagic int
 
-		AttackFire int64
+		AttackFire int
 
-		AttackLightning int64
+		AttackLightning int
 
-		AttackDark int64
+		AttackDark int
 
-		AttackPoison int64
+		AttackPoison int
 
-		AttackBleed int64
+		AttackBleed int
 
-		AttackDurability int64
+		AttackDurability int
 
-		Defense int64
+		Defense int
 
-		AbsorptionMagic int64
+		AbsorptionMagic int
 
-		AbsorptionFire int64
+		AbsorptionFire int
 
-		AbsorptionLightning int64
+		AbsorptionLightning int
 
-		AbsorptionDark int64
+		AbsorptionDark int
 
-		AbsorptionPoison int64
+		AbsorptionPoison int
 
-		AbsorptionBleed int64
+		AbsorptionBleed int
 
-		DefenseDurability int64
+		DefenseDurability int
 
-		AbsorptionPetrify int64
+		AbsorptionPetrify int
 
-		AbsorptionCurse int64
+		AbsorptionCurse int
 
-		EvasionInvincibilityFrames int64
+		EvasionInvincibilityFrames int
 
-		ActionSpeed int64
+		ActionSpeed int
 
-		AttackPhysicalHollow int64
+		AttackPhysicalHollow int
 		dummy1               []byte
 
 		MaxEquipLoad float64

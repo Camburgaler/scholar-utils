@@ -16,16 +16,16 @@ type (
 		Name string
 
 		// The minimum (non-reinforced) slash defense provided by the armor using this data
-		MinDefenseSlash int64
+		MinDefenseSlash int
 
 		// The minimum (non-reinforced) thrust defense provided by the armor using this data
-		MinDefenseThrust int64
+		MinDefenseThrust int
 
 		// The minimum (non-reinforced) strike defense provided by the armor using this data
-		MinDefenseStrike int64
+		MinDefenseStrike int
 
 		// The minimum (non-reinforced) standard defense provided by the armor using this data
-		MinDefenseStandard int64
+		MinDefenseStandard int
 
 		// The minimum (non-reinforced) magic absorption provided by the armor using this data
 		MinAbsorptionMagic float64
@@ -52,16 +52,16 @@ type (
 		MinAbsorptionCurse float64
 
 		// The maximum (fully reinforced) slash defense provided by the armor using this data
-		MaxDefenseSlash int64
+		MaxDefenseSlash int
 
 		// The maximum (fully reinforced) thrust defense provided by the armor using this data
-		MaxDefenseThrust int64
+		MaxDefenseThrust int
 
 		// The maximum (fully reinforced) strike defense provided by the armor using this data
-		MaxDefenseStrike int64
+		MaxDefenseStrike int
 
 		// The maximum (fully reinforced) standard defense provided by the armor using this data
-		MaxDefenseStandard int64
+		MaxDefenseStandard int
 
 		// The maximum (fully reinforced) magic absorption provided by the armor using this data
 		MaxAbsorptionMagic float64
@@ -88,7 +88,7 @@ type (
 		MaxAbsorptionCurse float64
 
 		// The maximum reinforcement level for this armor
-		MaxReinforcementLevel int64
+		MaxReinforcementLevel int
 		dummy                 []byte
 
 		// The defense power correction scale to use within the menu. Display only.
@@ -96,7 +96,7 @@ type (
 
 		// ID for the CustomAttrSpecParam that defines how this armor can be infused
 		CustomAttrSpecID id.ID
-		customAttrCost   int64
+		customAttrCost   int
 		reinforceCostID  id.ID
 	}
 )

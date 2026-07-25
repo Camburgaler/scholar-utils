@@ -20,44 +20,44 @@ type (
 
 		// The name of this player status
 		Name       string
-		genderType int64
-		livingType int64
-		bodyType   int64
+		genderType int
+		livingType int
+		bodyType   int
 		pad01      []byte
 
 		// The level of this class
-		Level int64
+		Level int
 
 		// The Vigor stat of this class
-		Vigor      int64
-		totalSouls int64
+		Vigor      int
+		totalSouls int
 
 		// The Endurance stat of this class
-		Endurance int64
+		Endurance int
 
 		// The Attunement stat of this class
-		Attunement int64
+		Attunement int
 
 		// The Vitality stat of this class
-		Vitality int64
+		Vitality int
 
 		// The Strength stat of this class
-		Strength int64
+		Strength int
 
 		// The Dexterity stat of this class
-		Dexterity int64
+		Dexterity int
 
 		// The Intelligence stat of this class
-		Intelligence int64
+		Intelligence int
 
 		// The Faith stat of this class
-		Faith int64
+		Faith int
 
 		// The Adaptability stat of this class
-		Adaptability            int64
-		durability              int64
-		luck                    int64
-		facePresetNo            int64
+		Adaptability            int
+		durability              int
+		luck                    int
+		facePresetNo            int
 		pad00                   []byte
 		beltItem01              id.ID
 		beltItem02              id.ID
@@ -69,16 +69,16 @@ type (
 		beltItem08              id.ID
 		beltItem09              id.ID
 		beltItem10              id.ID
-		beltItem01Num           int64
-		beltItem02Num           int64
-		beltItem03Num           int64
-		beltItem04Num           int64
-		beltItem05Num           int64
-		beltItem06Num           int64
-		beltItem07Num           int64
-		beltItem08Num           int64
-		beltItem09Num           int64
-		beltItem10Num           int64
+		beltItem01Num           int
+		beltItem02Num           int
+		beltItem03Num           int
+		beltItem04Num           int
+		beltItem05Num           int
+		beltItem06Num           int
+		beltItem07Num           int
+		beltItem08Num           int
+		beltItem09Num           int
+		beltItem10Num           int
 		spellSlotItem01         id.ID
 		spellSlotItem02         id.ID
 		spellSlotItem03         id.ID
@@ -104,22 +104,22 @@ type (
 		ringSlot03              id.ID
 		ringSlot04              id.ID
 		rightWeapon01Enhanced   bool
-		rightWeapon01Attribute  int64
+		rightWeapon01Attribute  int
 		dummyR1                 []byte
 		rightWeapon02Enhanced   bool
-		rightWeapon02Attribute  int64
+		rightWeapon02Attribute  int
 		dummyR2                 []byte
 		rightWeapon03Enhanced   bool
-		rightWeapon03Attribute  int64
+		rightWeapon03Attribute  int
 		dummyR3                 []byte
 		leftWeapon01Enhanced    bool
-		leftWeapon01Attribute   int64
+		leftWeapon01Attribute   int
 		dummyL1                 []byte
 		leftWeapon02Enhanced    bool
-		leftWeapon02Attribute   int64
+		leftWeapon02Attribute   int
 		dummyL2                 []byte
 		leftWeapon03Enhanced    bool
-		leftWeapon03Attribute   int64
+		leftWeapon03Attribute   int
 		dummyL3                 []byte
 		headArmorEnhanced       bool
 		bodyArmorEnhanced       bool
@@ -128,17 +128,17 @@ type (
 		bagItemParam01          id.ID
 		bagItemParam02          id.ID
 		bagItemParam03          id.ID
-		estusFlaskLvUsableCount int64
-		estusFlaskHealingPoint  int64
+		estusFlaskLvUsableCount int
+		estusFlaskHealingPoint  int
 		dummy                   []byte
 		arrowSlot01             id.ID
 		arrowSlot02             id.ID
 		boltSlot01              id.ID
 		boltSlot02              id.ID
-		arrowSlot01Num          int64
-		arrowSlot02Num          int64
-		boltSlot01Num           int64
-		boltSlot02Num           int64
+		arrowSlot01Num          int
+		arrowSlot02Num          int
+		boltSlot01Num           int
+		boltSlot02Num           int
 		gestureSlot01           id.ID
 		gestureSlot02           id.ID
 		gestureSlot03           id.ID
@@ -148,8 +148,8 @@ type (
 		gestureSlot07           id.ID
 		gestureSlot08           id.ID
 		vowID                   id.ID
-		vowLevel                int64
-		vowContribution         int64
+		vowLevel                int
+		vowContribution         int
 	}
 )
 

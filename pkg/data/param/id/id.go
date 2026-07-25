@@ -2,8 +2,8 @@
 package id
 
 type (
-	// ID is an alias for int64
-	ID int64
+	// ID is an alias for int
+	ID int
 
 	// Range is a struct for storing a range of IDs
 	//

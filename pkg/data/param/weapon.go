@@ -227,38 +227,38 @@ type (
 		isAttackAutoHoming bool
 
 		// The category of this weapon (see WeaponCategories)
-		WeaponCategory    int64
+		WeaponCategory    int
 		clothCollidableID id.ID
 
 		// The minimum required strength to use this weapon
-		RequiredStrength int64
+		RequiredStrength int
 
 		// The minimum required dexterity to use this weapon
-		RequiredDexterity int64
+		RequiredDexterity int
 
 		// The minimum required intelligence to use this weapon
-		RequiredIntelligence int64
+		RequiredIntelligence int
 
 		// The minimum required faith to use this weapon
-		RequiredFaith int64
+		RequiredFaith int
 
 		// The weight of this weapon
 		Weight              float64
 		adjustBalanceWeight float64
 
 		// The durability of this weapon
-		Durability int64
+		Durability int
 
 		// The cost to repair this weapon
-		RepairCost                   int64
+		RepairCost                   int
 		materialID                   id.ID
-		staminaConsumptionMelee      int64
-		staminaConsumptionRanged     int64
+		staminaConsumptionMelee      int
+		staminaConsumptionRanged     int
 		staminaConsumptionID         id.ID
-		lockonAvailableDistanceScale int64
-		grabMotionRate               int64
-		grabRotationSpeed            int64
-		grabRotationMaxSpeed         int64
+		lockonAvailableDistanceScale int
+		grabMotionRate               int
+		grabRotationSpeed            int
+		grabRotationMaxSpeed         int
 		backstabDamageSmallID        id.ID
 		backstabDamageMediumID       id.ID
 		backstabDamageLargeID        id.ID
@@ -270,7 +270,7 @@ type (
 		parryDamageLargeID           id.ID
 		parryFramesDuration          float64
 		brokenSFXID                  id.ID
-		brokenSoundType              int64
+		brokenSoundType              int
 
 		// Multiplier applied to all damage
 		DamageScale float64
@@ -293,11 +293,11 @@ type (
 		hitboxLength      float64
 		hitbackRadius     float64
 		hitbackLength     float64
-		damageTypeMenu_1  int64
-		damageTypeMenu_2  int64
-		poiseDamageMenu   int64
-		counterDamageMenu int64
-		castingSpeedMenu  int64
+		damageTypeMenu_1  int
+		damageTypeMenu_2  int
+		poiseDamageMenu   int
+		counterDamageMenu int
+		castingSpeedMenu  int
 
 		// Adjusts poise damage against players
 		PoiseDamagePVP float64

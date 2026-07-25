@@ -147,8 +147,8 @@ func parseRow(row []string, dataType reflect.Type) any {
 
 		if v.Field(i).Kind() == reflect.String {
 			v.Field(i).SetString(row[i])
-		} else if v.Field(i).Kind() == reflect.Int64 {
-			num, err := strconv.ParseInt(row[i], 10, 64)
+		} else if v.Field(i).Kind() == reflect.Int {
+			num, err := strconv.Atoi(row[i])
 			if err != nil {
 				panic(err)
 			}

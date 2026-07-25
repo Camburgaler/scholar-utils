@@ -24,61 +24,61 @@ type (
 		Name string
 
 		// The minimum (non-reinforced) physical damage provided by the weapon using this data
-		MinPhysical int64
+		MinPhysical int
 
 		// The minimum (non-reinforced) magic damage provided by the weapon using this data
-		MinMagic int64
+		MinMagic int
 
 		// The minimum (non-reinforced) lightning damage provided by the weapon using this data
-		MinLightning int64
+		MinLightning int
 
 		// The minimum (non-reinforced) fire damage provided by the weapon using this data
-		MinFire int64
+		MinFire int
 
 		// The minimum (non-reinforced) dark damage provided by the weapon using this data
-		MinDark int64
+		MinDark int
 
 		// The minimum (non-reinforced) poison damage provided by the weapon using this data
-		MinPoison int64
+		MinPoison int
 
 		// The minimum (non-reinforced) bleed damage provided by the weapon using this data
-		MinBleed int64
+		MinBleed int
 
 		// The minimum (non-reinforced) petrify damage provided by the weapon using this data
-		MinPetrify int64
+		MinPetrify int
 
 		// The minimum (non-reinforced) curse damage provided by the weapon using this data
-		MinCurse int64
+		MinCurse int
 
 		// The maximum (fully reinforced) physical damage provided by the weapon using this data
-		MaxPhysical int64
+		MaxPhysical int
 
 		// The maximum (fully reinforced) magic damage provided by the weapon using this data
-		MaxMagic int64
+		MaxMagic int
 
 		// The maximum (fully reinforced) lightning damage provided by the weapon using this data
-		MaxLightning int64
+		MaxLightning int
 
 		// The maximum (fully reinforced) fire damage provided by the weapon using this data
-		MaxFire int64
+		MaxFire int
 
 		// The maximum (fully reinforced) dark damage provided by the weapon using this data
-		MaxDark int64
+		MaxDark int
 
 		// The maximum (fully reinforced) poison damage provided by the weapon using this data
-		MaxPoison int64
+		MaxPoison int
 
 		// The maximum (fully reinforced) bleed damage provided by the weapon using this data
-		MaxBleed int64
+		MaxBleed int
 
 		// The maximum (fully reinforced) petrify damage provided by the weapon using this data
-		MaxPetrify int64
+		MaxPetrify int
 
 		// The maximum (fully reinforced) curse damage provided by the weapon using this data
-		MaxCurse int64
+		MaxCurse int
 
 		// The maximum reinforcement level
-		MaxReinforcementLevel int64
+		MaxReinforcementLevel int
 
 		dummy []byte
 
