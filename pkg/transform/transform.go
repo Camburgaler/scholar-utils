@@ -3,6 +3,7 @@ package transform
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"strings"
 
@@ -163,30 +164,79 @@ func createSpells(spellParams []param.Spell) []output.Spell {
 	return spells
 }
 
+func createArmor(armorParams []param.Armor) []output.Armor {
+	fmt.Println("\nCreating armor...")
+
+	armor := []output.Armor{}
+
+	for _, armorParam := range armorParams {
+		armorName := armorParam.Name
+
+		if strings.Contains(armorName, "[Body]") {
+			armorName = "No Armor"
+		}
+
+		// Armor ID of 113601XX is the visible Aurous set
+		if math.Floor(float64(armorParam.ID)/100) == 113601 {
+			armorName = armorParam.Name + " (Visible)"
+		}
+
+		// Armor ID of 113611XX is the invisible Aurous set
+		if math.Floor(float64(armorParam.ID)/100) == 113611 {
+			armorName = armorParam.Name + " (Invisible)"
+		}
+
+		// Armor ID of 12270100 is the Prisoner's Hood (Mask Only)
+		if armorParam.ID == 12270100 {
+			armorName = armorParam.Name + " (Mask Only)"
+		}
+
+		// Armor ID of 12270101 is the Prisoner's Tatters (Master's Attire)
+		if armorParam.ID == 12270101 {
+			armorName = armorParam.Name + " (Master's Attire)"
+		}
+
+		armor = append(armor, output.Armor{
+			Equippable: output.Equippable{
+				Name: armorName,
+			},
+		})
+	}
+
+	fmt.Printf("Created %d armor pieces\n", len(armor))
+
+	return armor
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	rings := []output.Ring{
 		noRing,
 	}
-	helmets := []output.Armor{
-		noHelmet,
-	}
-	chestpieces := []output.Armor{
-		noChestpiece,
-	}
-	gauntlets := []output.Armor{
-		noGauntlets,
-	}
-	leggings := []output.Armor{
-		noLeggings,
+	helmets := []param.Armor{}
+	chestpieces := []param.Armor{}
+	gauntlets := []param.Armor{}
+	leggings := []param.Armor{}
+
+	for _, armorParam := range paramData.ArmorParam {
+		switch armorParam.ArmorCategory {
+		case param.ArmorCategoryHead:
+			helmets = append(helmets, armorParam)
+		case param.ArmorCategoryChest:
+			chestpieces = append(chestpieces, armorParam)
+		case param.ArmorCategoryArms:
+			gauntlets = append(gauntlets, armorParam)
+		case param.ArmorCategoryLegs:
+			leggings = append(leggings, armorParam)
+		}
 	}
 
 	return output.ScholarData{
 		Classes:            createClasses(paramData.PlayerStatusParam),
-		Chestpieces:        chestpieces,
-		Gauntlets:          gauntlets,
-		Helmets:            helmets,
-		Leggings:           leggings,
+		Chestpieces:        createArmor(chestpieces),
+		Gauntlets:          createArmor(gauntlets),
+		Helmets:            createArmor(helmets),
+		Leggings:           createArmor(leggings),
 		Weapons:            []output.Weapon{},
 		Rings:              rings,
 		Levels:             createLevels(paramData.PlayerLevelUpSoulsParam),

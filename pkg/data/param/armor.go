@@ -2,6 +2,8 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
+type ArmorCategory int
+
 var (
 	// ValidArmorIDs is a list of valid ArmorParam IDs
 	ValidArmorIDs = []id.Range{
@@ -13,14 +15,13 @@ var (
 		{Start: 13120100, End: 17550103},
 		{Start: 17680100, End: 17950103},
 	}
+)
 
-	// Categories of armor
-	ArmorCategories = map[int]string{
-		1: "Head",
-		2: "Chest",
-		3: "Arms",
-		4: "Legs",
-	}
+const (
+	ArmorCategoryHead ArmorCategory = iota + 1
+	ArmorCategoryChest
+	ArmorCategoryArms
+	ArmorCategoryLegs
 )
 
 type (
@@ -39,7 +40,8 @@ type (
 		armorType  int
 
 		// The category of this armor (see ArmorCategories)
-		ArmorCategory     int
+		ArmorCategory ArmorCategory
+
 		dummy0            []byte
 		modelID           id.ID
 		hasGenderedArmor  bool

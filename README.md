@@ -8,7 +8,7 @@ A Dark Souls II: SotFS build optimizer
 
 1. Install Dark Souls II: Scholar of the First Sin
 2. Install [Smithbox](https://github.com/vawser/Smithbox)
-3. Open Smithbox and create a new DS2:SotFS project _with param headers_
+3. Open Smithbox and create a new DS2:SotFS project
 4. Go to the param editor and export as CSV the following params:
     - ArmorParam
     - ArmorReinforceParam
