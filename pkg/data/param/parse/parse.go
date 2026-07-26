@@ -20,11 +20,11 @@ type (
 		ArmorReinforceParam     []param.ArmorReinforce
 		CustomAttrSpecParam     []param.CustomAttrSpec
 		LevelUpStatusCalcParam  []param.LevelUpStatusCalc
-		MenuStatsParam          []param.MenuStats
 		PlayerLevelUpSoulsParam []param.PlayerLevelUpSouls
 		PlayerStatusParam       []param.PlayerStatus
 		ItemParam               []param.Item
 		RingParam               []param.Ring
+		SpellParam              []param.Spell
 		VowParam                []param.Vow
 		WeaponParam             []param.Weapon
 		WeaponReinforceParam    []param.WeaponReinforce
@@ -49,10 +49,10 @@ const (
 	ParamFileCustomAttrSpec
 	ParamFileItem
 	ParamFileLevelUpStatusCalc
-	ParamFileMenuStats
 	ParamFilePlayerLevelUpSouls
 	ParamFilePlayerStatus
 	ParamFileRing
+	ParamFileSpell
 	ParamFileVow
 	ParamFileWeapon
 	ParamFileWeaponReinforce
@@ -87,11 +87,6 @@ var (
 			DataType: reflect.TypeFor[param.LevelUpStatusCalc](),
 			ValidIDs: param.ValidLevelUpStatusCalcIDs,
 		},
-		ParamFileMenuStats: {
-			Name:     "MenuStatsParam",
-			DataType: reflect.TypeFor[param.MenuStats](),
-			ValidIDs: param.ValidMenuStatsIDs,
-		},
 		ParamFilePlayerLevelUpSouls: {
 			Name:     "PlayerLevelUpSoulsParam",
 			DataType: reflect.TypeFor[param.PlayerLevelUpSouls](),
@@ -106,6 +101,11 @@ var (
 			Name:     "RingParam",
 			DataType: reflect.TypeFor[param.Ring](),
 			ValidIDs: param.ValidRingIDs,
+		},
+		ParamFileSpell: {
+			Name:     "SpellParam",
+			DataType: reflect.TypeFor[param.Spell](),
+			ValidIDs: param.ValidSpellIDs,
 		},
 		ParamFileVow: {
 			Name:     "VowParam",

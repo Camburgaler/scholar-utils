@@ -130,6 +130,17 @@ type (
 		Name string
 	}
 
+	Spell struct {
+		Name                 string
+		RequiredIntelligence int
+		RequiredFaith        int
+		SpellSlotCost        int
+
+		// At certain Attunement breakpoints, spells gain more usages
+		// The breakpoints are 15, 26, 32, 38, 43, 49, 58, 79, and 94
+		UsageCountCurve []int
+	}
+
 	// // damage is a struct for the damage of a weapon
 	// damage struct {
 	// 	Physical  int
@@ -154,6 +165,7 @@ type (
 		Rings       []Ring
 		Levels      []int
 		Covenants   []string
+		Spells      []Spell
 
 		// AttributeToStatMap is a map of Attributes to Stats to booleans (i.e. a 2D object)
 		//

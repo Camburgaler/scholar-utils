@@ -132,6 +132,37 @@ func createLevels(playerLevelUpSoulsParams []param.PlayerLevelUpSouls) []int {
 	return levels
 }
 
+func createSpells(spellParams []param.Spell) []output.Spell {
+	fmt.Println("\nCreating spells...")
+
+	spells := []output.Spell{}
+
+	for _, spellParam := range spellParams {
+		spells = append(spells, output.Spell{
+			Name:                 spellParam.Name,
+			RequiredIntelligence: spellParam.RequiredIntelligence,
+			RequiredFaith:        spellParam.RequiredFaith,
+			SpellSlotCost:        spellParam.SpellSlotCost,
+			UsageCountCurve: []int{
+				spellParam.UsageCountLV1,
+				spellParam.UsageCountLV2,
+				spellParam.UsageCountLV3,
+				spellParam.UsageCountLV4,
+				spellParam.UsageCountLV5,
+				spellParam.UsageCountLV6,
+				spellParam.UsageCountLV7,
+				spellParam.UsageCountLV8,
+				spellParam.UsageCountLV9,
+				spellParam.UsageCountLV10,
+			},
+		})
+	}
+
+	fmt.Printf("Created %d spells\n", len(spells))
+
+	return spells
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	rings := []output.Ring{
@@ -160,6 +191,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 		Rings:              rings,
 		Levels:             createLevels(paramData.PlayerLevelUpSoulsParam),
 		Covenants:          createCovenants(paramData.VowParam),
+		Spells:             createSpells(paramData.SpellParam),
 		AttributeToStatMap: createAttributeToStatMap(paramData.LevelUpStatusCalcParam),
 		BaseStats:          output.Stats[float64]{},
 		StatCalculation:    output.StatCalculationDetails{},
