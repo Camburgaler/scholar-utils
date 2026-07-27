@@ -1,5 +1,19 @@
 package output
 
+type ModifierTargetType string
+type ModifierMethod string
+
+const (
+	ModifierTargetTypeAttribute ModifierTargetType = "attribute"
+	ModifierTargetTypeStat      ModifierTargetType = "stat"
+	ModifierTargetTypeSpecial   ModifierTargetType = "special"
+)
+
+const (
+	ModifierMethodAdditive ModifierMethod = "additive"
+	ModifierMethodMultiply ModifierMethod = "multiplicative"
+)
+
 type (
 	// ScalingAttributes is a struct for the attributes that affect the damage of a weapon
 	ScalingAttributes[T any] struct {
@@ -29,12 +43,19 @@ type (
 		Attributes Attributes[int]
 	}
 
+	Modifier struct {
+		Description string
+		TargetType  ModifierTargetType
+		Target      string
+		Method      ModifierMethod
+		Value       float64
+	}
+
 	// Equippable is a struct for the common fields of equippable items
 	Equippable struct {
-		Name                    string //pk
-		AdditiveModifiers       map[string]float64
-		MultiplicativeModifiers map[string]float64
-		Weight                  float64
+		Name      string //pk
+		Modifiers []Modifier
+		Weight    float64
 	}
 
 	// Defenses is a struct for the defenses of an armor

@@ -5,10 +5,9 @@ import "github.com/Camburgaler/scholar-utils/pkg/output"
 var (
 	noRing = output.Ring{
 		Equippable: output.Equippable{
-			Name:                    "No Ring",
-			AdditiveModifiers:       map[string]float64{},
-			MultiplicativeModifiers: map[string]float64{},
-			Weight:                  0,
+			Name:      "No Ring",
+			Modifiers: []output.Modifier{},
+			Weight:    0,
 		},
 	}
 	// fists = output.Weapon{
