@@ -39,30 +39,31 @@ type (
 
 	// Defenses is a struct for the defenses of an armor
 	Defenses struct {
-		Slash    int
-		Thrust   int
-		Strike   int
-		Standard int
-	}
-
-	// Absorptions is a struct for the absorptions of an armor
-	Absorptions struct {
+		Slash     int
+		Thrust    int
+		Strike    int
+		Standard  int
 		Magic     float64
 		Lightning float64
 		Fire      float64
 		Dark      float64
-		Poison    float64
-		Bleed     float64
-		Petrify   float64
-		Curse     float64
+	}
+
+	// Resistances is a struct for the absorptions of an armor
+	Resistances struct {
+		Poison  float64
+		Bleed   float64
+		Petrify float64
+		Curse   float64
 	}
 
 	// Armor is a struct for equippable armor
 	Armor struct {
 		Equippable
-		Defenses    Defenses
-		Absorptions Absorptions
-		Poise       float64
+		Defenses     Defenses
+		Resistances  Resistances
+		Poise        float64
+		Requirements ScalingAttributes[int]
 	}
 
 	// SlopeIntercept is a struct for the slope and intercept of a line

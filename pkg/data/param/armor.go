@@ -53,8 +53,8 @@ type (
 		// Reference to reinforcement data in ArmorReinforceParam
 		ArmorReinforceID id.ID
 
-		// Coefficient for defense scaling
-		DefenseScalingStatusEffect float64
+		// The influence of the character's Physical DEF stat on the effectiveness of armor worn.
+		DefenseStatEffectScaling float64
 
 		// Coefficient for slash defense scaling
 		DefenseScalingSlash float64
