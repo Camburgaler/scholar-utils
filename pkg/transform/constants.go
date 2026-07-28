@@ -9,6 +9,7 @@ var (
 			Modifiers:  []output.Modifier{},
 			Weight:     0,
 			Durability: 0,
+			RepairCost: 0,
 		},
 	}
 	// fists = output.Weapon{

@@ -57,6 +57,7 @@ type (
 		Modifiers  []Modifier
 		Weight     float64
 		Durability int
+		RepairCost int
 	}
 
 	// Defenses is a struct for the defenses of an armor

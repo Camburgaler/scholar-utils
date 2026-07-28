@@ -202,6 +202,7 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 				Modifiers:  []output.Modifier{},
 				Weight:     armorParam.Weight,
 				Durability: armorParam.Durability,
+				RepairCost: armorParam.RepairCost,
 			},
 			Defenses:    output.Defenses{},
 			Resistances: output.Resistances{},
