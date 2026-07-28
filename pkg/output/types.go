@@ -83,10 +83,11 @@ type (
 	// Armor is a struct for equippable armor
 	Armor struct {
 		Equippable
-		Defenses     Defenses
-		Resistances  Resistances
-		Poise        float64
-		Requirements ScalingAttributes[int]
+		Defenses      Defenses
+		Resistances   Resistances
+		Poise         float64
+		Requirements  ScalingAttributes[int]
+		ItemDiscovery int
 	}
 
 	// SlopeIntercept is a struct for the slope and intercept of a line
@@ -114,6 +115,7 @@ type (
 	// Ring is a struct for equippable rings
 	Ring struct {
 		Equippable
+		ItemDiscovery int
 	}
 
 	Stats[T any] struct {

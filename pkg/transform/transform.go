@@ -213,6 +213,7 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 				Intelligence: armorParam.PrerequisiteIntelligence,
 				Faith:        armorParam.PrerequisiteFaith,
 			},
+			ItemDiscovery: armorParam.ItemDiscovery,
 		})
 	}
 

@@ -11,6 +11,7 @@ var (
 			Durability: 0,
 			RepairCost: 0,
 		},
+		ItemDiscovery: 0,
 	}
 	// fists = output.Weapon{
 	// 	Name: "Fists",
