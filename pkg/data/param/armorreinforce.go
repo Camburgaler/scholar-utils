@@ -95,7 +95,8 @@ type (
 		MenuResistanceScale float64
 
 		// ID for the CustomAttrSpecParam that defines how this armor can be infused
-		CustomAttrSpecID id.ID
+		// Not needed since armor cannot be infused
+		customAttrSpecID id.ID
 		customAttrCost   int
 		reinforceCostID  id.ID
 	}

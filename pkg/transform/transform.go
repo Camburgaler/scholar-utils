@@ -198,9 +198,10 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 
 		armor = append(armor, output.Armor{
 			Equippable: output.Equippable{
-				Name:      armorName,
-				Modifiers: []output.Modifier{},
-				Weight:    armorParam.Weight,
+				Name:       armorName,
+				Modifiers:  []output.Modifier{},
+				Weight:     armorParam.Weight,
+				Durability: armorParam.Durability,
 			},
 			Defenses:    output.Defenses{},
 			Resistances: output.Resistances{},

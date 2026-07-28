@@ -53,9 +53,10 @@ type (
 
 	// Equippable is a struct for the common fields of equippable items
 	Equippable struct {
-		Name      string //pk
-		Modifiers []Modifier
-		Weight    float64
+		Name       string //pk
+		Modifiers  []Modifier
+		Weight     float64
+		Durability int
 	}
 
 	// Defenses is a struct for the defenses of an armor
