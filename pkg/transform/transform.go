@@ -40,6 +40,8 @@ var (
 		7: "Intelligence",
 		8: "Faith",
 	}
+
+	armorReinforceParams = []param.ArmorReinforce{}
 )
 
 func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
@@ -170,35 +172,48 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 	armor := []output.Armor{}
 
 	for _, armorParam := range armorParams {
-		armorName := armorParam.Name
+		name := armorParam.Name
 
-		if strings.Contains(armorName, "[Body]") {
-			armorName = "No Armor"
+		if strings.Contains(name, "[Body]") {
+			name = "No Armor"
 		}
 
 		// Armor ID of 113601XX is the visible Aurous set
 		if math.Floor(float64(armorParam.ID)/100) == 113601 {
-			armorName = armorParam.Name + " (Visible)"
+			name = armorParam.Name + " (Visible)"
 		}
 
 		// Armor ID of 113611XX is the invisible Aurous set
 		if math.Floor(float64(armorParam.ID)/100) == 113611 {
-			armorName = armorParam.Name + " (Invisible)"
+			name = armorParam.Name + " (Invisible)"
 		}
 
 		// Armor ID of 12270100 is the Prisoner's Hood (Mask Only)
 		if armorParam.ID == 12270100 {
-			armorName = armorParam.Name + " (Mask Only)"
+			name = armorParam.Name + " (Mask Only)"
 		}
 
 		// Armor ID of 12270101 is the Prisoner's Tatters (Master's Attire)
 		if armorParam.ID == 12270101 {
-			armorName = armorParam.Name + " (Master's Attire)"
+			name = armorParam.Name + " (Master's Attire)"
+		}
+
+		armorReinforceParam := param.ArmorReinforce{}
+		for _, param := range armorReinforceParams {
+			if param.ID == armorParam.ArmorReinforceID {
+				armorReinforceParam = param
+				break
+			}
+		}
+
+		maxReinforcementLevel := armorReinforceParam.MaxReinforcementLevel
+		if name == "No Armor" {
+			maxReinforcementLevel = 0
 		}
 
 		armor = append(armor, output.Armor{
 			Equippable: output.Equippable{
-				Name:       armorName,
+				Name:       name,
 				Modifiers:  []output.Modifier{},
 				Weight:     armorParam.Weight,
 				Durability: armorParam.Durability,
@@ -213,7 +228,8 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 				Intelligence: armorParam.PrerequisiteIntelligence,
 				Faith:        armorParam.PrerequisiteFaith,
 			},
-			ItemDiscovery: armorParam.ItemDiscovery,
+			ItemDiscovery:         armorParam.ItemDiscovery,
+			MaxReinforcementLevel: maxReinforcementLevel,
 		})
 	}
 
@@ -244,6 +260,8 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 			leggings = append(leggings, armorParam)
 		}
 	}
+
+	armorReinforceParams = paramData.ArmorReinforceParam
 
 	return output.ScholarData{
 		Classes:            createClasses(paramData.PlayerStatusParam),
