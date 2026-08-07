@@ -10,8 +10,8 @@ const (
 )
 
 const (
-	ModifierMethodAdditive ModifierMethod = "additive"
-	ModifierMethodMultiply ModifierMethod = "multiplicative"
+	ModifierMethodAdditive       ModifierMethod = "additive"
+	ModifierMethodMultiplicative ModifierMethod = "multiplicative"
 )
 
 type (

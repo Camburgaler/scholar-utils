@@ -1,8 +1,17 @@
 package parse
 
+type (
+	ModifyStatMultiplicatively int
+	ModifyStatAdditively       int
+	BowType                    int
+	BuffType                   int
+	AttributeType              int
+	SpecialScalingType         int
+)
+
 // ModifyStatMultiplicatively
 const (
-	ModifyStatMultiplicativelyPoisonBuildup int = iota
+	ModifyStatMultiplicativelyPoisonBuildup ModifyStatMultiplicatively = iota
 	ModifyStatMultiplicativelyBleedBuildup
 	ModifyStatMultiplicativelyUnknown2
 	ModifyStatMultiplicativelyCurseBuildup
@@ -69,7 +78,7 @@ const (
 
 // ModifyStatAdditively
 const (
-	ModifyStatAdditivelyPoise int = iota
+	ModifyStatAdditivelyPoise ModifyStatAdditively = iota
 	ModifyStatAdditivelyWeight
 	ModifyStatAdditivelyAttackPoiseDamage
 	ModifyStatAdditivelyFallDamageProtectionModifier
@@ -96,14 +105,14 @@ const (
 
 // BowType
 const (
-	BowTypeRegularBows int = iota
+	BowTypeRegularBows BowType = iota
 	BowTypeGreatbows
 	BowTypeCrossbows
 )
 
 // BuffType
 const (
-	BuffTypeAllPhysical int = iota
+	BuffTypeAllPhysical BuffType = iota
 	BuffTypeMagic
 	BuffTypeLightning
 	BuffTypeFire
@@ -117,7 +126,7 @@ const (
 
 // AttributeType
 const (
-	AttributeTypeVigor int = iota + 1
+	AttributeTypeVigor AttributeType = iota + 1
 	AttributeTypeEndurance
 	AttributeTypeVitality
 	AttributeTypeAttunement
@@ -130,7 +139,7 @@ const (
 
 // SpecialScalingType
 const (
-	SpecialScalingTypeNone int = iota
+	SpecialScalingTypeNone SpecialScalingType = iota
 	SpecialScalingTypeHollowing
 	SpecialScalingTypeSin
 )

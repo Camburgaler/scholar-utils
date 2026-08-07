@@ -42,6 +42,9 @@ var (
 	}
 
 	armorReinforceParams = []param.ArmorReinforce{}
+	itemParams           = []param.Item{}
+
+	armorSpEffects = emevdParser.Events{}
 )
 
 func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
@@ -166,9 +169,7 @@ func createSpells(spellParams []param.Spell) []output.Spell {
 	return spells
 }
 
-func createArmor(armorParams []param.Armor) []output.Armor {
-	fmt.Println("\nCreating armor...")
-
+func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
 	armor := []output.Armor{}
 
 	for _, armorParam := range armorParams {
@@ -211,10 +212,24 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 			maxReinforcementLevel = 0
 		}
 
+		itemParam := param.Item{}
+		for _, param := range itemParams {
+			if param.ArmorParamID == armorParam.ID {
+				itemParam = param
+				break
+			}
+		}
+
+		spEffects := armorSpEffects[itemParam.SpecialEffectID]
+		modifiers, err := createArmorModifiers(spEffects)
+		if err != nil {
+			return nil, err
+		}
+
 		armor = append(armor, output.Armor{
 			Equippable: output.Equippable{
 				Name:       name,
-				Modifiers:  []output.Modifier{},
+				Modifiers:  modifiers,
 				Weight:     armorParam.Weight,
 				Durability: armorParam.Durability,
 				RepairCost: armorParam.RepairCost,
@@ -233,9 +248,7 @@ func createArmor(armorParams []param.Armor) []output.Armor {
 		})
 	}
 
-	fmt.Printf("Created %d armor pieces\n", len(armor))
-
-	return armor
+	return armor, nil
 }
 
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
@@ -243,32 +256,63 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	rings := []output.Ring{
 		noRing,
 	}
-	helmets := []param.Armor{}
-	chestpieces := []param.Armor{}
-	gauntlets := []param.Armor{}
-	leggings := []param.Armor{}
+	helmetParams := []param.Armor{}
+	chestpieceParams := []param.Armor{}
+	gauntletParams := []param.Armor{}
+	leggingParams := []param.Armor{}
 
 	for _, armorParam := range paramData.ArmorParam {
 		switch armorParam.ArmorCategory {
 		case param.ArmorCategoryHead:
-			helmets = append(helmets, armorParam)
+			helmetParams = append(helmetParams, armorParam)
 		case param.ArmorCategoryChest:
-			chestpieces = append(chestpieces, armorParam)
+			chestpieceParams = append(chestpieceParams, armorParam)
 		case param.ArmorCategoryArms:
-			gauntlets = append(gauntlets, armorParam)
+			gauntletParams = append(gauntletParams, armorParam)
 		case param.ArmorCategoryLegs:
-			leggings = append(leggings, armorParam)
+			leggingParams = append(leggingParams, armorParam)
 		}
 	}
 
 	armorReinforceParams = paramData.ArmorReinforceParam
+	itemParams = paramData.ItemParam
+
+	armorSpEffects = emevdData.SpEffectArmor
+
+	fmt.Println("\nCreating helmets...")
+	helmets, err := createArmor(helmetParams)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
+	fmt.Printf("Created %d helmets\n", len(helmets))
+
+	fmt.Println("\nCreating chestpieces...")
+	chestpieces, err := createArmor(chestpieceParams)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
+	fmt.Printf("Created %d chestpieces\n", len(chestpieces))
+
+	fmt.Println("\nCreating gauntlets...")
+	gauntlets, err := createArmor(gauntletParams)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
+	fmt.Printf("Created %d gauntlets\n", len(gauntlets))
+
+	fmt.Println("\nCreating leggings...")
+	leggings, err := createArmor(leggingParams)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
+	fmt.Printf("Created %d leggings\n", len(leggings))
 
 	return output.ScholarData{
 		Classes:            createClasses(paramData.PlayerStatusParam),
-		Chestpieces:        createArmor(chestpieces),
-		Gauntlets:          createArmor(gauntlets),
-		Helmets:            createArmor(helmets),
-		Leggings:           createArmor(leggings),
+		Chestpieces:        chestpieces,
+		Gauntlets:          gauntlets,
+		Helmets:            helmets,
+		Leggings:           leggings,
 		Weapons:            []output.Weapon{},
 		Rings:              rings,
 		Levels:             createLevels(paramData.PlayerLevelUpSoulsParam),
