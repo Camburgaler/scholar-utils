@@ -62,33 +62,37 @@ type (
 
 	// Defenses is a struct for the defenses of an armor
 	Defenses struct {
-		Slash     int
-		Thrust    int
-		Strike    int
-		Standard  int
-		Magic     float64
-		Lightning float64
-		Fire      float64
-		Dark      float64
+		Slash     SlopeIntercept
+		Thrust    SlopeIntercept
+		Strike    SlopeIntercept
+		Standard  SlopeIntercept
+		Magic     SlopeIntercept
+		Lightning SlopeIntercept
+		Fire      SlopeIntercept
+		Dark      SlopeIntercept
 	}
 
 	// Resistances is a struct for the absorptions of an armor
 	Resistances struct {
-		Poison  float64
-		Bleed   float64
-		Petrify float64
-		Curse   float64
+		Poison  SlopeIntercept
+		Bleed   SlopeIntercept
+		Petrify SlopeIntercept
+		Curse   SlopeIntercept
 	}
 
 	// Armor is a struct for equippable armor
 	Armor struct {
 		Equippable
-		Defenses              Defenses
-		Resistances           Resistances
-		Poise                 float64
-		Requirements          ScalingAttributes[int]
-		ItemDiscovery         int
-		MaxReinforcementLevel int
+		Defenses               Defenses
+		DefenseScalingPhysical float64
+		DefenseScalingSlash    float64
+		DefenseScalingThrust   float64
+		DefenseScalingStrike   float64
+		Resistances            Resistances
+		Poise                  float64
+		Requirements           ScalingAttributes[int]
+		ItemDiscovery          int
+		MaxReinforcementLevel  int
 	}
 
 	// SlopeIntercept is a struct for the slope and intercept of a line

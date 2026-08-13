@@ -12,7 +12,7 @@ var effectiveStatements = map[string]bool{
 	"CreateBullet":                                false,
 	"SpawnSFX":                                    false,
 	"ModifyDamageFlatToBaseAr":                    true,
-	"IncreaseDamageMultiplicatively":              true,
+	"IncreaseDamageMultiplicatively":              false,
 	"ApplySpEffectAndEndEventIfEventFlag":         false,
 	"ModifySpellEffectLength":                     false,
 	"RestoreSpellUsage":                           false,

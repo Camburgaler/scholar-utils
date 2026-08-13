@@ -163,9 +163,6 @@ func createArmorModifiers(spEffects []emevdParser.Statement) ([]output.Modifier,
 
 			value = 60.0
 			description = fmt.Sprintf("Increase %s by %d when the weapon has innate AND infused %s", statName, int(math.Abs(value)), statName)
-		case "IncreaseDamageMultiplicatively":
-			// Ignore
-			continue
 		default:
 			return nil, fmt.Errorf("unhandled SpEffect name for Statement: %+v", spEffect)
 		}

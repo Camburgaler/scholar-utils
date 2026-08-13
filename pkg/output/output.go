@@ -50,26 +50,26 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 
 	// TODO: Remove before release
 	paramFileValueMap := map[paramParser.ParamFile]any{
-		paramParser.ParamFileArmor:          paramData.ArmorParam,
-		paramParser.ParamFileArmorReinforce: paramData.ArmorReinforceParam,
-		paramParser.ParamFileCustomAttrSpec: paramData.CustomAttrSpecParam,
-		paramParser.ParamFileItem:           paramData.ItemParam,
-		// paramParser.ParamFilePlayerLevelUpSouls: paramData.PlayerLevelUpSoulsParam,
-		paramParser.ParamFileRing: paramData.RingParam,
-		// paramParser.ParamFileVow:                paramData.VowParam,
-		paramParser.ParamFileWeapon:            paramData.WeaponParam,
-		paramParser.ParamFileWeaponReinforce:   paramData.WeaponReinforceParam,
-		paramParser.ParamFileWeaponStatsAffect: paramData.WeaponStatsAffectParam,
+		paramParser.ParamFileArmor:              paramData.ArmorParam,
+		paramParser.ParamFileArmorReinforce:     paramData.ArmorReinforceParam,
+		paramParser.ParamFileCustomAttrSpec:     paramData.CustomAttrSpecParam,
+		paramParser.ParamFileItem:               paramData.ItemParam,
+		paramParser.ParamFilePlayerLevelUpSouls: paramData.PlayerLevelUpSoulsParam,
+		paramParser.ParamFilePlayerStatus:       paramData.PlayerStatusParam,
+		paramParser.ParamFileRing:               paramData.RingParam,
+		paramParser.ParamFileSpell:              paramData.SpellParam,
+		paramParser.ParamFileVow:                paramData.VowParam,
+		paramParser.ParamFileWeapon:             paramData.WeaponParam,
+		paramParser.ParamFileWeaponReinforce:    paramData.WeaponReinforceParam,
+		paramParser.ParamFileWeaponStatsAffect:  paramData.WeaponStatsAffectParam,
 	}
 
-	// TODO: Remove before release
 	emevdFileMap := map[string]emevdParser.Events{
 		emevdParser.EMEVDFileArmor:  emevdData.SpEffectArmor,
 		emevdParser.EMEVDFileRing:   emevdData.SpEffectRing,
 		emevdParser.EMEVDFileWeapon: emevdData.SpEffectWeapon,
 	}
 
-	// TODO: Remove before release
 	for i := range paramParser.ParamFileCount {
 		metadata := paramParser.ParamFiles[i]
 
@@ -80,7 +80,6 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 		}
 	}
 
-	// TODO: Remove before release
 	for _, emevdFileName := range emevdParser.EMEVDFiles {
 		outputFileName := fmt.Sprintf("outputs/_%s.json", emevdFileName)
 		err := writeData(outputFileName, emevdFileMap[emevdFileName])

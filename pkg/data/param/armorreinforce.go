@@ -92,7 +92,8 @@ type (
 		dummy                 []byte
 
 		// The defense power correction scale to use within the menu. Display only.
-		MenuResistanceScale float64
+		// Not needed since the value is always 10
+		menuResistanceScale float64
 
 		// ID for the CustomAttrSpecParam that defines how this armor can be infused
 		// Not needed since armor cannot be infused
