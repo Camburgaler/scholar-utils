@@ -45,6 +45,17 @@ var (
 	itemParams           = []param.Item{}
 
 	armorSpEffects = emevdParser.Events{}
+
+	noRing = output.Ring{
+		Equippable: output.Equippable{
+			Name:       "No Ring",
+			Modifiers:  []output.Modifier{},
+			Weight:     0,
+			Durability: 0,
+			RepairCost: 0,
+		},
+		ItemDiscovery: 0,
+	}
 )
 
 func createClasses(playerStatusParams []param.PlayerStatus) []output.Class {
@@ -269,11 +280,30 @@ func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
 	return armor, nil
 }
 
+func createRings(ringParams []param.Ring) []output.Ring {
+	fmt.Println("\nCreating rings...")
+	rings := []output.Ring{noRing}
+
+	for _, ringParam := range ringParams {
+		rings = append(rings, output.Ring{
+			Equippable: output.Equippable{
+				Name:       ringParam.Name,
+				Modifiers:  []output.Modifier{},
+				Weight:     ringParam.Weight,
+				Durability: ringParam.Durability,
+				RepairCost: ringParam.RepairCost,
+			},
+			ItemDiscovery: ringParam.ItemDiscovery,
+		})
+	}
+
+	fmt.Printf("Created %d rings\n", len(rings))
+	return rings
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	rings := []output.Ring{
-		noRing,
-	}
+	rings := createRings(paramData.RingParam)
 	helmetParams := []param.Armor{}
 	chestpieceParams := []param.Armor{}
 	gauntletParams := []param.Armor{}
