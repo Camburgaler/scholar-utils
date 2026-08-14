@@ -4,7 +4,8 @@ import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
 // ValidRingIDs is a list of valid RingParam IDs
 var ValidRingIDs = []id.Range{
-	{Start: 40010000, End: 42000000},
+	{Start: 40010000, End: 40550000},
+	{Start: 40610000, End: 42000000},
 }
 
 type (
