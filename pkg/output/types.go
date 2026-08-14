@@ -12,6 +12,7 @@ const (
 const (
 	ModifierMethodAdditive       ModifierMethod = "additive"
 	ModifierMethodMultiplicative ModifierMethod = "multiplicative"
+	ModifierMethodToggle         ModifierMethod = "toggle"
 )
 
 type (
