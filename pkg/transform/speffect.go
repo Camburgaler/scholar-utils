@@ -50,6 +50,7 @@ func toTitleCase(pascal string) string {
 	return title.String()
 }
 
+// extractStatName returns the stat name from a special effect arg by parsing it into Title Case
 func extractStatName(spEffectArg string) string {
 	if !strings.Contains(spEffectArg, ".") {
 		return ""
@@ -163,6 +164,95 @@ func createArmorModifiers(spEffects []emevdParser.Statement) ([]output.Modifier,
 
 			value = 60.0
 			description = fmt.Sprintf("Increase %s by %d when the weapon has innate AND infused %s", statName, int(math.Abs(value)), statName)
+		case "SetStateInfo":
+			// SetStateInfo will always be special cases (mostly flag flips)
+			method = output.ModifierMethodToggle
+
+			switch spEffect.Args[0] {
+			case "StateInfoType.DisableBackstab":
+				// StateInfoType.DisableBackstab is a flag for whether backstab is enabled
+				description = "Cannot be backstabbed"
+				statName = "Backstab"
+			case "StateInfoType.DisableFootstepSound":
+				// StateInfoType.DisableFootstepSound is a flag for whether footstep sound is enabled
+				description = "Disable Footstep Sound"
+				statName = "Footstep Sound"
+			case "StateInfoType.Unknown0":
+				// StateInfoType.Unknown0 is a flag for whether headshot stagger is enabled
+				description = "Disable Headshot Stagger"
+				statName = "Headshot Stagger"
+			case "StateInfoType.Unknown4":
+				// StateInfoType.Unknown4 enables a 5% crit rate wherein crits deal 50% more damage
+				description = "Enable 5% chance for crits, which deal 50% more damage"
+				statName = "Critical Damage"
+			case "StateInfoType.Unknown29":
+				// StateInfoType.Unknown29 is a flag for whether headshot damage is enabled
+				description = "Disable Headshot Damage"
+				statName = "Headshot Damage"
+			default:
+				return nil, fmt.Errorf("unhandled flag for Statement: %+v", spEffect)
+			}
+		case "ModifySpellEffectLength":
+			// ModifySpellEffectLength has the buff type at index 0
+			value, err := strconv.ParseFloat(spEffect.Args[0], 64)
+			if err != nil {
+				return nil, err
+			}
+			verb := "Increase"
+			if value < 0 {
+				verb = "Decrease"
+			}
+			statName = strings.Replace(toTitleCase(spEffect.Name), "Modify", verb, 1)
+
+			// Convert to percent
+			value -= 1.0
+			value *= 100
+
+			method = output.ModifierMethodMultiplicative
+			description = fmt.Sprintf("%s by %.2f%%", statName, math.Abs(value))
+
+			// Convert back to decimal
+			value /= 100
+		case "ModifyBulletParam":
+			// ModifyBulletParam extends the range of bows
+			// Arg0 seems to always be 0
+			// Arg1 seems to always refer to regular bows
+			// Arg2 is always 0, 1, or 2 (not sure what it does)
+			// Arg3 is the modifier value
+			// Arg4 is always 1
+			// Arg5 is also the modifier value
+			// Arg6 is also the modifier value
+			// Arg7 is always 1
+
+			if spEffect.Args[2] != "0" {
+				continue
+			}
+
+			method = output.ModifierMethodAdditive
+			value, err := strconv.ParseFloat(spEffect.Args[3], 64)
+			if err != nil {
+				return nil, err
+			}
+
+			// Convert to percent
+			value -= 1.0
+			value *= 100
+
+			statName = "Bow Range"
+			description = fmt.Sprintf("Increase %s by %.1f%%", statName, value)
+		case "ModifyProperty":
+			// ModifyProperty is another special case with flag flipping and such
+			// Arg0 is the flag
+
+			switch spEffect.Args[0] {
+			case "PlayerPropertyType.Unknown21":
+				// PlayerPropertyType.Unknown21 is a flag for the player being wet
+				description = "Soaks the wearer"
+				statName = "Soak"
+				method = output.ModifierMethodToggle
+			default:
+				return nil, fmt.Errorf("unhandled flag for Statement: %+v", spEffect)
+			}
 		default:
 			return nil, fmt.Errorf("unhandled SpEffect name for Statement: %+v", spEffect)
 		}
@@ -184,6 +274,22 @@ func createArmorModifiers(spEffects []emevdParser.Statement) ([]output.Modifier,
 			Target:      statName,
 			Method:      method,
 			Value:       value,
+		})
+	}
+
+	return modifiers, nil
+}
+
+func createRingModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, error) {
+	modifiers := []output.Modifier{}
+
+	for _, spEffect := range spEffects {
+		modifiers = append(modifiers, output.Modifier{
+			Description: spEffect.Name,
+			TargetType:  output.ModifierTargetTypeStat,
+			Target:      extractStatName(spEffect.Args[0]),
+			Method:      output.ModifierMethodAdditive,
+			Value:       1,
 		})
 	}
 
