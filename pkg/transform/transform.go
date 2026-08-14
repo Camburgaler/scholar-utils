@@ -233,8 +233,9 @@ func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
 		}
 
 		spEffects := armorSpEffects[itemParam.SpecialEffectID]
-		modifiers, err := createArmorModifiers(spEffects)
+		modifiers, err := createModifiers(spEffects)
 		if err != nil {
+			err = fmt.Errorf("failed to create armor modifiers for %s: %w", armorParam.Name, err)
 			return nil, err
 		}
 
@@ -296,8 +297,9 @@ func createRings(ringParams []param.Ring) ([]output.Ring, error) {
 
 		spEffects := ringSpEffects[itemParam.SpecialEffectID]
 
-		modifiers, err := createRingModifiers(spEffects)
+		modifiers, err := createModifiers(spEffects)
 		if err != nil {
+			err = fmt.Errorf("error creating ring modifiers for %s: %w", ringParam.Name, err)
 			return nil, err
 		}
 
