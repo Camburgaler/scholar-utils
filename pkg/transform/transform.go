@@ -45,6 +45,7 @@ var (
 	itemParams           = []param.Item{}
 
 	armorSpEffects = emevdParser.Events{}
+	ringSpEffects  = emevdParser.Events{}
 
 	noRing = output.Ring{
 		Equippable: output.Equippable{
@@ -280,15 +281,30 @@ func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
 	return armor, nil
 }
 
-func createRings(ringParams []param.Ring) []output.Ring {
+func createRings(ringParams []param.Ring) ([]output.Ring, error) {
 	fmt.Println("\nCreating rings...")
 	rings := []output.Ring{noRing}
 
 	for _, ringParam := range ringParams {
+		itemParam := param.Item{}
+		for _, param := range itemParams {
+			if param.ID == ringParam.ID {
+				itemParam = param
+				break
+			}
+		}
+
+		spEffects := ringSpEffects[itemParam.SpecialEffectID]
+
+		modifiers, err := createRingModifiers(spEffects)
+		if err != nil {
+			return nil, err
+		}
+
 		rings = append(rings, output.Ring{
 			Equippable: output.Equippable{
 				Name:       ringParam.Name,
-				Modifiers:  []output.Modifier{},
+				Modifiers:  modifiers,
 				Weight:     ringParam.Weight,
 				Durability: ringParam.Durability,
 				RepairCost: ringParam.RepairCost,
@@ -298,12 +314,11 @@ func createRings(ringParams []param.Ring) []output.Ring {
 	}
 
 	fmt.Printf("Created %d rings\n", len(rings))
-	return rings
+	return rings, nil
 }
 
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
-	rings := createRings(paramData.RingParam)
 	helmetParams := []param.Armor{}
 	chestpieceParams := []param.Armor{}
 	gauntletParams := []param.Armor{}
@@ -326,6 +341,12 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	itemParams = paramData.ItemParam
 
 	armorSpEffects = emevdData.SpEffectArmor
+	ringSpEffects = emevdData.SpEffectRing
+
+	rings, err := createRings(paramData.RingParam)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
 
 	fmt.Println("\nCreating helmets...")
 	helmets, err := createArmor(helmetParams)
