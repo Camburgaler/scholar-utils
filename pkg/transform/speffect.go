@@ -32,6 +32,14 @@ var (
 		"Bleed Damage",
 		"Poison Damage",
 		"Max Spell Usages",
+		"Magic Defense",
+		"Lightning Defense",
+		"Fire Defense",
+		"Dark Defense",
+		"Poison Defense",
+		"Bleed Defense",
+		"Curse Defense",
+		"Petrify Defense",
 	}
 )
 
@@ -187,48 +195,56 @@ func parseModifyAttributeBasedOnCurrentValue(arg0 string) output.Modifier {
 	}
 }
 
-func parseModifyDamageFlatToBaseAr(arg1 string) []output.Modifier {
-	// Armor with ModifyDamageFlatToBaseAr has the following effects:
-	//     Weapons with innate affliction of the relevant damage type get 50 points of extra damage.
-	//     Weapons infused with the relevant damage type get 25 points of extra damage.
-	//     Weapons with innate relevant damage AND infused with the relevant damage type get 60 points of extra damage.
+func parseModifyDamageFlatToBaseAr(arg1, arg2 string) ([]output.Modifier, error) {
+	// ModifyDamageFlatToBaseAr has 2 args:
+	// Arg0 is always 0
+	// Arg1 is the damage type
+	// Arg2 is the modifier value
+	// ModifyDamageFlatToBaseAr has the following effects:
+	//     Weapons with innate affliction of the relevant damage type get Arg2 points of extra damage.
+	//     Weapons infused with the relevant damage type get (Arg2 / 2) points of extra damage.
+	//     Weapons with innate relevant damage AND infused with the relevant damage type get (Arg2 * 1.2) points of extra damage.
 	var (
-		statName     string
+		damageType   string
 		value        float64
 		newModifiers = []output.Modifier{}
 	)
 
 	// ModifyDamageFlatToBaseAr has the buff type at index 1
-	statName = extractStatName(arg1)
+	damageType = extractStatName(arg1)
+	infusion := extractStatName(arg1)
+	if infusion == "All Physical Damage" {
+		infusion = "Standard"
+	}
 
-	value = 25
+	value, err := strconv.ParseFloat(arg2, 64)
+	if err != nil {
+		err = fmt.Errorf("failed to convert value to float: %w", err)
+		return nil, err
+	}
 
 	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon is infused with %s", statName, int(math.Abs(value)), statName),
-		Target:      statName,
+		Description: fmt.Sprintf("Increase %s by %d when the weapon is infused with %s", damageType, int(math.Abs(value/2)), infusion),
+		Target:      damageType,
+		Method:      output.ModifierMethodAdditive,
+		Value:       value / 2,
+	})
+
+	newModifiers = append(newModifiers, output.Modifier{
+		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate %s", damageType, int(math.Abs(value)), infusion),
+		Target:      damageType,
 		Method:      output.ModifierMethodAdditive,
 		Value:       value,
 	})
 
-	value = 50
-
 	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate %s", statName, int(math.Abs(value)), statName),
-		Target:      statName,
+		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate AND infused %s", damageType, int(math.Abs(value*1.2)), infusion),
+		Target:      damageType,
 		Method:      output.ModifierMethodAdditive,
-		Value:       value,
+		Value:       value * 1.2,
 	})
 
-	value = 60
-
-	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate AND infused %s", statName, int(math.Abs(value)), statName),
-		Target:      statName,
-		Method:      output.ModifierMethodAdditive,
-		Value:       value,
-	})
-
-	return newModifiers
+	return newModifiers, nil
 }
 
 func parseSetStateInfo(arg0 string) (output.Modifier, error) {
@@ -635,6 +651,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 		switch spEffect.Name {
 		case "ModifyStatMultiplicatively":
 			newModifiers = []output.Modifier{parseModifyStatMultiplicatively(spEffect.Args[0], spEffect.Args[2])}
+
 		case "ModifyStatAdditively":
 			newModifiers = []output.Modifier{parseModifyStatAdditively(spEffect.Args[0], spEffect.Args[2])}
 
@@ -642,10 +659,18 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 			if newModifiers[0].Target == "Unknown22" {
 				continue
 			}
+
 		case "ModifyAttributeBasedOnCurrentValue":
 			newModifiers = []output.Modifier{parseModifyAttributeBasedOnCurrentValue(spEffect.Args[0])}
+
 		case "ModifyDamageFlatToBaseAr":
-			newModifiers = parseModifyDamageFlatToBaseAr(spEffect.Args[1])
+			var err error
+			newModifiers, err = parseModifyDamageFlatToBaseAr(spEffect.Args[1], spEffect.Args[2])
+			if err != nil {
+				err = fmt.Errorf("error parsing ModifyDamageFlatToBaseAr: %w", err)
+				return nil, err
+			}
+
 		case "SetStateInfo":
 			modifier, err := parseSetStateInfo(spEffect.Args[0])
 			if err != nil {
@@ -653,6 +678,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ModifySpellEffectLength":
 			modifier, err := parseModifySpellEffectLength(spEffect.Args[0])
 			if err != nil {
@@ -660,6 +686,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ModifyBulletParam":
 			modifier, err := parseModifyBulletParam(spEffect.Args[2], spEffect.Args[3])
 			if err != nil {
@@ -670,6 +697,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				continue
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ModifyProperty":
 			modifier, err := parseModifyProperty(spEffect.Args[0], spEffect.Args[2])
 			if err != nil {
@@ -680,6 +708,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				continue
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ModifyStaminaRecovery":
 			modifier, err := parseModifyStaminaRecovery(spEffect.Args[1])
 			if err != nil {
@@ -687,13 +716,19 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "BuffDefense":
+			if spEffect.Args[1] == "BuffType.Unknown7" {
+				continue
+			}
+
 			modifier, err := parseBuffDefense(spEffect.Args[1], spEffect.Args[2])
 			if err != nil {
 				err = fmt.Errorf("error parsing BuffDefense: %w", err)
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "UnknownCommand10004002":
 			modifier, err := parseUnknownCommand10004002(spEffect.Args[0], spEffect.Args[1])
 			if err != nil {
@@ -701,6 +736,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ModifyEnemyAggroToPlayer":
 			// ModifyEnemyAggroToPlayer has a single arg, but I don't know what it does
 			newModifiers = []output.Modifier{
@@ -710,6 +746,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		case "RandomlySpawnBulletAfterTakingDamageDurabilitybasedRandomness":
 			modifier, err := parseRandomlySpawnBulletAfterTakingDamageDurabilitybasedRandomness(spEffect.Args[0], spEffect.Args[1])
 			if err != nil {
@@ -717,6 +754,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "RandomlySpawnBulletAfterTakingDamageFlatRandomness":
 			modifier, err := parseRandomlySpawnBulletAfterTakingDamageFlatRandomness(spEffect.Args[0])
 			if err != nil {
@@ -724,6 +762,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ResetInvasionCooldownTimer":
 			// ResetInvasionCooldownTimer has no args
 			newModifiers = []output.Modifier{
@@ -733,6 +772,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		case "InitiatePassiveServermediatedMultiplayerItem":
 			modifier, err := parseInitiatePassiveServermediatedMultiplayerItem(spEffect.Args[0])
 			if err != nil {
@@ -740,6 +780,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ReplaceFistsWithAlternateWeapon":
 			// ReplaceFistsWithAlternateWeapon has 4 args, none of which are consequential
 			newModifiers = []output.Modifier{
@@ -768,6 +809,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		case "ModifyEstusUsage":
 			// ModifyEstusUsage has two args, neither of which are consequential
 			// Arg0 specifies what kind of buff this is, but it's only used once by the Ancient Dragon Seal
@@ -779,6 +821,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		case "NerfDefense":
 			modifier, err := parseNerfDefense(spEffect.Args[1], spEffect.Args[2])
 			if err != nil {
@@ -786,6 +829,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, err
 			}
 			newModifiers = []output.Modifier{modifier}
+
 		case "ApplyEquipLoadbasedFlatDamageToWeapon":
 			// ApplyEquipLoadbasedFlatDamageToWeapon has 7 args, none of which are consequential since it's only used once for Flynn's Ring
 			newModifiers = []output.Modifier{
@@ -795,6 +839,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		case "AddSpellDeflectChance":
 			// AddSpellDeflectChance has 2 args, neither of which are consequential since it's only used once for Yorgh's Ring
 			newModifiers = []output.Modifier{
@@ -809,6 +854,7 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
 		default:
 			return nil, fmt.Errorf("unhandled SpEffect name for Statement: %+v", spEffect)
 		}
