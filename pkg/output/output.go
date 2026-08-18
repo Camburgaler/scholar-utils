@@ -62,6 +62,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 		paramParser.ParamFileWeapon:             paramData.WeaponParam,
 		paramParser.ParamFileWeaponReinforce:    paramData.WeaponReinforceParam,
 		paramParser.ParamFileWeaponStatsAffect:  paramData.WeaponStatsAffectParam,
+		paramParser.ParamFileWeaponType:         paramData.WeaponTypeParam,
 	}
 
 	emevdFileMap := map[string]emevdParser.Events{

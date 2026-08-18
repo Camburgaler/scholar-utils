@@ -29,6 +29,7 @@ type (
 		WeaponParam             []param.Weapon
 		WeaponReinforceParam    []param.WeaponReinforce
 		WeaponStatsAffectParam  []param.WeaponStatsAffect
+		WeaponTypeParam         []param.WeaponType
 	}
 
 	// ParamFile is an enum for the param CSV files
@@ -57,6 +58,7 @@ const (
 	ParamFileWeapon
 	ParamFileWeaponReinforce
 	ParamFileWeaponStatsAffect
+	ParamFileWeaponType
 	ParamFileCount // Must always be last
 )
 
@@ -126,6 +128,11 @@ var (
 			Name:     "WeaponStatsAffectParam",
 			DataType: reflect.TypeFor[param.WeaponStatsAffect](),
 			ValidIDs: param.ValidWeaponStatsAffectIDs,
+		},
+		ParamFileWeaponType: {
+			Name:     "WeaponTypeParam",
+			DataType: reflect.TypeFor[param.WeaponType](),
+			ValidIDs: param.ValidWeaponTypeIDs,
 		},
 	}
 )

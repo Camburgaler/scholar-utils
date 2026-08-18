@@ -7,7 +7,7 @@ A Dark Souls II: SotFS build optimizer
 ### Get param data
 
 1. Install Dark Souls II: Scholar of the First Sin
-2. Install [Smithbox](https://github.com/vawser/Smithbox)
+2. Install [Smithbox](https://github.com/vawser/Smithbox) (developed with v2.2.3)
 3. Open Smithbox and create a new DS2:SotFS project
 4. Go to the param editor and export as CSV the following params:
     - ArmorParam
@@ -23,13 +23,14 @@ A Dark Souls II: SotFS build optimizer
     - WeaponParam
     - WeaponReinforceParam
     - WeaponStatsAffectParam
+    - WeaponTypeParam
 5. Move the resulting files into a folder called `inputs` at the root of this project
 
 ### Get EMEVD data
 
-1. Install [WitchyBND](https://github.com/ividyon/WitchyBND)
+1. Install [WitchyBND](https://github.com/ividyon/WitchyBND) (developed with v3.0.0.0)
 2. Using WitchyBND, unpack the `enc.regulation.bnd.dcx` file in your `Dark Souls II Scholar of the First Sin/Game` directory
-3. Install [DarkScript3](https://github.com/AinTunez/DarkScript3)
+3. Install [DarkScript3](https://github.com/AinTunez/DarkScript3) (developed with v3.6.3)
 4. Using DarkScript3, open the following files and convert them to JS:
     - `Dark Souls II Scholar of the First Sin/Game/enc_regulation-bnd-dcx/SpEffectArmor.emevd` -> `SpEffectArmor.emevd.js`
     - `Dark Souls II Scholar of the First Sin/Game/enc_regulation-bnd-dcx/SpEffectRing.emevd` -> `SpEffectRing.emevd.js`

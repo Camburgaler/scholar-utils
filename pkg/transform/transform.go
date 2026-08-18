@@ -41,12 +41,6 @@ var (
 		8: "Faith",
 	}
 
-	armorReinforceParams = []param.ArmorReinforce{}
-	itemParams           = []param.Item{}
-
-	armorSpEffects = emevdParser.Events{}
-	ringSpEffects  = emevdParser.Events{}
-
 	noRing = output.Ring{
 		Equippable: output.Equippable{
 			Name:       "No Ring",
@@ -181,7 +175,7 @@ func createSpells(spellParams []param.Spell) []output.Spell {
 	return spells
 }
 
-func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
+func createArmor(armorParams []param.Armor, armorReinforceParams []param.ArmorReinforce, itemParams []param.Item, armorSpEffects emevdParser.Events) ([]output.Armor, error) {
 	armor := []output.Armor{}
 
 	for _, armorParam := range armorParams {
@@ -282,7 +276,7 @@ func createArmor(armorParams []param.Armor) ([]output.Armor, error) {
 	return armor, nil
 }
 
-func createRings(ringParams []param.Ring) ([]output.Ring, error) {
+func createRings(ringParams []param.Ring, itemParams []param.Item, ringSpEffects emevdParser.Events) ([]output.Ring, error) {
 	fmt.Println("\nCreating rings...")
 	rings := []output.Ring{noRing}
 
@@ -319,6 +313,55 @@ func createRings(ringParams []param.Ring) ([]output.Ring, error) {
 	return rings, nil
 }
 
+func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType) ([]output.Weapon, error) {
+	fmt.Println("\nCreating weapons...")
+	weapons := []output.Weapon{}
+
+	for _, weaponParam := range weaponParams {
+		name := weaponParam.Name
+
+		// Majestic Greatsword has different stats for left vs right hand
+		if weaponParam.ID == 1830000 {
+			name += " (Right Hand)"
+		}
+		if weaponParam.ID == 1831000 {
+			name += " (Left Hand)"
+		}
+
+		weaponTypeParam := param.WeaponType{}
+		for _, param := range weaponTypeParams {
+			if param.ID == weaponParam.WeaponTypeID {
+				weaponTypeParam = param
+				break
+			}
+		}
+
+		category, _, _ := strings.Cut(weaponTypeParam.Name, ":")
+
+		weapons = append(weapons, output.Weapon{
+			Equippable: output.Equippable{
+				Name:       name,
+				Modifiers:  []output.Modifier{}, // TODO: parse modifiers
+				Weight:     weaponParam.Weight,
+				Durability: weaponParam.Durability,
+				RepairCost: weaponParam.RepairCost,
+			},
+			Requirements: output.ScalingAttributes[int]{
+				Strength:     weaponParam.RequiredStrength,
+				Dexterity:    weaponParam.RequiredDexterity,
+				Intelligence: weaponParam.RequiredIntelligence,
+				Faith:        weaponParam.RequiredFaith,
+			},
+			Category:  category,
+			Paired:    weaponTypeParam.DualWieldingPermission != 0,
+			Infusions: map[string]output.Infusion{}, // TODO: create infusions
+		})
+	}
+
+	fmt.Printf("Created %d weapons\n", len(weapons))
+	return weapons, nil
+}
+
 // Transform transforms data from DS2 params/EMEVDs to Scholar-friendly data
 func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) (output.ScholarData, error) {
 	helmetParams := []param.Armor{}
@@ -339,44 +382,43 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 		}
 	}
 
-	armorReinforceParams = paramData.ArmorReinforceParam
-	itemParams = paramData.ItemParam
-
-	armorSpEffects = emevdData.SpEffectArmor
-	ringSpEffects = emevdData.SpEffectRing
-
-	rings, err := createRings(paramData.RingParam)
+	rings, err := createRings(paramData.RingParam, paramData.ItemParam, emevdData.SpEffectRing)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
 
 	fmt.Println("\nCreating helmets...")
-	helmets, err := createArmor(helmetParams)
+	helmets, err := createArmor(helmetParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d helmets\n", len(helmets))
 
 	fmt.Println("\nCreating chestpieces...")
-	chestpieces, err := createArmor(chestpieceParams)
+	chestpieces, err := createArmor(chestpieceParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d chestpieces\n", len(chestpieces))
 
 	fmt.Println("\nCreating gauntlets...")
-	gauntlets, err := createArmor(gauntletParams)
+	gauntlets, err := createArmor(gauntletParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d gauntlets\n", len(gauntlets))
 
 	fmt.Println("\nCreating leggings...")
-	leggings, err := createArmor(leggingParams)
+	leggings, err := createArmor(leggingParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d leggings\n", len(leggings))
+
+	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam)
+	if err != nil {
+		return output.ScholarData{}, err
+	}
 
 	return output.ScholarData{
 		Classes:            createClasses(paramData.PlayerStatusParam),
@@ -384,13 +426,11 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 		Gauntlets:          gauntlets,
 		Helmets:            helmets,
 		Leggings:           leggings,
-		Weapons:            []output.Weapon{},
+		Weapons:            weapons,
 		Rings:              rings,
 		Levels:             createLevels(paramData.PlayerLevelUpSoulsParam),
 		Covenants:          createCovenants(paramData.VowParam),
 		Spells:             createSpells(paramData.SpellParam),
 		AttributeToStatMap: createAttributeToStatMap(paramData.LevelUpStatusCalcParam),
-		BaseStats:          output.Stats[float64]{},
-		StatCalculation:    output.StatCalculationDetails{},
 	}, nil
 }

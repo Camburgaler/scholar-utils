@@ -111,7 +111,7 @@ type (
 
 	// Weapon is a struct for a weapon
 	Weapon struct {
-		Name         string
+		Equippable
 		Requirements ScalingAttributes[int]
 		Category     string
 		Paired       bool
