@@ -313,7 +313,7 @@ func createRings(ringParams []param.Ring, itemParams []param.Item, ringSpEffects
 	return rings, nil
 }
 
-func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType) ([]output.Weapon, error) {
+func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType, weaponReinforceParams []param.WeaponReinforce) ([]output.Weapon, error) {
 	fmt.Println("\nCreating weapons...")
 	weapons := []output.Weapon{}
 
@@ -338,6 +338,20 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 
 		category, _, _ := strings.Cut(weaponTypeParam.Name, ":")
 
+		weaponReinforce := param.WeaponReinforce{}
+		for _, param := range weaponReinforceParams {
+			if param.ID == weaponParam.WeaponReinforceID {
+				weaponReinforce = param
+				break
+			}
+		}
+
+		// Fists need to have its max reinforcement level overriden to 0
+		maxReinforcementLevel := weaponReinforce.MaxReinforcementLevel
+		if weaponParam.ID == 3400000 || weaponParam.ID == 3406000 {
+			maxReinforcementLevel = 0
+		}
+
 		weapons = append(weapons, output.Weapon{
 			Equippable: output.Equippable{
 				Name:       name,
@@ -352,9 +366,10 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 				Intelligence: weaponParam.RequiredIntelligence,
 				Faith:        weaponParam.RequiredFaith,
 			},
-			Category:  category,
-			Paired:    weaponTypeParam.DualWieldingPermission != 0,
-			Infusions: map[string]output.Infusion{}, // TODO: create infusions
+			Category:              category,
+			Paired:                weaponTypeParam.DualWieldingPermission != 0,
+			Infusions:             map[string]output.Infusion{}, // TODO: create infusions
+			MaxReinforcementLevel: maxReinforcementLevel,
 		})
 	}
 
@@ -415,7 +430,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	}
 	fmt.Printf("Created %d leggings\n", len(leggings))
 
-	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam)
+	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam, paramData.WeaponReinforceParam)
 	if err != nil {
 		return output.ScholarData{}, err
 	}

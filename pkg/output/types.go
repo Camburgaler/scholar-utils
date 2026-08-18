@@ -112,10 +112,11 @@ type (
 	// Weapon is a struct for a weapon
 	Weapon struct {
 		Equippable
-		Requirements ScalingAttributes[int]
-		Category     string
-		Paired       bool
-		Infusions    map[string]Infusion
+		Requirements          ScalingAttributes[int]
+		Category              string
+		Paired                bool
+		Infusions             map[string]Infusion
+		MaxReinforcementLevel int
 	}
 
 	// Ring is a struct for equippable rings
