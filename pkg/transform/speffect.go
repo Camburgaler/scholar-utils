@@ -335,6 +335,13 @@ func parseSetStateInfo(arg0 string) (output.Modifier, error) {
 			Target:      "Human Appearance",
 			Method:      output.ModifierMethodToggle,
 		}, nil
+	case "StateInfoType.Unknown19":
+		// StateInfoType.Unknown19 is a flag for increasing the wearer's item discovery by 50
+		return output.Modifier{
+			Description: "Increase Item Discovery by 50",
+			Target:      "Item Discovery",
+			Method:      output.ModifierMethodAdditive,
+		}, nil
 	case "StateInfoType.Unknown29":
 		// StateInfoType.Unknown29 is a flag for whether headshot damage is enabled
 		return output.Modifier{
@@ -384,16 +391,23 @@ func parseModifyBulletParam(arg2, arg3 string) (output.Modifier, error) {
 	// ModifyBulletParam extends the range of bows
 	// Arg0 seems to always be 0
 	// Arg1 seems to always refer to regular bows
-	// Arg2 is always 0, 1, or 2 (not sure what it does)
+	// Arg2 is always 0, 1, or 2 (0 is regualr bows, 1 is greatbows, 2 is crossbows)
 	// Arg3 is the modifier value
 	// Arg4 is always 1
 	// Arg5 is also the modifier value
 	// Arg6 is also the modifier value
 	// Arg7 is always 1
 
-	if arg2 != "0" {
-		// Instead of creating duplicates, just ignore
-		return output.Modifier{}, nil
+	var bowType string
+	switch arg2 {
+	case "0":
+		bowType = "Bow"
+	case "1":
+		bowType = "Greatbow"
+	case "2":
+		bowType = "Crossbow"
+	default:
+		return output.Modifier{}, fmt.Errorf("unhandled bow type: %s", arg2)
 	}
 
 	value, err := strconv.ParseFloat(arg3, 64)
@@ -405,10 +419,16 @@ func parseModifyBulletParam(arg2, arg3 string) (output.Modifier, error) {
 	value -= 1.0
 	value *= 100
 
-	statName := "Bow Range"
+	statName := fmt.Sprintf("%s Range", bowType)
+
+	// Derive verb
+	verb := "Increase"
+	if value < 0 {
+		verb = "Decrease"
+	}
 
 	return output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %.1f%%", statName, value),
+		Description: fmt.Sprintf("%s %s by %.1f%%", verb, statName, math.Abs(value)),
 		Target:      statName,
 		Method:      output.ModifierMethodAdditive,
 	}, nil
@@ -429,12 +449,6 @@ func parseModifyProperty(arg0, arg2 string) (output.Modifier, error) {
 			Target: "White Phantom Appearance",
 			Method: output.ModifierMethodToggle,
 		}, nil
-	case "PlayerPropertyType.SfxIDOnKill":
-		// Ignore
-		return output.Modifier{}, nil
-	case "PlayerPropertyType.SfxOnKillOrigin":
-		// Ignore
-		return output.Modifier{}, nil
 	case "PlayerPropertyType.HexSelfDamageStaff":
 		// PlayerPropertyType.HexSelfDamageStaff is a flag for the player being damaged by casting hexes
 		damage, err := strconv.Atoi(arg2)
@@ -442,7 +456,6 @@ func parseModifyProperty(arg0, arg2 string) (output.Modifier, error) {
 			err = fmt.Errorf("failed to convert arg2 to int for PlayerPropertyType.HexSelfDamageStaff: %w", err)
 			return output.Modifier{}, err
 		}
-
 		return output.Modifier{
 			Description: fmt.Sprintf("Take %d damage every time the player casts a hex from a staff", damage),
 
@@ -642,6 +655,137 @@ func parseNerfDefense(arg1, arg2 string) (output.Modifier, error) {
 	}, nil
 }
 
+func parseApplySoulScalingToWeapon(arg1, arg2, arg3, arg4 string) (output.Modifier, error) {
+	// ApplySoulScalingToWeapon scales weapon damage based on the number of souls held
+	// This modifier has 6 args
+	// Arg0 is always 0
+	// Arg1 is the minimum number of souls to apply the scaling
+	// Arg2 is the maximum number of souls to apply the scaling
+	// Arg3 is the minimum scaling value
+	// Arg4 is the maximum scaling value
+	// Arg5 is always 0
+
+	minSouls, err := strconv.Atoi(arg1)
+	if err != nil {
+		err = fmt.Errorf("failed to convert min souls to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	maxSouls, err := strconv.Atoi(arg2)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max souls to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	minScaling, err := strconv.ParseFloat(arg3, 64)
+	if err != nil {
+		err = fmt.Errorf("failed to convert min scaling to float: %w", err)
+		return output.Modifier{}, err
+	}
+
+	// convert to percentage
+	minScaling *= 100
+
+	maxScaling, err := strconv.ParseFloat(arg4, 64)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max scaling to float: %w", err)
+		return output.Modifier{}, err
+	}
+
+	// convert to percentage
+	maxScaling *= 100
+
+	return output.Modifier{
+		Description: fmt.Sprintf("Scale weapon damage based on number of souls held. Min souls: %d, Max souls: %d, Min scaling: %.1f%%, Max scaling: %.1f%%", minSouls, maxSouls, minScaling, maxScaling),
+		Target:      "Weapon Damage Scaling",
+		Method:      output.ModifierMethodMultiplicative,
+	}, nil
+}
+
+func parseApplySpecialScalingToWeapon(arg0, arg1, arg2, arg3 string) (output.Modifier, error) {
+	// ApplySpecialScalingToWeapon scales weapon damage based on a non-standard scaling stat
+	// This modifier has 5 args
+	// Arg0 is the type of scaling to apply
+	// Arg1 is the max value of the scaling stat for scaling purposes (assume the min is 1?)
+	// Arg2 is the min scaling rate
+	// Arg3 is the max scaling rate
+	// Arg4 is always 0
+
+	statName := extractStatName(arg0)
+
+	maxStatValue, err := strconv.Atoi(arg1)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max stat value to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	minScaling, err := strconv.ParseFloat(arg2, 64)
+	if err != nil {
+		err = fmt.Errorf("failed to convert min scaling to float: %w", err)
+		return output.Modifier{}, err
+	}
+
+	maxScaling, err := strconv.ParseFloat(arg3, 64)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max scaling to float: %w", err)
+		return output.Modifier{}, err
+	}
+
+	// convert to percentage
+	if minScaling < maxScaling {
+		minScaling += 1
+		maxScaling += 1
+	}
+	minScaling *= 100
+	maxScaling *= 100
+
+	return output.Modifier{
+		Description: fmt.Sprintf("Scale weapon damage based on %s. Min value: 1, Max value: %d, Min scaling: %.1f%%, Max scaling: %.1f%%", statName, maxStatValue, minScaling, maxScaling),
+		Target:      "Weapon Damage Scaling",
+		Method:      output.ModifierMethodMultiplicative,
+	}, nil
+}
+
+func parseApplyNgScalingToWeapon(arg0, arg1, arg2, arg3 string) (output.Modifier, error) {
+	// ApplyNgScalingToWeapon adds weapon damage based on the number of the current NG cycle
+	// This modifier has 5 args
+	// Arg0 is the minimum NG cycle to apply the scaling (i.e. the first "Journey" upon which the scaling is applied)
+	// Arg1 is the maximum NG cycle to apply the scaling
+	// Arg2 is the minimum attack value to add
+	// Arg3 is the maximum attack value to add
+	// Arg4 is not always 0, but idk what it does
+
+	minCycle, err := strconv.Atoi(arg0)
+	if err != nil {
+		err = fmt.Errorf("failed to convert min cycle to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	maxCycle, err := strconv.Atoi(arg1)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max cycle to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	minAttack, err := strconv.Atoi(arg2)
+	if err != nil {
+		err = fmt.Errorf("failed to convert min attack to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	maxAttack, err := strconv.Atoi(arg3)
+	if err != nil {
+		err = fmt.Errorf("failed to convert max attack to int: %w", err)
+		return output.Modifier{}, err
+	}
+
+	return output.Modifier{
+		Description: fmt.Sprintf("Scale weapon damage based on NG cycle. Min cycle: %d, Max cycle: %d, Min attack bonus: %d, Max attack bonus: %d", minCycle, maxCycle, minAttack, maxAttack),
+		Target:      "Weapon Damage",
+		Method:      output.ModifierMethodAdditive,
+	}, nil
+}
+
 func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, error) {
 	modifiers := []output.Modifier{}
 
@@ -650,15 +794,17 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 
 		switch spEffect.Name {
 		case "ModifyStatMultiplicatively":
+			if spEffect.Args[0] == "MultiplicativeStatType.Unknown46" {
+				continue
+			}
 			newModifiers = []output.Modifier{parseModifyStatMultiplicatively(spEffect.Args[0], spEffect.Args[2])}
 
 		case "ModifyStatAdditively":
-			newModifiers = []output.Modifier{parseModifyStatAdditively(spEffect.Args[0], spEffect.Args[2])}
-
 			// Not sure what this does, but it is used by the Ivory Warrior Ring
-			if newModifiers[0].Target == "Unknown22" {
+			if spEffect.Args[0] == "AdditiveStatType.Unknown22" {
 				continue
 			}
+			newModifiers = []output.Modifier{parseModifyStatAdditively(spEffect.Args[0], spEffect.Args[2])}
 
 		case "ModifyAttributeBasedOnCurrentValue":
 			newModifiers = []output.Modifier{parseModifyAttributeBasedOnCurrentValue(spEffect.Args[0])}
@@ -672,6 +818,10 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 			}
 
 		case "SetStateInfo":
+			// Ignore, not sure what this does
+			if spEffect.Args[0] == "StateInfoType.Unknown23" {
+				continue
+			}
 			modifier, err := parseSetStateInfo(spEffect.Args[0])
 			if err != nil {
 				err = fmt.Errorf("error parsing SetStateInfo: %w", err)
@@ -688,24 +838,27 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 			newModifiers = []output.Modifier{modifier}
 
 		case "ModifyBulletParam":
+			// A modifier of x1.0 does nothing
+			if spEffect.Args[3] == "1" {
+				continue
+			}
 			modifier, err := parseModifyBulletParam(spEffect.Args[2], spEffect.Args[3])
 			if err != nil {
 				err = fmt.Errorf("error parsing ModifyBulletParam: %w", err)
 				return nil, err
 			}
-			if modifier == (output.Modifier{}) {
-				continue
-			}
 			newModifiers = []output.Modifier{modifier}
 
 		case "ModifyProperty":
+			// Ignore these modifiers
+			if spEffect.Args[0] == "PlayerPropertyType.SfxIDOnKill" ||
+				spEffect.Args[0] == "PlayerPropertyType.SfxOnKillOrigin" {
+				continue
+			}
 			modifier, err := parseModifyProperty(spEffect.Args[0], spEffect.Args[2])
 			if err != nil {
 				err = fmt.Errorf("error parsing ModifyProperty: %w", err)
 				return nil, err
-			}
-			if modifier == (output.Modifier{}) {
-				continue
 			}
 			newModifiers = []output.Modifier{modifier}
 
@@ -854,6 +1007,30 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 					Method:      output.ModifierMethodToggle,
 				},
 			}
+
+		case "ApplySoulScalingToWeapon":
+			modifier, err := parseApplySoulScalingToWeapon(spEffect.Args[1], spEffect.Args[2], spEffect.Args[3], spEffect.Args[4])
+			if err != nil {
+				err = fmt.Errorf("error parsing ApplySoulScalingToWeapon: %w", err)
+				return nil, err
+			}
+			newModifiers = []output.Modifier{modifier}
+
+		case "ApplySpecialScalingToWeapon":
+			modifier, err := parseApplySpecialScalingToWeapon(spEffect.Args[0], spEffect.Args[1], spEffect.Args[2], spEffect.Args[3])
+			if err != nil {
+				err = fmt.Errorf("error parsing ApplySpecialScalingToWeapon: %w", err)
+				return nil, err
+			}
+			newModifiers = []output.Modifier{modifier}
+
+		case "ApplyNgScalingToWeapon":
+			modifier, err := parseApplyNgScalingToWeapon(spEffect.Args[0], spEffect.Args[1], spEffect.Args[2], spEffect.Args[3])
+			if err != nil {
+				err = fmt.Errorf("error parsing ApplyNgScalingToWeapon: %w", err)
+				return nil, err
+			}
+			newModifiers = []output.Modifier{modifier}
 
 		default:
 			return nil, fmt.Errorf("unhandled SpEffect name for Statement: %+v", spEffect)

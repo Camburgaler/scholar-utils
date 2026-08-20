@@ -290,7 +290,6 @@ func createRings(ringParams []param.Ring, itemParams []param.Item, ringSpEffects
 		}
 
 		spEffects := ringSpEffects[itemParam.SpecialEffectID]
-
 		modifiers, err := createModifiers(spEffects)
 		if err != nil {
 			err = fmt.Errorf("error creating ring modifiers for %s: %w", ringParam.Name, err)
@@ -313,7 +312,7 @@ func createRings(ringParams []param.Ring, itemParams []param.Item, ringSpEffects
 	return rings, nil
 }
 
-func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType, weaponReinforceParams []param.WeaponReinforce) ([]output.Weapon, error) {
+func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType, weaponReinforceParams []param.WeaponReinforce, itemParams []param.Item, weaponSpEffects emevdParser.Events) ([]output.Weapon, error) {
 	fmt.Println("\nCreating weapons...")
 	weapons := []output.Weapon{}
 
@@ -352,10 +351,25 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 			maxReinforcementLevel = 0
 		}
 
+		itemParam := param.Item{}
+		for _, param := range itemParams {
+			if param.ID == weaponParam.ID {
+				itemParam = param
+				break
+			}
+		}
+
+		spEffects := weaponSpEffects[itemParam.SpecialEffectID]
+		modifiers, err := createModifiers(spEffects)
+		if err != nil {
+			err = fmt.Errorf("error creating ring modifiers for %s: %w", weaponParam.Name, err)
+			return nil, err
+		}
+
 		weapons = append(weapons, output.Weapon{
 			Equippable: output.Equippable{
 				Name:       name,
-				Modifiers:  []output.Modifier{}, // TODO: parse modifiers
+				Modifiers:  modifiers,
 				Weight:     weaponParam.Weight,
 				Durability: weaponParam.Durability,
 				RepairCost: weaponParam.RepairCost,
@@ -430,7 +444,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	}
 	fmt.Printf("Created %d leggings\n", len(leggings))
 
-	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam, paramData.WeaponReinforceParam)
+	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam, paramData.WeaponReinforceParam, paramData.ItemParam, emevdData.SpEffectWeapon)
 	if err != nil {
 		return output.ScholarData{}, err
 	}
