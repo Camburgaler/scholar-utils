@@ -14,10 +14,10 @@ import (
 )
 
 var (
-	Infusions = []string{
-		"Standard",
-		"Lightning",
+	infusionNames = []string{
+		"Physical",
 		"Magic",
+		"Lightning",
 		"Fire",
 		"Dark",
 		"Poison",
@@ -25,8 +25,28 @@ var (
 		"Raw",
 		"Enchanted",
 		"Mundane",
-		"Boss",
-		"Special",
+	}
+	damageTypes = []string{
+		"Physical",
+		"Magic",
+		"Lightning",
+		"Fire",
+		"Dark",
+		"Poison",
+		"Bleed",
+		"Petrify",
+		"Curse",
+	}
+	scalingFactors = []string{
+		"PhysicalByStrength",
+		"PhysicalByDexterity",
+		"Magic",
+		"Lightning",
+		"Fire",
+		"Dark",
+		"Poison",
+		"Bleed",
+		"PhysicalByEnchant",
 	}
 
 	levelUpStatusCalcParamIndexToAttribute = map[int]string{
@@ -312,7 +332,7 @@ func createRings(ringParams []param.Ring, itemParams []param.Item, ringSpEffects
 	return rings, nil
 }
 
-func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType, weaponReinforceParams []param.WeaponReinforce, itemParams []param.Item, weaponSpEffects emevdParser.Events) ([]output.Weapon, error) {
+func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponType, weaponReinforceParams []param.WeaponReinforce, itemParams []param.Item, customAttrSpecParams []param.CustomAttrSpec, weaponStatsAffectParams []param.WeaponStatsAffect, weaponSpEffects emevdParser.Events) ([]output.Weapon, error) {
 	fmt.Println("\nCreating weapons...")
 	weapons := []output.Weapon{}
 
@@ -366,6 +386,99 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 			return nil, err
 		}
 
+		customAttrSpec := param.CustomAttrSpec{}
+		for _, param := range customAttrSpecParams {
+			if param.ID == weaponReinforce.CustomAttrSpecParamID {
+				customAttrSpec = param
+				break
+			}
+		}
+
+		infusions := []output.Infusion{}
+		for infusionIndex, infusionName := range infusionNames {
+			vCustomAttrSpec := reflect.ValueOf(customAttrSpec)
+			if infusionName != "Physical" && !vCustomAttrSpec.FieldByName(infusionName).Bool() {
+				continue
+			}
+
+			vWeaponReinforce := reflect.ValueOf(weaponReinforce)
+			damages := output.Damages[output.SlopeIntercept]{}
+			vDamages := reflect.ValueOf(&damages).Elem()
+			for _, d := range damageTypes {
+				minD := float64(vWeaponReinforce.FieldByName("Min" + d).Int())
+				maxD := float64(vWeaponReinforce.FieldByName("Max" + d).Int())
+				maxReinforcementLevel := float64(weaponReinforce.MaxReinforcementLevel)
+				damage := calculateSlopeIntercept(Point{X: 0, Y: minD}, Point{X: maxReinforcementLevel, Y: maxD})
+
+				vDamages.FieldByName(d).Set(reflect.ValueOf(damage))
+			}
+
+			weaponStatsAffect := param.WeaponStatsAffect{}
+			for _, param := range weaponStatsAffectParams {
+				if param.ID == weaponReinforce.WeaponStatsAffectID.Plus(infusionIndex) {
+					weaponStatsAffect = param
+					break
+				}
+			}
+
+			if weaponStatsAffect.ID == 0 {
+				return nil, fmt.Errorf("error creating infusions for %s: no WeaponStatsAffectParam found for infusion %s at ID %d", weaponParam.Name, infusionName, weaponReinforce.WeaponStatsAffectID.Plus(infusionIndex))
+			}
+
+			scaling := output.Scaling{}
+			vScaling := reflect.ValueOf(&scaling).Elem()
+			vWeaponStatsAffect := reflect.ValueOf(weaponStatsAffect)
+			for f, v := range vScaling.Fields() {
+				for _, s := range scalingFactors {
+					scalingValue := vWeaponStatsAffect.FieldByName(f.Name + s).Float()
+					v.FieldByName(s).Set(reflect.ValueOf(scalingValue))
+				}
+			}
+
+			damageRates := output.Damages[float64]{
+				Physical:  weaponReinforce.PhysicalRate / 100,
+				Magic:     weaponReinforce.MagicRate / 100,
+				Lightning: weaponReinforce.LightningRate / 100,
+				Fire:      weaponReinforce.FireRate / 100,
+				Dark:      weaponReinforce.DarkRate / 100,
+				Poison:    weaponReinforce.PoisonRate / 100,
+				Bleed:     weaponReinforce.BleedRate / 100,
+				Petrify:   weaponReinforce.PetrifyRate / 100,
+				Curse:     weaponReinforce.CurseRate / 100,
+			}
+
+			switch infusionName {
+			case "Magic":
+				damageRates.Magic = weaponReinforce.InfusionMagicRate / 100
+			case "Lightning":
+				damageRates.Lightning = weaponReinforce.InfusionLightningRate / 100
+			case "Fire":
+				damageRates.Fire = weaponReinforce.InfusionFireRate / 100
+			case "Dark":
+				damageRates.Dark = weaponReinforce.InfusionDarkRate / 100
+			case "Poison":
+				damageRates.Poison = weaponReinforce.InfusionPoisonRate / 100
+			case "Bleed":
+				damageRates.Bleed = weaponReinforce.InfusionBleedRate / 100
+			case "Raw":
+				// TODO: Research
+			case "Enchanted":
+				damageRates.Physical = weaponReinforce.InfusionMundaneRate / 100
+			case "Mundane":
+				// TODO: Research
+			}
+
+			infusion := output.Infusion{
+				Name:              infusionName,
+				Damages:           damages,
+				Scaling:           scaling,
+				DamageRates:       damageRates,
+				BaseDamageScaling: weaponStatsAffect.BaseDamageScaling,
+			}
+
+			infusions = append(infusions, infusion)
+		}
+
 		weapons = append(weapons, output.Weapon{
 			Equippable: output.Equippable{
 				Name:       name,
@@ -382,7 +495,7 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 			},
 			Category:              category,
 			Paired:                weaponTypeParam.DualWieldingPermission != 0,
-			Infusions:             map[string]output.Infusion{}, // TODO: create infusions
+			Infusions:             infusions,
 			MaxReinforcementLevel: maxReinforcementLevel,
 		})
 	}
@@ -413,12 +526,14 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 
 	rings, err := createRings(paramData.RingParam, paramData.ItemParam, emevdData.SpEffectRing)
 	if err != nil {
+		err = fmt.Errorf("error creating rings: %w", err)
 		return output.ScholarData{}, err
 	}
 
 	fmt.Println("\nCreating helmets...")
 	helmets, err := createArmor(helmetParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
+		err = fmt.Errorf("error creating helmets: %w", err)
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d helmets\n", len(helmets))
@@ -426,6 +541,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	fmt.Println("\nCreating chestpieces...")
 	chestpieces, err := createArmor(chestpieceParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
+		err = fmt.Errorf("error creating chestpieces: %w", err)
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d chestpieces\n", len(chestpieces))
@@ -433,6 +549,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	fmt.Println("\nCreating gauntlets...")
 	gauntlets, err := createArmor(gauntletParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
+		err = fmt.Errorf("error creating gauntlets: %w", err)
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d gauntlets\n", len(gauntlets))
@@ -440,12 +557,14 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	fmt.Println("\nCreating leggings...")
 	leggings, err := createArmor(leggingParams, paramData.ArmorReinforceParam, paramData.ItemParam, emevdData.SpEffectArmor)
 	if err != nil {
+		err = fmt.Errorf("error creating leggings: %w", err)
 		return output.ScholarData{}, err
 	}
 	fmt.Printf("Created %d leggings\n", len(leggings))
 
-	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam, paramData.WeaponReinforceParam, paramData.ItemParam, emevdData.SpEffectWeapon)
+	weapons, err := createWeapons(paramData.WeaponParam, paramData.WeaponTypeParam, paramData.WeaponReinforceParam, paramData.ItemParam, paramData.CustomAttrSpecParam, paramData.WeaponStatsAffectParam, emevdData.SpEffectWeapon)
 	if err != nil {
+		err = fmt.Errorf("error creating weapons: %w", err)
 		return output.ScholarData{}, err
 	}
 

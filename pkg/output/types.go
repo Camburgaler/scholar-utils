@@ -102,11 +102,51 @@ type (
 		Intercept float64
 	}
 
+	Damages[T any] struct {
+		Physical  T
+		Magic     T
+		Lightning T
+		Fire      T
+		Dark      T
+		Poison    T
+		Bleed     T
+		Curse     T
+		Petrify   T
+	}
+
+	ScalingFactors struct {
+		PhysicalByStrength  float64
+		PhysicalByDexterity float64
+		Magic               float64
+		Lightning           float64
+		Fire                float64
+		Dark                float64
+		Poison              float64
+		Bleed               float64
+		PhysicalByEnchant   float64
+	}
+
+	Scaling struct {
+		Level00 ScalingFactors
+		Level01 ScalingFactors
+		Level02 ScalingFactors
+		Level03 ScalingFactors
+		Level04 ScalingFactors
+		Level05 ScalingFactors
+		Level06 ScalingFactors
+		Level07 ScalingFactors
+		Level08 ScalingFactors
+		Level09 ScalingFactors
+		Level10 ScalingFactors
+	}
+
 	// Infusion is a struct for a weapon infusion
 	Infusion struct {
 		Name              string
-		DamageUpgradeRate map[string]SlopeIntercept
-		StatScalingRate   ScalingAttributes[float64]
+		Damages           Damages[SlopeIntercept]
+		Scaling           Scaling
+		DamageRates       Damages[float64]
+		BaseDamageScaling float64
 	}
 
 	// Weapon is a struct for a weapon
@@ -115,7 +155,7 @@ type (
 		Requirements          ScalingAttributes[int]
 		Category              string
 		Paired                bool
-		Infusions             map[string]Infusion
+		Infusions             []Infusion
 		MaxReinforcementLevel int
 	}
 

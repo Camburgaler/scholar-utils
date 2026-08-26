@@ -20,3 +20,7 @@ type (
 func (r Range) Contains(id ID) bool {
 	return id >= r.Start && id <= r.End
 }
+
+func (i ID) Plus(num int) ID {
+	return ID(int(i) + num)
+}
