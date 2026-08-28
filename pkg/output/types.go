@@ -54,10 +54,19 @@ type (
 
 	// Equippable is a struct for the common fields of equippable items
 	Equippable struct {
-		Name       string //pk
-		Modifiers  []Modifier
-		Weight     float64
+		// Name of the equippable item
+		Name string
+
+		// Special effects of the equippable item
+		Modifiers []Modifier
+
+		// Weight of the equippable item
+		Weight float64
+
+		// Durability of the equippable item
 		Durability int
+
+		// Cost to repair the equippable item once durability is depleted
 		RepairCost int
 	}
 
@@ -84,6 +93,8 @@ type (
 	// Armor is a struct for equippable armor
 	Armor struct {
 		Equippable
+
+		// The slope-intercept formulae that represent the armor's defenses for each damage type at each reinforcement level
 		Defenses               Defenses
 		DefenseScalingPhysical float64
 		DefenseScalingSlash    float64
@@ -142,8 +153,13 @@ type (
 
 	// Infusion is a struct for a weapon infusion
 	Infusion struct {
-		Name              string
-		Damages           Damages[SlopeIntercept]
+		// The name of the infusion
+		Name string
+
+		// The slope-intercept formulae that represent the infusion's base damage for each damage type at each reinforcement level
+		Damages Damages[SlopeIntercept]
+
+		// The scaling values for each damage stat at each reinforcement level
 		Scaling           Scaling
 		DamageRates       Damages[float64]
 		BaseDamageScaling float64
@@ -152,10 +168,20 @@ type (
 	// Weapon is a struct for a weapon
 	Weapon struct {
 		Equippable
-		Requirements          ScalingAttributes[int]
-		Category              string
-		Paired                bool
-		Infusions             []Infusion
+
+		// The minimum required attributes to wiled this weapon effectively
+		Requirements ScalingAttributes[int]
+
+		// The category of this weapon (see WeaponCategories)
+		Category string
+
+		// Whether this weapon will be paired when two-handed
+		Paired bool
+
+		// Data for each valid infusion on this weapon (includes default infusion)
+		Infusions []Infusion
+
+		// The number of times this weapon can be reinforced to increase its stats
 		MaxReinforcementLevel int
 	}
 

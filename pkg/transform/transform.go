@@ -408,6 +408,12 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 				minD := float64(vWeaponReinforce.FieldByName("Min" + d).Int())
 				maxD := float64(vWeaponReinforce.FieldByName("Max" + d).Int())
 				maxReinforcementLevel := float64(weaponReinforce.MaxReinforcementLevel)
+
+				if d == "Poison" || d == "Bleed" {
+					minD = minD / 10
+					maxD = maxD / 10
+				}
+
 				damage := calculateSlopeIntercept(Point{X: 0, Y: minD}, Point{X: maxReinforcementLevel, Y: maxD})
 
 				vDamages.FieldByName(d).Set(reflect.ValueOf(damage))

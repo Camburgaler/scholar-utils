@@ -22,20 +22,24 @@ type (
 		ID id.ID
 
 		// The name of this weapon
-		Name          string
+		Name string
+
 		weaponID      id.ID
 		weaponModelID id.ID
 
 		// The ID of the WeaponReinforceParam that describes the weapon's reinforcement
-		WeaponReinforceID      id.ID
+		WeaponReinforceID id.ID
+
 		weaponActionCategoryID id.ID
 
 		// The type of this weapon (see WeaponTypes)
-		WeaponTypeID       id.ID
+		WeaponTypeID id.ID
+
 		isAttackAutoHoming bool
 
 		// The category of this weapon (see WeaponCategories)
-		WeaponCategory    int
+		WeaponCategory int
+
 		clothCollidableID id.ID
 
 		// The minimum required strength to use this weapon
@@ -51,14 +55,16 @@ type (
 		RequiredFaith int
 
 		// The weight of this weapon
-		Weight              float64
+		Weight float64
+
 		adjustBalanceWeight float64
 
 		// The durability of this weapon
 		Durability int
 
 		// The cost to repair this weapon
-		RepairCost                   int
+		RepairCost int
+
 		materialID                   id.ID
 		staminaConsumptionMelee      int
 		staminaConsumptionRanged     int
@@ -96,7 +102,8 @@ type (
 		IgnoreDamageCutRateScale float64
 
 		// Multiplier applied to the weapon's ability to apply stun buildup
-		StunDamageScale   float64
+		StunDamageScale float64
+
 		hitboxRadius      float64
 		hitboxLength      float64
 		hitbackRadius     float64
