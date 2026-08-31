@@ -62,80 +62,78 @@ const (
 	ParamFileCount // Must always be last
 )
 
-var (
-	ParamFiles = map[ParamFile]ParamFileMetadata{
-		ParamFileArmor: {
-			Name:     "ArmorParam",
-			DataType: reflect.TypeFor[param.Armor](),
-			ValidIDs: param.ValidArmorIDs,
-		},
-		ParamFileArmorReinforce: {
-			Name:     "ArmorReinforceParam",
-			DataType: reflect.TypeFor[param.ArmorReinforce](),
-			ValidIDs: param.ValidArmorReinforceIDs,
-		},
-		ParamFileCustomAttrSpec: {
-			Name:     "CustomAttrSpecParam",
-			DataType: reflect.TypeFor[param.CustomAttrSpec](),
-			ValidIDs: param.ValidCustomAttrSpecIDs,
-		},
-		ParamFileItem: {
-			Name:     "ItemParam",
-			DataType: reflect.TypeFor[param.Item](),
-			ValidIDs: param.ValidItemIDs,
-		},
-		ParamFileLevelUpStatusCalc: {
-			Name:     "LevelUpStatusCalcParam",
-			DataType: reflect.TypeFor[param.LevelUpStatusCalc](),
-			ValidIDs: param.ValidLevelUpStatusCalcIDs,
-		},
-		ParamFilePlayerLevelUpSouls: {
-			Name:     "PlayerLevelUpSoulsParam",
-			DataType: reflect.TypeFor[param.PlayerLevelUpSouls](),
-			ValidIDs: param.ValidPlayerLevelUpSoulsIDs,
-		},
-		ParamFilePlayerStatus: {
-			Name:     "PlayerStatusParam",
-			DataType: reflect.TypeFor[param.PlayerStatus](),
-			ValidIDs: param.ValidPlayerStatusIDs,
-		},
-		ParamFileRing: {
-			Name:     "RingParam",
-			DataType: reflect.TypeFor[param.Ring](),
-			ValidIDs: param.ValidRingIDs,
-		},
-		ParamFileSpell: {
-			Name:     "SpellParam",
-			DataType: reflect.TypeFor[param.Spell](),
-			ValidIDs: param.ValidSpellIDs,
-		},
-		ParamFileVow: {
-			Name:     "VowParam",
-			DataType: reflect.TypeFor[param.Vow](),
-			ValidIDs: param.ValidVowIDs,
-		},
-		ParamFileWeapon: {
-			Name:     "WeaponParam",
-			DataType: reflect.TypeFor[param.Weapon](),
-			ValidIDs: param.ValidWeaponIDs,
-		},
-		ParamFileWeaponReinforce: {
-			Name:     "WeaponReinforceParam",
-			DataType: reflect.TypeFor[param.WeaponReinforce](),
-			ValidIDs: param.ValidWeaponReinforceIDs,
-		},
-		ParamFileWeaponStatsAffect: {
-			Name:     "WeaponStatsAffectParam",
-			DataType: reflect.TypeFor[param.WeaponStatsAffect](),
-			ValidIDs: param.ValidWeaponStatsAffectIDs,
-		},
-		ParamFileWeaponType: {
-			Name:     "WeaponTypeParam",
-			DataType: reflect.TypeFor[param.WeaponType](),
-			ValidIDs: param.ValidWeaponTypeIDs,
-		},
-	}
-)
+var ParamFiles = map[ParamFile]ParamFileMetadata{
+	ParamFileArmor: {
+		Name:     "ArmorParam",
+		DataType: reflect.TypeFor[param.Armor](),
+		ValidIDs: param.ValidArmorIDs,
+	},
+	ParamFileArmorReinforce: {
+		Name:     "ArmorReinforceParam",
+		DataType: reflect.TypeFor[param.ArmorReinforce](),
+		ValidIDs: param.ValidArmorReinforceIDs,
+	},
+	ParamFileCustomAttrSpec: {
+		Name:     "CustomAttrSpecParam",
+		DataType: reflect.TypeFor[param.CustomAttrSpec](),
+		ValidIDs: param.ValidCustomAttrSpecIDs,
+	},
+	ParamFileItem: {
+		Name:     "ItemParam",
+		DataType: reflect.TypeFor[param.Item](),
+		ValidIDs: param.ValidItemIDs,
+	},
+	ParamFileLevelUpStatusCalc: {
+		Name:     "LevelUpStatusCalcParam",
+		DataType: reflect.TypeFor[param.LevelUpStatusCalc](),
+		ValidIDs: param.ValidLevelUpStatusCalcIDs,
+	},
+	ParamFilePlayerLevelUpSouls: {
+		Name:     "PlayerLevelUpSoulsParam",
+		DataType: reflect.TypeFor[param.PlayerLevelUpSouls](),
+		ValidIDs: param.ValidPlayerLevelUpSoulsIDs,
+	},
+	ParamFilePlayerStatus: {
+		Name:     "PlayerStatusParam",
+		DataType: reflect.TypeFor[param.PlayerStatus](),
+		ValidIDs: param.ValidPlayerStatusIDs,
+	},
+	ParamFileRing: {
+		Name:     "RingParam",
+		DataType: reflect.TypeFor[param.Ring](),
+		ValidIDs: param.ValidRingIDs,
+	},
+	ParamFileSpell: {
+		Name:     "SpellParam",
+		DataType: reflect.TypeFor[param.Spell](),
+		ValidIDs: param.ValidSpellIDs,
+	},
+	ParamFileVow: {
+		Name:     "VowParam",
+		DataType: reflect.TypeFor[param.Vow](),
+		ValidIDs: param.ValidVowIDs,
+	},
+	ParamFileWeapon: {
+		Name:     "WeaponParam",
+		DataType: reflect.TypeFor[param.Weapon](),
+		ValidIDs: param.ValidWeaponIDs,
+	},
+	ParamFileWeaponReinforce: {
+		Name:     "WeaponReinforceParam",
+		DataType: reflect.TypeFor[param.WeaponReinforce](),
+		ValidIDs: param.ValidWeaponReinforceIDs,
+	},
+	ParamFileWeaponStatsAffect: {
+		Name:     "WeaponStatsAffectParam",
+		DataType: reflect.TypeFor[param.WeaponStatsAffect](),
+		ValidIDs: param.ValidWeaponStatsAffectIDs,
+	},
+	ParamFileWeaponType: {
+		Name:     "WeaponTypeParam",
+		DataType: reflect.TypeFor[param.WeaponType](),
+		ValidIDs: param.ValidWeaponTypeIDs,
+	},
+}
 
 // parseRow parses a single row from a CSV file
 //

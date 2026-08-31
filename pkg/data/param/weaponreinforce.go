@@ -2,15 +2,13 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
-var (
-	// ValidWeaponReinforceIDs is the list of valid WeaponReinforceParam IDs
-	ValidWeaponReinforceIDs = []id.Range{
-		{Start: 1000, End: 3400},
-		{Start: 3406, End: 3406},
-		{Start: 3410, End: 5540},
-		{Start: 11000, End: 11840},
-	}
-)
+// ValidWeaponReinforceIDs is the list of valid WeaponReinforceParam IDs
+var ValidWeaponReinforceIDs = []id.Range{
+	{Start: 1000, End: 3400},
+	{Start: 3406, End: 3406},
+	{Start: 3410, End: 5540},
+	{Start: 11000, End: 11840},
+}
 
 type (
 	// WeaponReinforce is a struct for storing data from WeaponReinforceParam.csv

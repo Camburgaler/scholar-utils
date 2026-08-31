@@ -4,14 +4,12 @@ import (
 	"github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 )
 
-var (
-	WeaponCategories = map[id.ID]string{
-		0: "Weapon",
-		1: "Bow",
-		2: "Crossbow",
-		3: "Shield",
-	}
-)
+var WeaponCategories = map[id.ID]string{
+	0: "Weapon",
+	1: "Bow",
+	2: "Crossbow",
+	3: "Shield",
+}
 
 type (
 	// Weapon is a struct for storing data from WeaponParam.csv
@@ -125,12 +123,10 @@ type (
 	}
 )
 
-var (
-	// ValidWeaponIDs is the list of valid WeaponParam IDs.
-	ValidWeaponIDs = []id.Range{
-		{Start: 1000000, End: 3400000},
-		{Start: 3406000, End: 3406000},
-		{Start: 3410000, End: 5540000},
-		{Start: 11000000, End: 11840000},
-	}
-)
+// ValidWeaponIDs is the list of valid WeaponParam IDs.
+var ValidWeaponIDs = []id.Range{
+	{Start: 1000000, End: 3400000},
+	{Start: 3406000, End: 3406000},
+	{Start: 3410000, End: 5540000},
+	{Start: 11000000, End: 11840000},
+}

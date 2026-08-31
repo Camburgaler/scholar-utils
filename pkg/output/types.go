@@ -1,7 +1,9 @@
 package output
 
-type ModifierTargetType string
-type ModifierMethod string
+type (
+	ModifierTargetType string
+	ModifierMethod     string
+)
 
 const (
 	ModifierTargetTypeAttribute ModifierTargetType = "attribute"

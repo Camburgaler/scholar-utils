@@ -52,7 +52,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 	_, err := os.Stat(outputPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			err = os.Mkdir(outputPath, 0755)
+			err = os.Mkdir(outputPath, 0o755)
 			if err != nil {
 				return err
 			}

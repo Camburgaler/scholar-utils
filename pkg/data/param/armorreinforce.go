@@ -103,15 +103,13 @@ type (
 	}
 )
 
-var (
-	// ValidArmorReinforceIDs is a list of valid ArmorReinforceParam IDs
-	ValidArmorReinforceIDs = []id.Range{
-		{Start: 11001100, End: 11001103},
-		{Start: 11010100, End: 12230103},
-		{Start: 12240100, End: 13060101},
-		{Start: 13061100, End: 13081101},
-		{Start: 13120100, End: 17550103},
-		{Start: 17680100, End: 17830101},
-		{Start: 17950100, End: 17950103},
-	}
-)
+// ValidArmorReinforceIDs is a list of valid ArmorReinforceParam IDs
+var ValidArmorReinforceIDs = []id.Range{
+	{Start: 11001100, End: 11001103},
+	{Start: 11010100, End: 12230103},
+	{Start: 12240100, End: 13060101},
+	{Start: 13061100, End: 13081101},
+	{Start: 13120100, End: 17550103},
+	{Start: 17680100, End: 17830101},
+	{Start: 17950100, End: 17950103},
+}

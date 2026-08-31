@@ -2,22 +2,20 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
-var (
-	// ValidWeaponStatsAffectIDs is the list of valid WeaponStatsAffectParam IDs
-	ValidWeaponStatsAffectIDs = []id.Range{
-		{Start: 1000000, End: 1003159},
-		{Start: 1004000, End: 1005039},
-		{Start: 1005070, End: 1006019},
-		{Start: 1006030, End: 1103109},
-		{Start: 1104020, End: 1104039},
-		{Start: 1105030, End: 2105039},
-		{Start: 2204040, End: 2204049},
-		{Start: 3003000, End: 11026009},
-		{Start: 11029000, End: 11029009},
-		{Start: 11033000, End: 11108009},
-		{Start: 11130000, End: 11154009},
-	}
-)
+// ValidWeaponStatsAffectIDs is the list of valid WeaponStatsAffectParam IDs
+var ValidWeaponStatsAffectIDs = []id.Range{
+	{Start: 1000000, End: 1003159},
+	{Start: 1004000, End: 1005039},
+	{Start: 1005070, End: 1006019},
+	{Start: 1006030, End: 1103109},
+	{Start: 1104020, End: 1104039},
+	{Start: 1105030, End: 2105039},
+	{Start: 2204040, End: 2204049},
+	{Start: 3003000, End: 11026009},
+	{Start: 11029000, End: 11029009},
+	{Start: 11033000, End: 11108009},
+	{Start: 11130000, End: 11154009},
+}
 
 type (
 	// WeaponStatsAffect is a struct for storing data from WeaponStatsAffectParam.csv
