@@ -142,7 +142,7 @@ var (
 // @param row - The row to parse
 //
 // @param dataType - The reflect.Type of the struct field
-func parseRow(row []string, dataType reflect.Type) any {
+func parseRow(row []string, dataType reflect.Type) (any, error) {
 	v := reflect.New(dataType).Elem()
 
 	// For each field on the struct, set the value from the row
@@ -152,28 +152,29 @@ func parseRow(row []string, dataType reflect.Type) any {
 			continue
 		}
 
-		if v.Field(i).Kind() == reflect.String {
+		switch v.Field(i).Kind() {
+		case reflect.String:
 			v.Field(i).SetString(row[i])
-		} else if v.Field(i).Kind() == reflect.Int {
+		case reflect.Int:
 			num, err := strconv.Atoi(row[i])
 			if err != nil {
-				panic(err)
+				return nil, err
 			}
 			v.Field(i).SetInt(int64(num))
-		} else if v.Field(i).Kind() == reflect.Float64 {
+		case reflect.Float64:
 			num, err := strconv.ParseFloat(row[i], 64)
 			if err != nil {
-				panic(err)
+				return nil, err
 			}
 			v.Field(i).SetFloat(num)
-		} else if v.Field(i).Kind() == reflect.Bool {
+		case reflect.Bool:
 			v.Field(i).SetBool(row[i] == "1")
-		} else {
-			panic(fmt.Sprintf("unknown type: %s\nvalue: %s", v.Field(i).Kind().String(), row[i]))
+		default:
+			return nil, fmt.Errorf("unknown type: %s\nvalue: %s", v.Field(i).Kind().String(), row[i])
 		}
 	}
 
-	return v.Interface()
+	return v.Interface(), nil
 }
 
 // parseFile parses a single Param CSV file
@@ -199,7 +200,6 @@ func (p *DS2Params) parseFile(paramFile ParamFile) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
 
 	// Create scanner
 	s := bufio.NewScanner(f)
@@ -254,8 +254,16 @@ func (p *DS2Params) parseFile(paramFile ParamFile) error {
 		}
 
 		// Parse
-		record := reflect.ValueOf(parseRow(row, metadata.DataType))
+		parsedRow, err := parseRow(row, metadata.DataType)
+		if err != nil {
+			return err
+		}
+		record := reflect.ValueOf(parsedRow)
 		v.Set(reflect.Append(v, record))
+	}
+	err = f.Close()
+	if err != nil {
+		return err
 	}
 
 	fmt.Printf("Parsed %d rows\n", v.Len())

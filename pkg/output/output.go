@@ -18,7 +18,6 @@ func writeData(file string, data any) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
 
 	j, err := json.MarshalIndent(data, "", "    ")
 	if err != nil {
@@ -30,6 +29,11 @@ func writeData(file string, data any) error {
 		return err
 	}
 
+	err = f.Close()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -37,13 +41,25 @@ func writeData(file string, data any) error {
 //
 // @param data ScholarData - the parsed, transformed data to output
 //
-// @param paramData DS2Params - temporary, just for development
+// @param paramData DS2Params
 //
-// @param emevdData DS2EMEVD - temporary, just for development
+// @param emevdData DS2EMEVD
 //
 // @return error
 func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) error {
-	os.Mkdir("outputs", 0755)
+	outputPath := "outputs"
+
+	_, err := os.Stat(outputPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			err = os.Mkdir(outputPath, 0755)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
+	}
 
 	data.BaseStats = BaseStats
 	data.StatCalculation = DS2StatCalculationDetails

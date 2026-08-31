@@ -18,10 +18,12 @@ const (
 	eventLastLine           = `}\);`
 )
 
-// File names
 const (
-	EMEVDFileArmor  = "SpEffectArmor"
-	EMEVDFileRing   = "SpEffectRing"
+	// This is the path to the file containing the armor SpEffects
+	EMEVDFileArmor = "SpEffectArmor"
+	// This is the path to the file containing the ring SpEffects
+	EMEVDFileRing = "SpEffectRing"
+	// This is the path to the file containing the weapon SpEffects
 	EMEVDFileWeapon = "SpEffectWeapon"
 )
 
@@ -113,7 +115,10 @@ func (e *DS2EMEVD) parseFile(file string) error {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	f.Close()
+	err = f.Close()
+	if err != nil {
+		return err
+	}
 
 	if err := scanner.Err(); err != nil {
 		return err
@@ -171,7 +176,10 @@ func Parse() (DS2EMEVD, error) {
 		fmt.Printf("\nParsing %s.emevd.js...\n", file)
 
 		// Parse
-		result.parseFile(file)
+		err := result.parseFile(file)
+		if err != nil {
+			return DS2EMEVD{}, err
+		}
 	}
 
 	return result, nil

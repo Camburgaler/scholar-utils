@@ -410,8 +410,8 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 				maxReinforcementLevel := float64(weaponReinforce.MaxReinforcementLevel)
 
 				if d == "Poison" || d == "Bleed" {
-					minD = minD / 10
-					maxD = maxD / 10
+					minD /= 10
+					maxD /= 10
 				}
 
 				damage := calculateSlopeIntercept(Point{X: 0, Y: minD}, Point{X: maxReinforcementLevel, Y: maxD})
