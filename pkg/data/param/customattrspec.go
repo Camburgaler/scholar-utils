@@ -42,11 +42,12 @@ type (
 
 		// A flag for whether the Mundane infusion is compatible
 		Mundane bool
-		padding []byte
+
+		padding []byte //nolint:unused
 	}
 )
 
-// ValidParamIDs is a list of valid CustomAttrSpecParam IDs
+// ValidCustomAttrSpecIDs is a list of valid CustomAttrSpecParam IDs
 var ValidCustomAttrSpecIDs = []id.Range{
 	{Start: 0, End: 200100},
 }

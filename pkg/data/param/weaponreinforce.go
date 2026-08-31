@@ -78,7 +78,7 @@ type (
 		// The maximum reinforcement level
 		MaxReinforcementLevel int
 
-		dummy []byte
+		dummy []byte //nolint:unused
 
 		// The ID of the WeaponStatsAffectParam that defines the stats affect
 		WeaponStatsAffectID id.ID
@@ -199,7 +199,8 @@ type (
 
 		// The ID of the CustomAttributeSpecParam that defines the custom attributes
 		CustomAttrSpecParamID id.ID
-		customAttrCostParamID id.ID
-		reinforceCostID       id.ID
+
+		customAttrCostParamID id.ID //nolint:unused
+		reinforceCostID       id.ID //nolint:unused
 	}
 )

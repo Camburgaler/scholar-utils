@@ -2,7 +2,7 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
-// Item types
+// ItemTypes is a map of item type IDs to their names
 //
 // Comes from ItemTypeParam
 var ItemTypes = map[int]string{
@@ -22,14 +22,16 @@ type (
 		ID id.ID
 
 		// The name of this item
-		Name   string
-		iconID id.ID
+		Name string
+
+		iconID id.ID //nolint:unused
 
 		// SpEffect info is stored in the EMEVD files, which are accessed using DarkScript3
 		SpecialEffectID id.ID
-		startSFXID      id.ID
-		actionSFXID     id.ID
-		effectSFXID     id.ID
+
+		startSFXID  id.ID //nolint:unused
+		actionSFXID id.ID //nolint:unused
+		effectSFXID id.ID //nolint:unused
 
 		// The ID of the weapon that this item data describes (if applicable)
 		WeaponParamID id.ID
@@ -38,35 +40,38 @@ type (
 		ArmorParamID id.ID
 
 		// The ID of the ring that this item data describes (if applicable)
-		RingParamID     id.ID
-		spellParamID    id.ID
-		gestureID       id.ID
-		sortID          id.ID
-		price           int
-		salePrice       int
-		motionSpeedRate float64
+		RingParamID id.ID
+
+		spellParamID    id.ID   //nolint:unused
+		gestureID       id.ID   //nolint:unused
+		sortID          id.ID   //nolint:unused
+		price           int     //nolint:unused
+		salePrice       int     //nolint:unused
+		motionSpeedRate float64 //nolint:unused
 
 		// The weight of this item
 		Weight float64
 
 		// The ID of the item type (see ItemTypes)
-		ItemTypeParamID      int
-		itemUsageParamID     int
-		getFrag              bool
-		maxNum               int
-		spEffectTargetRegion int
-		spEffectDuplication  int
-		spEffectSFXPriority  int
-		menuItemCategory     int
+		ItemTypeParamID int
+
+		itemUsageParamID     int  //nolint:unused
+		getFrag              bool //nolint:unused
+		maxNum               int  //nolint:unused
+		spEffectTargetRegion int  //nolint:unused
+		spEffectDuplication  int  //nolint:unused
+		spEffectSFXPriority  int  //nolint:unused
+		menuItemCategory     int  //nolint:unused
 
 		// Determines if this item can be enchanted
-		EnchantType            bool
-		completeTrophy         bool
-		isOnlyOne              bool
-		isOnlyOneUtilGameClear bool
-		isTakeOver             bool
-		canGetWhenGetAllItem   bool
-		padding                []byte
+		EnchantType bool
+
+		completeTrophy         bool   //nolint:unused
+		isOnlyOne              bool   //nolint:unused
+		isOnlyOneUtilGameClear bool   //nolint:unused
+		isTakeOver             bool   //nolint:unused
+		canGetWhenGetAllItem   bool   //nolint:unused
+		padding                []byte //nolint:unused
 	}
 )
 

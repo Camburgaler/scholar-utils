@@ -29,8 +29,9 @@ type (
 		Name string
 
 		// Multiplier applied to the weapon's base attack value during reinforcement
-		BaseDamageScaling    float64
-		menuBaseValueScaling float64
+		BaseDamageScaling float64
+
+		menuBaseValueScaling float64 //nolint:unused
 
 		// Multiplier applied to the weapon's physical damage scaling from Strength. Tier 0.
 		Level00PhysicalByStrength float64

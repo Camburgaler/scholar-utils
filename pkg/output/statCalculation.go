@@ -10,10 +10,11 @@ type (
 	// A value of [-1] indicates that the attribute's contibution to the stat is "special" (not sure yet what that means)
 	StatCurve []float64
 
-	// A map of Attributes to Stats to StatCurves
+	// StatCalculationDetails is a map of Attributes to Stats to StatCurves
 	StatCalculationDetails = Attributes[Stats[StatCurve]]
 )
 
+// BaseStats is a map of Stats to floats and represents the base stats of a character
 var BaseStats = Stats[float64]{
 	MaximumHP:                      500,
 	MaximumStamina:                 80,
@@ -282,6 +283,7 @@ var (
 	}
 )
 
+// DS2StatCalculationDetails is a map of Attributes to Stats to StatCurves
 var DS2StatCalculationDetails = StatCalculationDetails{
 	Vigor: Stats[StatCurve]{
 		MaximumHP:         vigorMaximumHPStatCurve,

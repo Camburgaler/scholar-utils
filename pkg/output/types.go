@@ -1,20 +1,22 @@
 package output
 
 type (
-	ModifierTargetType string
-	ModifierMethod     string
+	modifierTargetType string
+	modifierMethod     string
 )
 
+// Modifier target types
 const (
-	ModifierTargetTypeAttribute ModifierTargetType = "attribute"
-	ModifierTargetTypeStat      ModifierTargetType = "stat"
-	ModifierTargetTypeSpecial   ModifierTargetType = "special"
+	ModifierTargetTypeAttribute modifierTargetType = "attribute"
+	ModifierTargetTypeStat      modifierTargetType = "stat"
+	ModifierTargetTypeSpecial   modifierTargetType = "special"
 )
 
+// Modifier methods
 const (
-	ModifierMethodAdditive       ModifierMethod = "additive"
-	ModifierMethodMultiplicative ModifierMethod = "multiplicative"
-	ModifierMethodToggle         ModifierMethod = "toggle"
+	ModifierMethodAdditive       modifierMethod = "additive"
+	ModifierMethodMultiplicative modifierMethod = "multiplicative"
+	ModifierMethodToggle         modifierMethod = "toggle"
 )
 
 type (
@@ -46,11 +48,12 @@ type (
 		Attributes Attributes[int]
 	}
 
+	// Modifier is a struct for an item's modifier, also called special effects
 	Modifier struct {
 		Description string
-		TargetType  ModifierTargetType
+		TargetType  modifierTargetType
 		Target      string
-		Method      ModifierMethod
+		Method      modifierMethod
 		Value       float64
 	}
 
@@ -115,6 +118,7 @@ type (
 		Intercept float64
 	}
 
+	// Damages is a struct for the damages of a weapon
 	Damages[T any] struct {
 		Physical  T
 		Magic     T
@@ -127,6 +131,7 @@ type (
 		Petrify   T
 	}
 
+	// ScalingFactors is a struct for the scaling factors of a weapon
 	ScalingFactors struct {
 		PhysicalByStrength  float64
 		PhysicalByDexterity float64
@@ -139,6 +144,7 @@ type (
 		PhysicalByEnchant   float64
 	}
 
+	// Scaling is a struct for the scaling of a weapon at each reinforcement level
 	Scaling struct {
 		Level00 ScalingFactors
 		Level01 ScalingFactors
@@ -193,6 +199,7 @@ type (
 		ItemDiscovery int
 	}
 
+	// Stats is a struct for the stats of a character
 	Stats[T any] struct {
 		MaximumHP                      T
 		MaximumStamina                 T
@@ -231,6 +238,7 @@ type (
 		Name string
 	}
 
+	// Spell is a struct for spell data
 	Spell struct {
 		Name                 string
 		RequiredIntelligence int
@@ -241,19 +249,6 @@ type (
 		// The breakpoints are 15, 26, 32, 38, 43, 49, 58, 79, and 94
 		UsageCountCurve []int
 	}
-
-	// // damage is a struct for the damage of a weapon
-	// damage struct {
-	// 	Physical  int
-	// 	Magic     int
-	// 	Lightning int
-	// 	Fire      int
-	// 	Dark      int
-	// 	Poison    int
-	// 	Bleed     int
-	// 	Petrify   int
-	// 	Curse     int
-	// }
 
 	// ScholarData is a struct for Scholar-friendly data
 	ScholarData struct {

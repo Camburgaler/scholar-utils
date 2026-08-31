@@ -51,12 +51,12 @@ func toTitleCase(pascal string) string {
 		if i > 0 &&
 			r >= 'A' &&
 			r <= 'Z' &&
-			!(pascal[i-1] == 'H' &&
-				r == 'P') &&
-			!(i > 1 &&
-				pascal[i-2] == 'P' &&
-				pascal[i-1] == 'v' &&
-				r == 'E') {
+			(pascal[i-1] != 'H' ||
+				r != 'P') &&
+			(i <= 1 ||
+				pascal[i-2] != 'P' ||
+				pascal[i-1] != 'v' ||
+				r != 'E') {
 			title.WriteString(" ")
 		}
 
@@ -207,7 +207,7 @@ func parseModifyDamageFlatToBaseAr(arg1, arg2 string) ([]output.Modifier, error)
 	var (
 		damageType   string
 		value        float64
-		newModifiers = []output.Modifier{}
+		newModifiers = make([]output.Modifier, 0, 3)
 	)
 
 	// ModifyDamageFlatToBaseAr has the buff type at index 1
@@ -441,8 +441,8 @@ func parseModifyProperty(arg0, arg2 string) (output.Modifier, error) {
 	// Arg2 is an optional modifier value
 
 	switch arg0 {
-	case "PlayerPropertyType.Appearence":
-		// PlayerPropertyType.Appearence is a flag for the player appearing as a white phantom
+	case "PlayerPropertyType.Appearence": //nolint:misspell
+		//nolint:misspell // PlayerPropertyType.Appearence is a flag for the player appearing as a white phantom
 		return output.Modifier{
 			Description: "Force white phantom appearance",
 
@@ -497,7 +497,7 @@ func parseModifyStaminaRecovery(arg1 string) (output.Modifier, error) {
 	}
 
 	// Convert to percent
-	value -= 1
+	value--
 	value *= 100
 
 	return output.Modifier{
@@ -733,8 +733,8 @@ func parseApplySpecialScalingToWeapon(arg0, arg1, arg2, arg3 string) (output.Mod
 
 	// convert to percentage
 	if minScaling < maxScaling {
-		minScaling += 1
-		maxScaling += 1
+		minScaling++
+		maxScaling++
 	}
 	minScaling *= 100
 	maxScaling *= 100

@@ -89,17 +89,15 @@ type (
 
 		// The maximum reinforcement level for this armor
 		MaxReinforcementLevel int
-		dummy                 []byte
 
-		// The defense power correction scale to use within the menu. Display only.
-		// Not needed since the value is always 10
-		menuResistanceScale float64
+		dummy               []byte  //nolint:unused
+		menuResistanceScale float64 //nolint:unused
 
 		// ID for the CustomAttrSpecParam that defines how this armor can be infused
 		// Not needed since armor cannot be infused
-		customAttrSpecID id.ID
-		customAttrCost   int
-		reinforceCostID  id.ID
+		customAttrSpecID id.ID //nolint:unused
+		customAttrCost   int   //nolint:unused
+		reinforceCostID  id.ID //nolint:unused
 	}
 )
 

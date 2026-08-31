@@ -1,8 +1,9 @@
+// Package param contains structs for storing data from the param CSV files
 package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
-type ArmorCategory int
+type armorCategory int
 
 // ValidArmorIDs is a list of valid ArmorParam IDs
 var ValidArmorIDs = []id.Range{
@@ -16,9 +17,13 @@ var ValidArmorIDs = []id.Range{
 }
 
 const (
-	ArmorCategoryHead ArmorCategory = iota + 1
+	// ArmorCategoryHead is the head armor category
+	ArmorCategoryHead armorCategory = iota + 1
+	// ArmorCategoryChest is the chest armor category
 	ArmorCategoryChest
+	// ArmorCategoryArms is the arms armor category
 	ArmorCategoryArms
+	// ArmorCategoryLegs is the legs armor category
 	ArmorCategoryLegs
 )
 
@@ -35,18 +40,19 @@ type (
 
 		// The common ID for this armor set
 		ArmorSetID id.ID
-		armorType  int
+
+		armorType int //nolint:unused
 
 		// The category of this armor (see ArmorCategories)
-		ArmorCategory ArmorCategory
+		ArmorCategory armorCategory
 
-		dummy0            []byte
-		modelID           id.ID
-		hasGenderedArmor  bool
-		dummy1            []byte
-		clothCollidableID id.ID
-		interfereID       id.ID
-		iconID            id.ID
+		dummy0            []byte //nolint:unused
+		modelID           id.ID  //nolint:unused
+		hasGenderedArmor  bool   //nolint:unused
+		dummy1            []byte //nolint:unused
+		clothCollidableID id.ID  //nolint:unused
+		interfereID       id.ID  //nolint:unused
+		iconID            id.ID  //nolint:unused
 
 		// Reference to reinforcement data in ArmorReinforceParam
 		ArmorReinforceID id.ID
@@ -85,14 +91,16 @@ type (
 		RepairCost int
 
 		// Poise of this armor
-		Poise         float64
-		handsUpWeight int
-		handsUpFLevel int
+		Poise float64
+
+		handsUpWeight int //nolint:unused
+		handsUpFLevel int //nolint:unused
 
 		// Modifier to item discovery provided by this armor
-		ItemDiscovery   int
-		material        int
-		brokenSFXID     id.ID
-		brokenSoundType int
+		ItemDiscovery int
+
+		material        int   //nolint:unused
+		brokenSFXID     id.ID //nolint:unused
+		brokenSoundType int   //nolint:unused
 	}
 )

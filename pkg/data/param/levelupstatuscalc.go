@@ -2,12 +2,13 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
+// ValidLevelUpStatusCalcIDs is the list of valid LevelUpStatusCalcParam IDs
 var ValidLevelUpStatusCalcIDs = []id.Range{
 	{Start: 0, End: 8},
 }
 
 type (
-	// LevelUpStatusCalcParam is a struct for storing data from LevelUpStatusCalcParam.csv
+	// LevelUpStatusCalc is a struct for storing data from LevelUpStatusCalcParam.csv
 	//
 	// LevelUpStatusCalcParam.csv contains information about what stats are affected by what attributes when leveling up
 	LevelUpStatusCalc struct {
@@ -37,17 +38,18 @@ type (
 		ResistanceCurse                bool
 		Agility                        bool
 		Poise                          bool
-		leftHandWeaponPrimary          bool
-		leftHandWeaponSecondary        bool
-		leftHandWeaponTertiary         bool
-		rightHandWeaponPrimary         bool
-		rightHandWeaponSecondary       bool
-		rightHandWeaponTertiary        bool
-		defenseStrike                  bool
-		defenseSlash                   bool
-		defenseThrust                  bool
-		defensePoise                   bool
-		dummy00                        []byte
-		dummy01                        []byte
+
+		leftHandWeaponPrimary    bool   //nolint:unused
+		leftHandWeaponSecondary  bool   //nolint:unused
+		leftHandWeaponTertiary   bool   //nolint:unused
+		rightHandWeaponPrimary   bool   //nolint:unused
+		rightHandWeaponSecondary bool   //nolint:unused
+		rightHandWeaponTertiary  bool   //nolint:unused
+		defenseStrike            bool   //nolint:unused
+		defenseSlash             bool   //nolint:unused
+		defenseThrust            bool   //nolint:unused
+		defensePoise             bool   //nolint:unused
+		dummy00                  []byte //nolint:unused
+		dummy01                  []byte //nolint:unused
 	}
 )

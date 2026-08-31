@@ -1,3 +1,4 @@
+// Package parse contains functions for parsing EMEVD files
 package parse
 
 import (
@@ -19,14 +20,15 @@ const (
 )
 
 const (
-	// This is the path to the file containing the armor SpEffects
+	// EMEVDFileArmor is the path to the file containing the armor SpEffects
 	EMEVDFileArmor = "SpEffectArmor"
-	// This is the path to the file containing the ring SpEffects
+	// EMEVDFileRing is the path to the file containing the ring SpEffects
 	EMEVDFileRing = "SpEffectRing"
-	// This is the path to the file containing the weapon SpEffects
+	// EMEVDFileWeapon is the path to the file containing the weapon SpEffects
 	EMEVDFileWeapon = "SpEffectWeapon"
 )
 
+// EMEVDFiles is the list of files to parse
 var EMEVDFiles = []string{
 	EMEVDFileArmor,
 	EMEVDFileRing,
@@ -168,6 +170,7 @@ func (e *DS2EMEVD) parseFile(file string) error {
 	return nil
 }
 
+// Parse parses the EMEVD files
 func Parse() (DS2EMEVD, error) {
 	result := DS2EMEVD{}
 

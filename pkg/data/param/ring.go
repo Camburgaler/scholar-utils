@@ -30,6 +30,7 @@ type (
 
 		// The modifier to item discovery provided by this ring
 		ItemDiscovery int
-		dummy0        []byte
+
+		dummy0 []byte //nolint:unused
 	}
 )

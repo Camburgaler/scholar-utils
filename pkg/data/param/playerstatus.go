@@ -6,6 +6,7 @@ import (
 	"github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 )
 
+// ValidPlayerStatusIDs is the list of valid PlayerStatusParam IDs
 var ValidPlayerStatusIDs = []id.Range{
 	{Start: 20, End: 110},
 }
@@ -19,18 +20,20 @@ type (
 		ID id.ID
 
 		// The name of this player status
-		Name       string
-		genderType int
-		livingType int
-		bodyType   int
-		pad01      []byte
+		Name string
+
+		genderType int    //nolint:unused
+		livingType int    //nolint:unused
+		bodyType   int    //nolint:unused
+		pad01      []byte //nolint:unused
 
 		// The level of this class
 		Level int
 
 		// The Vigor stat of this class
-		Vigor      int
-		totalSouls int
+		Vigor int
+
+		totalSouls int //nolint:unused
 
 		// The Endurance stat of this class
 		Endurance int
@@ -54,105 +57,107 @@ type (
 		Faith int
 
 		// The Adaptability stat of this class
-		Adaptability            int
-		durability              int
-		luck                    int
-		facePresetNo            int
-		pad00                   []byte
-		beltItem01              id.ID
-		beltItem02              id.ID
-		beltItem03              id.ID
-		beltItem04              id.ID
-		beltItem05              id.ID
-		beltItem06              id.ID
-		beltItem07              id.ID
-		beltItem08              id.ID
-		beltItem09              id.ID
-		beltItem10              id.ID
-		beltItem01Num           int
-		beltItem02Num           int
-		beltItem03Num           int
-		beltItem04Num           int
-		beltItem05Num           int
-		beltItem06Num           int
-		beltItem07Num           int
-		beltItem08Num           int
-		beltItem09Num           int
-		beltItem10Num           int
-		spellSlotItem01         id.ID
-		spellSlotItem02         id.ID
-		spellSlotItem03         id.ID
-		spellSlotItem04         id.ID
-		spellSlotItem05         id.ID
-		spellSlotItem06         id.ID
-		spellSlotItem07         id.ID
-		spellSlotItem08         id.ID
-		spellSlotItem09         id.ID
-		spellSlotItem10         id.ID
-		rightWeapon01           id.ID
-		rightWeapon02           id.ID
-		rightWeapon03           id.ID
-		leftWeapon01            id.ID
-		leftWeapon02            id.ID
-		leftWeapon03            id.ID
-		headArmor               id.ID
-		bodyArmor               id.ID
-		armArmor                id.ID
-		legArmor                id.ID
-		ringSlot01              id.ID
-		ringSlot02              id.ID
-		ringSlot03              id.ID
-		ringSlot04              id.ID
-		rightWeapon01Enhanced   bool
-		rightWeapon01Attribute  int
-		dummyR1                 []byte
-		rightWeapon02Enhanced   bool
-		rightWeapon02Attribute  int
-		dummyR2                 []byte
-		rightWeapon03Enhanced   bool
-		rightWeapon03Attribute  int
-		dummyR3                 []byte
-		leftWeapon01Enhanced    bool
-		leftWeapon01Attribute   int
-		dummyL1                 []byte
-		leftWeapon02Enhanced    bool
-		leftWeapon02Attribute   int
-		dummyL2                 []byte
-		leftWeapon03Enhanced    bool
-		leftWeapon03Attribute   int
-		dummyL3                 []byte
-		headArmorEnhanced       bool
-		bodyArmorEnhanced       bool
-		armArmorEnhanced        bool
-		legArmorEnhanced        bool
-		bagItemParam01          id.ID
-		bagItemParam02          id.ID
-		bagItemParam03          id.ID
-		estusFlaskLvUsableCount int
-		estusFlaskHealingPoint  int
-		dummy                   []byte
-		arrowSlot01             id.ID
-		arrowSlot02             id.ID
-		boltSlot01              id.ID
-		boltSlot02              id.ID
-		arrowSlot01Num          int
-		arrowSlot02Num          int
-		boltSlot01Num           int
-		boltSlot02Num           int
-		gestureSlot01           id.ID
-		gestureSlot02           id.ID
-		gestureSlot03           id.ID
-		gestureSlot04           id.ID
-		gestureSlot05           id.ID
-		gestureSlot06           id.ID
-		gestureSlot07           id.ID
-		gestureSlot08           id.ID
-		vowID                   id.ID
-		vowLevel                int
-		vowContribution         int
+		Adaptability int
+
+		durability              int    //nolint:unused
+		luck                    int    //nolint:unused
+		facePresetNo            int    //nolint:unused
+		pad00                   []byte //nolint:unused
+		beltItem01              id.ID  //nolint:unused
+		beltItem02              id.ID  //nolint:unused
+		beltItem03              id.ID  //nolint:unused
+		beltItem04              id.ID  //nolint:unused
+		beltItem05              id.ID  //nolint:unused
+		beltItem06              id.ID  //nolint:unused
+		beltItem07              id.ID  //nolint:unused
+		beltItem08              id.ID  //nolint:unused
+		beltItem09              id.ID  //nolint:unused
+		beltItem10              id.ID  //nolint:unused
+		beltItem01Num           int    //nolint:unused
+		beltItem02Num           int    //nolint:unused
+		beltItem03Num           int    //nolint:unused
+		beltItem04Num           int    //nolint:unused
+		beltItem05Num           int    //nolint:unused
+		beltItem06Num           int    //nolint:unused
+		beltItem07Num           int    //nolint:unused
+		beltItem08Num           int    //nolint:unused
+		beltItem09Num           int    //nolint:unused
+		beltItem10Num           int    //nolint:unused
+		spellSlotItem01         id.ID  //nolint:unused
+		spellSlotItem02         id.ID  //nolint:unused
+		spellSlotItem03         id.ID  //nolint:unused
+		spellSlotItem04         id.ID  //nolint:unused
+		spellSlotItem05         id.ID  //nolint:unused
+		spellSlotItem06         id.ID  //nolint:unused
+		spellSlotItem07         id.ID  //nolint:unused
+		spellSlotItem08         id.ID  //nolint:unused
+		spellSlotItem09         id.ID  //nolint:unused
+		spellSlotItem10         id.ID  //nolint:unused
+		rightWeapon01           id.ID  //nolint:unused
+		rightWeapon02           id.ID  //nolint:unused
+		rightWeapon03           id.ID  //nolint:unused
+		leftWeapon01            id.ID  //nolint:unused
+		leftWeapon02            id.ID  //nolint:unused
+		leftWeapon03            id.ID  //nolint:unused
+		headArmor               id.ID  //nolint:unused
+		bodyArmor               id.ID  //nolint:unused
+		armArmor                id.ID  //nolint:unused
+		legArmor                id.ID  //nolint:unused
+		ringSlot01              id.ID  //nolint:unused
+		ringSlot02              id.ID  //nolint:unused
+		ringSlot03              id.ID  //nolint:unused
+		ringSlot04              id.ID  //nolint:unused
+		rightWeapon01Enhanced   bool   //nolint:unused
+		rightWeapon01Attribute  int    //nolint:unused
+		dummyR1                 []byte //nolint:unused
+		rightWeapon02Enhanced   bool   //nolint:unused
+		rightWeapon02Attribute  int    //nolint:unused
+		dummyR2                 []byte //nolint:unused
+		rightWeapon03Enhanced   bool   //nolint:unused
+		rightWeapon03Attribute  int    //nolint:unused
+		dummyR3                 []byte //nolint:unused
+		leftWeapon01Enhanced    bool   //nolint:unused
+		leftWeapon01Attribute   int    //nolint:unused
+		dummyL1                 []byte //nolint:unused
+		leftWeapon02Enhanced    bool   //nolint:unused
+		leftWeapon02Attribute   int    //nolint:unused
+		dummyL2                 []byte //nolint:unused
+		leftWeapon03Enhanced    bool   //nolint:unused
+		leftWeapon03Attribute   int    //nolint:unused
+		dummyL3                 []byte //nolint:unused
+		headArmorEnhanced       bool   //nolint:unused
+		bodyArmorEnhanced       bool   //nolint:unused
+		armArmorEnhanced        bool   //nolint:unused
+		legArmorEnhanced        bool   //nolint:unused
+		bagItemParam01          id.ID  //nolint:unused
+		bagItemParam02          id.ID  //nolint:unused
+		bagItemParam03          id.ID  //nolint:unused
+		estusFlaskLvUsableCount int    //nolint:unused
+		estusFlaskHealingPoint  int    //nolint:unused
+		dummy                   []byte //nolint:unused
+		arrowSlot01             id.ID  //nolint:unused
+		arrowSlot02             id.ID  //nolint:unused
+		boltSlot01              id.ID  //nolint:unused
+		boltSlot02              id.ID  //nolint:unused
+		arrowSlot01Num          int    //nolint:unused
+		arrowSlot02Num          int    //nolint:unused
+		boltSlot01Num           int    //nolint:unused
+		boltSlot02Num           int    //nolint:unused
+		gestureSlot01           id.ID  //nolint:unused
+		gestureSlot02           id.ID  //nolint:unused
+		gestureSlot03           id.ID  //nolint:unused
+		gestureSlot04           id.ID  //nolint:unused
+		gestureSlot05           id.ID  //nolint:unused
+		gestureSlot06           id.ID  //nolint:unused
+		gestureSlot07           id.ID  //nolint:unused
+		gestureSlot08           id.ID  //nolint:unused
+		vowID                   id.ID  //nolint:unused
+		vowLevel                int    //nolint:unused
+		vowContribution         int    //nolint:unused
 	}
 )
 
+// IsClass returns true if this player status is a class
 func (p *PlayerStatus) IsClass() bool {
 	return strings.Contains(p.Name, "[Class]")
 }

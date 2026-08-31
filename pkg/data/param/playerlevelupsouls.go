@@ -2,6 +2,7 @@ package param
 
 import "github.com/Camburgaler/scholar-utils/pkg/data/param/id"
 
+// ValidPlayerLevelUpSoulsIDs is the list of valid PlayerLevelUpSoulsParam IDs
 var ValidPlayerLevelUpSoulsIDs = []id.Range{
 	{
 		Start: 0,
@@ -17,19 +18,10 @@ type (
 		// The unique ID for this PlayerLevelUpSouls (same as the level)
 		Level id.ID
 
-		// The name of this PlayerLevelUpSouls ("Level 1", "Level 2", etc.)
-		name string
-
-		// The level to which this record corresponds
-		//
-		// Not necessary since it's always the same as the ID
-		soulLevelThreshold int
-		dummy              []byte
-
-		// The increase in souls from the threshold
-		//
-		// Not necessary since it's always 0
-		increasedSoulsFromThreshold int
+		name                        string //nolint:unused
+		soulLevelThreshold          int    //nolint:unused
+		dummy                       []byte //nolint:unused
+		increasedSoulsFromThreshold int    //nolint:unused
 
 		// The number of souls required to level up
 		NecessarySouls int

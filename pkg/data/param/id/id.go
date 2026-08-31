@@ -17,10 +17,12 @@ type (
 	}
 )
 
+// Contains returns true if the ID is within the provided range
 func (r Range) Contains(id ID) bool {
 	return id >= r.Start && id <= r.End
 }
 
+// Plus returns the ID plus the provided number
 func (i ID) Plus(num int) ID {
 	return ID(int(i) + num)
 }

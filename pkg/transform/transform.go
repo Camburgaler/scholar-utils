@@ -139,7 +139,7 @@ func createAttributeToStatMap(levelUpStatusCalcParams []param.LevelUpStatusCalc)
 func createCovenants(vowParams []param.Vow) []string {
 	fmt.Println("\nCreating covenants...")
 
-	covenants := []string{}
+	covenants := make([]string, 0, len(vowParams))
 
 	for _, vowParam := range vowParams {
 		covenants = append(covenants, vowParam.Name)
@@ -153,7 +153,7 @@ func createCovenants(vowParams []param.Vow) []string {
 func createLevels(playerLevelUpSoulsParams []param.PlayerLevelUpSouls) []int {
 	fmt.Println("\nCreating levels...")
 
-	levels := []int{}
+	levels := make([]int, 0, len(playerLevelUpSoulsParams))
 
 	for _, playerLevelUpSoulsParam := range playerLevelUpSoulsParams {
 		levels = append(levels, playerLevelUpSoulsParam.NecessarySouls)
@@ -167,7 +167,7 @@ func createLevels(playerLevelUpSoulsParams []param.PlayerLevelUpSouls) []int {
 func createSpells(spellParams []param.Spell) []output.Spell {
 	fmt.Println("\nCreating spells...")
 
-	spells := []output.Spell{}
+	spells := make([]output.Spell, 0, len(spellParams))
 
 	for _, spellParam := range spellParams {
 		spells = append(spells, output.Spell{
@@ -365,7 +365,7 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 			}
 		}
 
-		// Fists need to have its max reinforcement level overriden to 0
+		// Fists need to have its max reinforcement level overridden to 0
 		maxReinforcementLevel := weaponReinforce.MaxReinforcementLevel
 		if weaponParam.ID == 3400000 || weaponParam.ID == 3406000 {
 			maxReinforcementLevel = 0

@@ -62,6 +62,7 @@ const (
 	ParamFileCount // Must always be last
 )
 
+// ParamFiles is a map of ParamFile to ParamFileMetadata
 var ParamFiles = map[ParamFile]ParamFileMetadata{
 	ParamFileArmor: {
 		Name:     "ArmorParam",
@@ -146,7 +147,7 @@ func parseRow(row []string, dataType reflect.Type) (any, error) {
 	// For each field on the struct, set the value from the row
 	for i := 0; i < v.NumField(); i++ {
 		// Skip unexported fields
-		if v.Field(i).CanSet() == false {
+		if !v.Field(i).CanSet() {
 			continue
 		}
 

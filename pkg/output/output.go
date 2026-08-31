@@ -14,7 +14,7 @@ import (
 func writeData(file string, data any) error {
 	fmt.Printf("\nWriting %s...\n", file)
 
-	f, err := os.Create(file)
+	f, err := os.Create(file) // #nosec G304 -- False positive since the list of files is defined in-code and not user input
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func Output(data ScholarData, paramData paramParser.DS2Params, emevdData emevdPa
 	_, err := os.Stat(outputPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			err = os.Mkdir(outputPath, 0o755)
+			err = os.Mkdir(outputPath, 0o750)
 			if err != nil {
 				return err
 			}

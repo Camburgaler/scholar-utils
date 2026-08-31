@@ -16,10 +16,11 @@ type (
 		ID id.ID
 
 		// The name of this vow
-		Name                    string
-		requiredContributionLv1 int
-		requiredContributionLv2 int
-		requiredContributionLv3 int
-		padding0                []byte
+		Name string
+
+		requiredContributionLv1 int    //nolint:unused
+		requiredContributionLv2 int    //nolint:unused
+		requiredContributionLv3 int    //nolint:unused
+		padding0                []byte //nolint:unused
 	}
 )
