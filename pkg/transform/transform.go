@@ -469,7 +469,7 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 			case "Raw":
 				// TODO: Research
 			case "Enchanted":
-				damageRates.Physical = weaponReinforce.InfusionMundaneRate / 100
+				damageRates.Physical = weaponReinforce.InfusionEnchantedRate / 100
 			case "Mundane":
 				// TODO: Research
 			}
