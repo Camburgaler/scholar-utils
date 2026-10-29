@@ -70,7 +70,7 @@ type (
 		leftStaminaDamageScale              float64 //nolint:unused
 		leftDurabilityDamageScale           float64 //nolint:unused
 		rightDamageScale                    float64 //nolint:unused
-		rightDtaminaDamageScale             float64 //nolint:unused
+		rightStaminaDamageScale             float64 //nolint:unused
 		rightDurabilityDamageScale          float64 //nolint:unused
 		counterDamageScale                  float64 //nolint:unused
 		fallStrikeFallDistRate              float64 //nolint:unused

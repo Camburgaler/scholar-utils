@@ -15,7 +15,7 @@ import (
 
 var (
 	infusionNames = []string{
-		"Physical",
+		"Standard",
 		"Magic",
 		"Lightning",
 		"Fire",
@@ -397,7 +397,7 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 		infusions := []output.Infusion{}
 		for infusionIndex, infusionName := range infusionNames {
 			vCustomAttrSpec := reflect.ValueOf(customAttrSpec)
-			if infusionName != "Physical" && !vCustomAttrSpec.FieldByName(infusionName).Bool() {
+			if infusionName != "Standard" && !vCustomAttrSpec.FieldByName(infusionName).Bool() {
 				continue
 			}
 
@@ -468,10 +468,13 @@ func createWeapons(weaponParams []param.Weapon, weaponTypeParams []param.WeaponT
 				damageRates.Bleed = weaponReinforce.InfusionBleedRate / 100
 			case "Raw":
 				// TODO: Research
+				// Raw boosts base damage and reduced scaling
 			case "Enchanted":
-				damageRates.Physical = weaponReinforce.InfusionEnchantedRate / 100
+				// TODO: Research
+				// Enchanted scales physical damage with Intelligence
 			case "Mundane":
 				// TODO: Research
+				// Mundane scales only with the lowest of all stats
 			}
 
 			infusion := output.Infusion{

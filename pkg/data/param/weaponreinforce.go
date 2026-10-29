@@ -143,31 +143,31 @@ type (
 		// Guard stability value at reinforcement level 10
 		StabilityRate10 float64
 
-		// Base physical attribute multiplier applied befor elemental modifiers
+		// Base physical attribute multiplier applied before elemental modifiers
 		PhysicalRate float64
 
-		// Base magic attribute multiplier applied befor elemental modifiers
+		// Base magic attribute multiplier applied before elemental modifiers
 		MagicRate float64
 
-		// Base lightning attribute multiplier applied befor elemental modifiers
+		// Base lightning attribute multiplier applied before elemental modifiers
 		LightningRate float64
 
-		// Base fire attribute multiplier applied befor elemental modifiers
+		// Base fire attribute multiplier applied before elemental modifiers
 		FireRate float64
 
-		// Base dark attribute multiplier applied befor elemental modifiers
+		// Base dark attribute multiplier applied before elemental modifiers
 		DarkRate float64
 
-		// Base poison attribute multiplier applied befor elemental modifiers
+		// Base poison attribute multiplier applied before elemental modifiers
 		PoisonRate float64
 
-		// Base bleed attribute multiplier applied befor elemental modifiers
+		// Base bleed attribute multiplier applied before elemental modifiers
 		BleedRate float64
 
-		// Base petrify attribute multiplier applied befor elemental modifiers
+		// Base petrify attribute multiplier applied before elemental modifiers
 		PetrifyRate float64
 
-		// Base curse attribute multiplier applied befor elemental modifiers
+		// Base curse attribute multiplier applied before elemental modifiers
 		CurseRate float64
 
 		// Attribute multiplier applied by magic infusion
