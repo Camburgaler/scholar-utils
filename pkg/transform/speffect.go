@@ -205,16 +205,18 @@ func parseModifyDamageFlatToBaseAr(arg1, arg2 string) ([]output.Modifier, error)
 	//     Weapons infused with the relevant damage type get (Arg2 / 2) points of extra damage.
 	//     Weapons with innate relevant damage AND infused with the relevant damage type get (Arg2 * 1.2) points of extra damage.
 	var (
-		damageType   string
 		value        float64
 		newModifiers = make([]output.Modifier, 0, 3)
+		// ModifyDamageFlatToBaseAr has the buff type at index 1
+		damageType                          = extractStatName(arg1)
+		infusion                            = extractStatName(arg1)
+		standardInfusionDescriptionModifier = ""
 	)
 
-	// ModifyDamageFlatToBaseAr has the buff type at index 1
-	damageType = extractStatName(arg1)
-	infusion := extractStatName(arg1)
 	if infusion == "All Physical Damage" {
+		damageType = "Physical Damage"
 		infusion = "Standard"
+		standardInfusionDescriptionModifier = " not"
 	}
 
 	value, err := strconv.ParseFloat(arg2, 64)
@@ -224,25 +226,27 @@ func parseModifyDamageFlatToBaseAr(arg1, arg2 string) ([]output.Modifier, error)
 	}
 
 	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon is infused with %s", damageType, int(math.Abs(value/2)), infusion),
+		Description: fmt.Sprintf("Increase %s by %d when the weapon is%s infused with %s", damageType, int(math.Abs(value/2)), standardInfusionDescriptionModifier, infusion),
 		Target:      damageType,
 		Method:      output.ModifierMethodAdditive,
 		Value:       value / 2,
 	})
 
 	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate %s", damageType, int(math.Abs(value)), infusion),
+		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate %s", damageType, int(math.Abs(value)), damageType),
 		Target:      damageType,
 		Method:      output.ModifierMethodAdditive,
 		Value:       value,
 	})
 
-	newModifiers = append(newModifiers, output.Modifier{
-		Description: fmt.Sprintf("Increase %s by %d when the weapon has innate AND infused %s", damageType, int(math.Abs(value*1.2)), infusion),
-		Target:      damageType,
-		Method:      output.ModifierMethodAdditive,
-		Value:       value * 1.2,
-	})
+	if infusion != "Standard" {
+		newModifiers = append(newModifiers, output.Modifier{
+			Description: fmt.Sprintf("Increase %s by %d when the weapon has innate %s AND infused with %s", damageType, int(math.Abs(value*1.2)), damageType, infusion),
+			Target:      damageType,
+			Method:      output.ModifierMethodAdditive,
+			Value:       value * 1.2,
+		})
+	}
 
 	return newModifiers, nil
 }
@@ -1040,6 +1044,8 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 			if newModifier.Target == "" {
 				return nil, fmt.Errorf("no stat name in Statement: %+v", spEffect)
 			}
+
+			newModifier.SpEffect = spEffect.Name
 
 			newModifier.TargetType = output.ModifierTargetTypeSpecial
 			if slices.Contains(attributeNames, newModifier.Target) {

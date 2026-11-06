@@ -55,6 +55,7 @@ type (
 		Target      string
 		Method      modifierMethod
 		Value       float64
+		SpEffect    string
 	}
 
 	// Equippable is a struct for the common fields of equippable items
