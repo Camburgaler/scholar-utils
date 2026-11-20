@@ -202,7 +202,16 @@ func createArmor(armorParams []param.Armor, armorReinforceParams []param.ArmorRe
 		name := armorParam.Name
 
 		if strings.Contains(name, "[Body]") {
-			name = "No Armor"
+			switch armorParam.Category {
+			case param.ArmorCategoryHead:
+				name = "No Helmet"
+			case param.ArmorCategoryChest:
+				name = "No Chestpiece"
+			case param.ArmorCategoryArms:
+				name = "No Gauntlets"
+			case param.ArmorCategoryLegs:
+				name = "No Leggings"
+			}
 		}
 
 		// Armor ID of 113601XX is the visible Aurous set
@@ -234,7 +243,7 @@ func createArmor(armorParams []param.Armor, armorReinforceParams []param.ArmorRe
 		}
 
 		maxReinforcementLevel := armorReinforceParam.MaxReinforcementLevel
-		if name == "No Armor" {
+		if name == "No Helmet" || name == "No Chestpiece" || name == "No Gauntlets" || name == "No Leggings" {
 			maxReinforcementLevel = 0
 		}
 
@@ -521,7 +530,7 @@ func Transform(paramData paramParser.DS2Params, emevdData emevdParser.DS2EMEVD) 
 	leggingParams := []param.Armor{}
 
 	for _, armorParam := range paramData.ArmorParam {
-		switch armorParam.ArmorCategory {
+		switch armorParam.Category {
 		case param.ArmorCategoryHead:
 			helmetParams = append(helmetParams, armorParam)
 		case param.ArmorCategoryChest:

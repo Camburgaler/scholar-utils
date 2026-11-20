@@ -44,7 +44,7 @@ type (
 		armorType int //nolint:unused
 
 		// The category of this armor (see ArmorCategories)
-		ArmorCategory armorCategory
+		Category armorCategory
 
 		dummy0            []byte //nolint:unused
 		modelID           id.ID  //nolint:unused

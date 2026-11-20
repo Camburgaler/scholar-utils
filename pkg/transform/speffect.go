@@ -1045,14 +1045,16 @@ func createModifiers(spEffects []emevdParser.Statement) ([]output.Modifier, erro
 				return nil, fmt.Errorf("no stat name in Statement: %+v", spEffect)
 			}
 
-			newModifier.SpEffect = spEffect.Name
-
 			newModifier.TargetType = output.ModifierTargetTypeSpecial
 			if slices.Contains(attributeNames, newModifier.Target) {
 				newModifier.TargetType = output.ModifierTargetTypeAttribute
 			}
 			if slices.Contains(statNames, newModifier.Target) {
 				newModifier.TargetType = output.ModifierTargetTypeStat
+			}
+
+			if newModifier.TargetType == output.ModifierTargetTypeSpecial {
+				newModifier.SpEffect = spEffect.Name
 			}
 
 			modifiers = append(modifiers, newModifier)
